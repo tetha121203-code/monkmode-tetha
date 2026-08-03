@@ -1,0 +1,21 @@
+{
+  "entities": {
+    "users": {
+      "path": "users/{userId}",
+      "description": "Monk Mode user profile document",
+      "fields": {
+        "username": { "type": "string", "description": "Unique Protocol Access ID" },
+        "createdAt": { "type": "string", "description": "Creation timestamp ISO string" },
+        "lastActive": { "type": "string", "description": "Last activity timestamp ISO string" }
+      }
+    },
+    "userData": {
+      "path": "users/{userId}/data/{dataKey}",
+      "description": "User real-time state store (roadmap, weight, habits, workouts, diary, toefl)",
+      "fields": {
+        "val": { "type": "any", "description": "State payload for key" },
+        "updatedAt": { "type": "timestamp", "description": "Server update timestamp" }
+      }
+    }
+  }
+}

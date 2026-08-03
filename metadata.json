@@ -1,0 +1,6 @@
+{
+  "name": "Monk Mode - Brutal Transformation",
+  "description": "A comprehensive 214-day Monk Mode tracking application featuring real-time data sync, daily activity habits, fitness protocols, Python Data Analytics roadmap, TOEFL preparation, and AI-powered Friday Assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
