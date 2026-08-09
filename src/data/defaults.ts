@@ -2,7 +2,7 @@ import { HabitDefinition, RoadmapPhase, ToeflPhase, ToeflSchedule, WorkoutSchedu
 
 export const HABITS: HabitDefinition[] = [
   { id: 'nojunkfood', label: 'No Junkfood', color: '#10b981', iconName: 'warn', description: 'Bersih dari makanan olahan & gula berlebih' },
-  { id: 'coding', label: 'Belajar Coding', color: '#a855f7', iconName: 'laptop', description: 'Minimal 1-2 jam per hari tuntas modul Coding' },
+  { id: 'coding', label: 'Belajar Data Analyst', color: '#a855f7', iconName: 'laptop', description: 'Minimal 1-2 jam per hari tuntas modul Data Analyst' },
   { id: 'toefl', label: 'Belajar CPNS', color: '#8b5cf6', iconName: 'book', description: 'Latihan TWK, TIU, TKP, & Tryout SKD CPNS' },
   { id: 'workout', label: 'Workout', color: '#f59e0b', iconName: 'fitness', description: 'Disiplin penderitaan fisik & terapi scapular' },
   { id: 'nofap', label: 'NoFap', color: '#0ea5e9', iconName: 'lock', description: 'Fokus energi & retensi vitalitas penuh' },
@@ -10,26 +10,100 @@ export const HABITS: HabitDefinition[] = [
 
 export const DEFAULT_ROADMAP: RoadmapPhase[] = [
   {
-    id: 'coding_mastery',
-    title: 'Full-Stack Coding: JS, PHP & Laravel',
-    week: '1–5',
-    targetDeadline: '2026-08-31',
-    desc: 'Fokus Utama Coding Mastery: Penguasaan Modern JavaScript (ES6+), Fundamentals & OOP PHP, serta Laravel Framework (MVC, REST API, Database & Blade/SPA).',
-    color: '#a855f7',
-    pl: 'https://www.youtube.com/results?search_query=belajar+javascript+php+laravel+indonesia',
+    id: 'da_excel',
+    title: '1. Microsoft Excel for Data Analytics',
+    week: '1–2',
+    targetDeadline: '2026-08-15',
+    desc: 'Penguasaan VLOOKUP/XLOOKUP, Power Query, Dynamic Arrays, Pivot Tables, & Visualisasi Executive Dashboard.',
+    color: '#10b981',
+    pl: 'https://www.youtube.com/results?search_query=belajar+excel+data+analyst+indonesia',
     videos: [
-      { id: 'cd_mod_1', title: '1. Modern JavaScript Essentials (DOM, ES6+, Async/Await & Fetch)', url: '' },
-      { id: 'cd_mod_2', title: '2. PHP Fundamentals & Object Oriented Programming (OOP PHP)', url: '' },
-      { id: 'cd_mod_3', title: '3. Laravel Core Concepts (Routing, Controller, Eloquent ORM & Blade)', url: '' },
-      { id: 'cd_mod_4', title: '4. Laravel REST API Development, Authentication (Sanctum) & MySQL', url: '' },
-      { id: 'cd_mod_5', title: '5. Full-Stack Portfolio: Building & Deploying Web App (Laravel + JS)', url: '' }
+      { id: 'ex_mod_1', title: '1. Formula Intermediate & Advanced (XLOOKUP, INDEX/MATCH, Nested IF)', url: '' },
+      { id: 'ex_mod_2', title: '2. Data Cleaning & Text Functions (TRIM, CONCAT, Text to Columns)', url: '' },
+      { id: 'ex_mod_3', title: '3. Power Query & ETL Data Transformation', url: '' },
+      { id: 'ex_mod_4', title: '4. Dynamic Pivot Tables, Slicers & Calculated Fields', url: '' },
+      { id: 'ex_mod_5', title: '5. Building Interactive Executive Business Dashboard in Excel', url: '' }
     ],
     casestudies: [
-      { id: 'cd_cs_1', title: 'Project 1: Interactive Web App with Modern JavaScript', desc: 'Bangun fitur interaktif berbasis DOM, Event Listeners, Async API calls, dan Local Storage.' },
-      { id: 'cd_cs_2', title: 'Project 2: PHP OOP & Database CRUD System', desc: 'Rancang sistem backend dasar menggunakan sintaks OOP PHP murni dan koneksi MySQL.' },
-      { id: 'cd_cs_3', title: 'Project 3: Laravel Web Application & Management System', desc: 'Kembangkan aplikasi web utuh menggunakan arsitektur MVC Laravel dan Eloquent ORM.' },
-      { id: 'cd_cs_4', title: 'Project 4: Laravel RESTful API Backend Service', desc: 'Buat endpoint API backend secure dengan autentikasi token Sanctum dan validasi data.' },
-      { id: 'cd_cs_5', title: 'Project 5: End-to-End Laravel + JS Full-Stack Portfolio Showcase', desc: 'Projek komprehensif siap pamer ke recruiter dengan fitur auth, database, API, dan visualisasi rapi.' }
+      { id: 'ex_cs_1', title: 'Project 1: Sales Transaction Cleaning & Standardization', desc: 'Olah dan bersihkan data transaksi penjualan dengan formula XLOOKUP & kriteria ganda.' },
+      { id: 'ex_cs_2', title: 'Project 2: Interactive Executive Sales Dashboard in Excel', desc: 'Rancang dashboard eksekutif otomatis yang dapat di-refresh dengan sekali klik.' }
+    ]
+  },
+  {
+    id: 'da_sql',
+    title: '2. SQL & Relational Database Querying',
+    week: '3–4',
+    targetDeadline: '2026-08-31',
+    desc: 'Mastering SQL queries: SELECT, WHERE, JOINs, Aggregations, GROUP BY, Subqueries, CTEs, & Window Functions di PostgreSQL/MySQL.',
+    color: '#3b82f6',
+    pl: 'https://www.youtube.com/results?search_query=belajar+sql+data+analyst+indonesia',
+    videos: [
+      { id: 'sql_mod_1', title: '1. SQL Fundamentals: SELECT, WHERE, ORDER BY, & Operators', url: '' },
+      { id: 'sql_mod_2', title: '2. Data Aggregations & Grouping (COUNT, SUM, AVG, GROUP BY, HAVING)', url: '' },
+      { id: 'sql_mod_3', title: '3. Relational Joins (INNER, LEFT, RIGHT, FULL OUTER JOIN)', url: '' },
+      { id: 'sql_mod_4', title: '4. Subqueries & CTEs (Common Table Expressions)', url: '' },
+      { id: 'sql_mod_5', title: '5. Advanced Window Functions (RANK, DENSE_RANK, ROW_NUMBER, LAG/LEAD)', url: '' }
+    ],
+    casestudies: [
+      { id: 'sql_cs_1', title: 'Project 1: E-Commerce Customer Cohort & Retention Analysis in SQL', desc: 'Ekstrak metrik retensi dan kelompok pelanggan menggunakan SQL CTE & Window Functions.' },
+      { id: 'sql_cs_2', title: 'Project 2: Monthly Revenue & Product Growth Analytics', desc: 'Hitung pertumbuhan pendapatan bulanan (MoM) dan produk terlaris dengan SQL Aggregations.' }
+    ]
+  },
+  {
+    id: 'da_powerbi',
+    title: '3. Power BI & Business Intelligence',
+    week: '5–6',
+    targetDeadline: '2026-09-15',
+    desc: 'Desain dashboard bisnis interaktif, data modeling Star Schema, DAX measures (CALCULATE, SUMX), dan visual storytelling.',
+    color: '#f59e0b',
+    pl: 'https://www.youtube.com/results?search_query=belajar+power+bi+indonesia',
+    videos: [
+      { id: 'pbi_mod_1', title: '1. Introduction to Power BI Desktop & Importing Data', url: '' },
+      { id: 'pbi_mod_2', title: '2. Data Modeling & Star Schema Relationships', url: '' },
+      { id: 'pbi_mod_3', title: '3. DAX Formulas Essentials (CALCULATE, ALL, RELATED, SUMX)', url: '' },
+      { id: 'pbi_mod_4', title: '4. Designing Interactive Reports & Custom Visuals', url: '' },
+      { id: 'pbi_mod_5', title: '5. Publishing Reports & Managing Power BI Workspaces', url: '' }
+    ],
+    casestudies: [
+      { id: 'pbi_cs_1', title: 'Project 1: Executive KPI Dashboard & Financial Overview', desc: 'Rancang dashboard eksekutif real-time dengan filter interaktif dan laporan performa.' },
+      { id: 'pbi_cs_2', title: 'Project 2: Customer Churn & HR Analytics BI Report', desc: 'Visualisasikan tingkat churn pelanggan dan analisis turnover karyawan secara interaktif.' }
+    ]
+  },
+  {
+    id: 'da_python',
+    title: '4. Python for Data Analysis (Pandas & NumPy)',
+    week: '7–8',
+    targetDeadline: '2026-09-30',
+    desc: 'Exploratory Data Analysis (EDA) menggunakan Python, Pandas untuk manipulasi dataframe, NumPy, dan visualisasi Matplotlib/Seaborn.',
+    color: '#8b5cf6',
+    pl: 'https://www.youtube.com/results?search_query=belajar+python+data+analyst+indonesia',
+    videos: [
+      { id: 'py_mod_1', title: '1. Python Basics & Jupyter Notebook Environment', url: '' },
+      { id: 'py_mod_2', title: '2. NumPy Arrays & Vectorized Operations', url: '' },
+      { id: 'py_mod_3', title: '3. Pandas DataFrames: Cleaning, Filtering & GroupBy', url: '' },
+      { id: 'py_mod_4', title: '4. Data Visualization with Matplotlib & Seaborn', url: '' },
+      { id: 'py_mod_5', title: '5. Exploratory Data Analysis (EDA) Workflow on Real Datasets', url: '' }
+    ],
+    casestudies: [
+      { id: 'py_cs_1', title: 'Project 1: Exploratory Data Analysis (EDA) on Hotel Booking Dataset', desc: 'Lakukan pembersihan data, statistik deskriptif, dan visualisasi distribusi data menggunakan Python.' },
+      { id: 'py_cs_2', title: 'Project 2: Customer Segmentation & Statistical Analysis with Python', desc: 'Analisis segmen pelanggan berbasis perilaku pembelian menggunakan Pandas & Seaborn.' }
+    ]
+  },
+  {
+    id: 'da_portfolio',
+    title: '5. Portfolio Showcase & Business Storytelling',
+    week: '9–10',
+    targetDeadline: '2026-10-15',
+    desc: 'Penyusunan portofolio profesional di GitHub/LinkedIn/Notion, teknik presentasi bisnis, dan persiapan wawancara Data Analyst.',
+    color: '#ec4899',
+    pl: 'https://www.youtube.com/results?search_query=portofolio+data+analyst+siap+kerja',
+    videos: [
+      { id: 'pf_mod_1', title: '1. Structuring a High-Impact Data Analyst Portfolio', url: '' },
+      { id: 'pf_mod_2', title: '2. Data Storytelling & Executive Presentation Skills', url: '' },
+      { id: 'pf_mod_3', title: '3. Building a Personal Portfolio Website / GitHub Readme', url: '' }
+    ],
+    casestudies: [
+      { id: 'pf_cs_1', title: 'Project 1: End-to-End Business Case Study Portfolio Presentation', desc: 'Projek komprehensif siap pamer ke recruiter dengan laporan analisis bisnis dan visualisasi profesional.' }
     ]
   }
 ];

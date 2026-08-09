@@ -43,7 +43,7 @@ export const SettingsModal: React.FC<SettingsViewProps> = ({
     <Modal open={open} onClose={onClose} title="Settings & Protocols" wide>
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, padding: '6px', background: 'var(--surface)', borderRadius: 14, border: '1px solid var(--border)', overflowX: 'auto' }}>
         {[
-          { id: 'roadmap', l: 'Modul Coding' },
+          { id: 'roadmap', l: 'Modul Data Analyst' },
           { id: 'workout', l: 'Fisik' },
           { id: 'toefl', l: 'Jadwal CPNS' },
           { id: 'reset', l: 'Erase Data' }
@@ -85,7 +85,7 @@ const ResetPanel: React.FC<{
   const [confirm, setConfirm] = useState<any>(null);
 
   const resets = [
-    { id: 'rprog', label: 'Progress Coding', desc: 'Hapus semua checklist modul coding', icon: 'map', color: 'var(--blue)', fn: () => setRprog({}) },
+    { id: 'rprog', label: 'Progress Data Analyst', desc: 'Hapus semua checklist modul data analyst', icon: 'map', color: 'var(--blue)', fn: () => setRprog({}) },
     { id: 'toeflprog', label: 'Progress CPNS', desc: 'Hapus semua checklist modul materi CPNS', icon: 'book', color: 'var(--purple)', fn: () => setToeflProg({}) },
     { id: 'habits', label: 'Daily Habits', desc: 'Hapus riwayat aktivitas harian', icon: 'habits', color: 'var(--green)', fn: () => setHabitLog({}) },
     { id: 'exdone', label: 'Riwayat Fisik', desc: 'Hapus riwayat penyelesaian latihan fisik', icon: 'fitness', color: 'var(--amber)', fn: () => setExDone({}) },

@@ -44,7 +44,7 @@ const NAV_ITEMS = [
   { id: 'habits', n: 'habits', l: 'Daily Activity' },
   { id: 'diary', n: 'diary', l: 'Diary & AI' },
   { id: 'fitness', n: 'fitness', l: 'Fitness' },
-  { id: 'roadmap', n: 'map', l: 'Coding' },
+  { id: 'roadmap', n: 'map', l: 'Data Analyst' },
   { id: 'toefl', n: 'book', l: 'Belajar CPNS' }
 ];
 
@@ -62,7 +62,7 @@ export default function App() {
   const [toeflPhase, setToeflPhase] = useState<string | null>(null);
 
   // Firestore Real-time Sync Hooks
-  const [roadmap, setRoadmap, r1] = useSync<RoadmapPhase[]>('roadmap_data_coding_v1', DEFAULT_ROADMAP, uid);
+  const [roadmap, setRoadmap, r1] = useSync<RoadmapPhase[]>('roadmap_data_analytics_v4', DEFAULT_ROADMAP, uid);
   const [weight, setWeight, r2] = useSync<WeightData>('weight', { start: 78, current: 78, target: 63 }, uid);
   const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises', {}, uid);
   const [rprog, setRprog, r4] = useSync<RoadmapProgress>('roadmap_v2', {}, uid);
