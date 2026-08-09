@@ -65,9 +65,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
       <div className="between" style={{ marginBottom: 20, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--text)', letterSpacing: '-0.02em', marginBottom: 4 }}>
-            TOEFL iBT Preparation
+            Persiapan SKD CPNS 2026
           </div>
-          <div style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 600 }}>Dominasi Bahasa Inggris Akademik</div>
+          <div style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 600 }}>Dominasi TWK, TIU, TKP & Pass Grade SKD</div>
         </div>
 
         <div style={{ display: 'flex', gap: 0, background: 'var(--surface)', borderRadius: 12, border: '1px solid var(--border)', overflow: 'hidden' }}>
@@ -105,7 +105,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
             <div className="between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
               <div>
                 <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-                  {dayName} — Jadwal TOEFL
+                  {dayName} — Jadwal CPNS
                 </div>
                 <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--purple)' }}>{todaySched.type}</div>
                 <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 4, fontWeight: 500 }}>

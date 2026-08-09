@@ -90,8 +90,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         {[
           { l: 'NOFAP STREAK', v: `${nfStreak} hari`, c: '#38bdf8' },
           { l: 'NO JUNKFOOD', v: `${njStreak} hari`, c: '#22c55e' },
-          { l: 'DATA ANALYTICS', v: `${codeDone}/${allVidsLength}`, c: '#ffffff' },
-          { l: 'TOEFL', v: `${toeflDone}/${allToeflLength}`, c: '#a855f7' },
+          { l: 'CODING', v: `${codeDone}/${allVidsLength}`, c: '#ffffff' },
+          { l: 'CPNS', v: `${toeflDone}/${allToeflLength}`, c: '#a855f7' },
           { l: 'BERAT', v: `${weight.current}kg`, c: '#ffffff' }
         ].map(s => (
           <div key={s.l} className="card card-p" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -189,8 +189,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div className="between">
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>Excel Data Analytics — Day {dayN}</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)' }}>Target Data Analytics Hari Ini</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>Coding — Day {dayN}</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)' }}>Target Coding Hari Ini</div>
           </div>
           <span style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 800 }}>{codeDone}/{allVidsLength}</span>
         </div>

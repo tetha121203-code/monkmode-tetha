@@ -56,10 +56,10 @@ export const RoadmapView: React.FC<RoadmapViewProps> = ({
       <div className="between" style={{ marginBottom: 20, flexWrap: 'wrap', gap: 16 }}>
         <div>
           <div style={{ fontSize: 24, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.02em', marginBottom: 4 }}>
-            Data Analytics Mastery Roadmap
+            Coding Mastery Roadmap
           </div>
           <div style={{ fontSize: 13, color: '#94a3b8', fontWeight: 600 }}>
-            Master Excel, SQL, Power BI, Python & Real-World Projects · Target Deadline Customizable
+            Master Full-Stack Web Development, JavaScript, React, Node.js & Portfolio Projects · Target Deadline Customizable
           </div>
         </div>
         <button
@@ -76,7 +76,7 @@ export const RoadmapView: React.FC<RoadmapViewProps> = ({
       <div className="card card-p" style={{ marginBottom: 24, border: '1px solid rgba(168, 85, 247, 0.3)', background: 'linear-gradient(135deg, rgba(7, 12, 30, 0.95) 0%, rgba(14, 23, 50, 0.88) 100%)' }}>
         <div className="between" style={{ marginBottom: 12 }}>
           <span style={{ fontSize: 13, fontWeight: 800, color: '#a855f7', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            Total Penguasaan Materi Data Analytics
+            Total Penguasaan Materi Coding
           </span>
           <span style={{ fontSize: 20, fontWeight: 900, color: '#38bdf8', textShadow: '0 0 12px rgba(56, 189, 248, 0.5)' }}>
             {Math.round((totalDone / Math.max(totalAll, 1)) * 100)}%
@@ -287,7 +287,7 @@ export const RoadmapView: React.FC<RoadmapViewProps> = ({
                 >
                   <div>
                     <div style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#ffffff' }}>
-                      BUKA PLAYLIST EKSEKUSI ANALYTICS
+                      BUKA PLAYLIST EKSEKUSI CODING
                     </div>
                     <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 4, fontWeight: 600 }}>
                       {pvids.length} video · {pcases.length} project

@@ -113,7 +113,7 @@ export const DiaryView: React.FC<DiaryViewProps> = ({
       return;
     }
     setAiLoading(true);
-    const prompt = `Ini adalah tulisan diary saya hari ini: "${text}". Mood saya: ${mood}. Progres hari ini: Roadmap Data Analytics (${codeDone}/${totalCode} selesai). Tolong baca dan pahami isi diary saya, lalu berikan tanggapan layaknya AI Asisten Monk Mode bernama "Friday". Fokus saya adalah "Brutal Transformation" selama 97 hari (3 Agustus - 7 November 2026). Jangan memanjakan saya, bersikaplah logis, disiplin, namun tetap solutif. Buatkan juga tabel HTML sederhana (gunakan <table>, <tr>, <th>, <td>) yang merangkum 'Kelemahan Hari Ini' dan 'Tindakan Besok'.`;
+    const prompt = `Ini adalah tulisan diary saya hari ini: "${text}". Mood saya: ${mood}. Progres hari ini: Roadmap Coding (${codeDone}/${totalCode} selesai). Tolong baca dan pahami isi diary saya, lalu berikan tanggapan layaknya AI Asisten Monk Mode bernama "Friday". Fokus saya adalah "Brutal Transformation" selama 97 hari (3 Agustus - 7 November 2026). Jangan memanjakan saya, bersikaplah logis, disiplin, namun tetap solutif. Buatkan juga tabel HTML sederhana (gunakan <table>, <tr>, <th>, <td>) yang merangkum 'Kelemahan Hari Ini' dan 'Tindakan Besok'.`;
     const sysIns = "Kamu adalah Friday, AI asisten personal Monk Mode yang dingin, analitis, logis, dan menjunjung tinggi disiplin ekstrem (Brutal Transformation). Output HANYA boleh dalam format HTML murni (<b>, <i>, <p>, <table>, <ul>, dsb). DILARANG KERAS menggunakan format Markdown seperti **, ###, atau asteris. Gunakan bahasa Indonesia yang formal, tegas, tajam namun tetap membangun.";
     
     const response = await callFridayAPI(prompt, sysIns);

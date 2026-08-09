@@ -43,9 +43,9 @@ export const SettingsModal: React.FC<SettingsViewProps> = ({
     <Modal open={open} onClose={onClose} title="Settings & Protocols" wide>
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, padding: '6px', background: 'var(--surface)', borderRadius: 14, border: '1px solid var(--border)', overflowX: 'auto' }}>
         {[
-          { id: 'roadmap', l: 'Modul Analytics' },
+          { id: 'roadmap', l: 'Modul Coding' },
           { id: 'workout', l: 'Fisik' },
-          { id: 'toefl', l: 'Jadwal TOEFL' },
+          { id: 'toefl', l: 'Jadwal CPNS' },
           { id: 'reset', l: 'Erase Data' }
         ].map(t => (
           <button
@@ -85,8 +85,8 @@ const ResetPanel: React.FC<{
   const [confirm, setConfirm] = useState<any>(null);
 
   const resets = [
-    { id: 'rprog', label: 'Progress Analytics', desc: 'Hapus semua checklist modul data analytics', icon: 'map', color: 'var(--blue)', fn: () => setRprog({}) },
-    { id: 'toeflprog', label: 'Progress TOEFL', desc: 'Hapus semua checklist modul materi TOEFL', icon: 'book', color: 'var(--purple)', fn: () => setToeflProg({}) },
+    { id: 'rprog', label: 'Progress Coding', desc: 'Hapus semua checklist modul coding', icon: 'map', color: 'var(--blue)', fn: () => setRprog({}) },
+    { id: 'toeflprog', label: 'Progress CPNS', desc: 'Hapus semua checklist modul materi CPNS', icon: 'book', color: 'var(--purple)', fn: () => setToeflProg({}) },
     { id: 'habits', label: 'Daily Habits', desc: 'Hapus riwayat aktivitas harian', icon: 'habits', color: 'var(--green)', fn: () => setHabitLog({}) },
     { id: 'exdone', label: 'Riwayat Fisik', desc: 'Hapus riwayat penyelesaian latihan fisik', icon: 'fitness', color: 'var(--amber)', fn: () => setExDone({}) },
     { id: 'diary', label: 'Audit & AI History', desc: 'Hapus permanen semua evaluasi diri', icon: 'diary', color: 'var(--red)', fn: () => setDiary([]) }
@@ -823,7 +823,7 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
   };
 
   const delTask = (i: number) => {
-    setConfirmDialog({ index: i, title: 'Hapus Task?', desc: 'Task belajar ini akan dihapus dari jadwal TOEFL.' });
+    setConfirmDialog({ index: i, title: 'Hapus Task?', desc: 'Task belajar ini akan dihapus dari jadwal CPNS.' });
   };
 
   const execDelTask = (i: number) => {
@@ -892,7 +892,7 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
       </div>
 
       {editTask && (
-        <Modal open={!!editTask} onClose={() => setEditTask(null)} title={editTask.isBulk ? `AI Bulk Import TOEFL — ${activeDay}` : editTask.isNew ? `Tambah Task TOEFL — ${activeDay}` : 'Edit Task'}>
+        <Modal open={!!editTask} onClose={() => setEditTask(null)} title={editTask.isBulk ? `AI Bulk Import CPNS — ${activeDay}` : editTask.isNew ? `Tambah Task CPNS — ${activeDay}` : 'Edit Task'}>
           {editTask.isBulk ? (
             <BulkToeflTaskForm init={editTask} onSave={saveTask} onClose={() => setEditTask(null)} />
           ) : (
@@ -948,7 +948,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
     <form onSubmit={sub} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {err && <div style={{ color: 'var(--red)', fontSize: 13, background: 'rgba(225,29,72,0.1)', padding: 12, borderRadius: 8 }}>{err}</div>}
       <div>
-        <span className="label">Paste Daftar Task TOEFL Mentah</span>
+        <span className="label">Paste Daftar Task CPNS Mentah</span>
         <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 8 }}>
           Friday akan mengurai jadwal belajarmu menjadi Nama Tugas, Instruksi Spesifik, dan Estimasi Durasi (misal: 15m, 30m).
         </div>
@@ -957,7 +957,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
           onChange={e => setText(e.target.value)}
           className="inp"
           style={{ minHeight: 220, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}
-          placeholder="Contoh:&#10;Latihan Listening Part A (15 menit)&#10;Hafal 20 Vocab akademik di Quizlet&#10;Tulis 1 essay argumentatif"
+          placeholder="Contoh:&#10;Latihan 30 Soal TWK Pancasila (20 menit)&#10;Hafal 10 Pasal UUD 1945&#10;Kerjakan 25 Soal TIU Silogisme"
           required
         />
       </div>

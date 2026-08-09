@@ -44,8 +44,8 @@ const NAV_ITEMS = [
   { id: 'habits', n: 'habits', l: 'Daily Activity' },
   { id: 'diary', n: 'diary', l: 'Diary & AI' },
   { id: 'fitness', n: 'fitness', l: 'Fitness' },
-  { id: 'roadmap', n: 'map', l: 'Data Analytics' },
-  { id: 'toefl', n: 'book', l: 'TOEFL Focus' }
+  { id: 'roadmap', n: 'map', l: 'Coding' },
+  { id: 'toefl', n: 'book', l: 'Belajar CPNS' }
 ];
 
 export default function App() {
@@ -62,7 +62,7 @@ export default function App() {
   const [toeflPhase, setToeflPhase] = useState<string | null>(null);
 
   // Firestore Real-time Sync Hooks
-  const [roadmap, setRoadmap, r1] = useSync<RoadmapPhase[]>('roadmap_data_excel_v2', DEFAULT_ROADMAP, uid);
+  const [roadmap, setRoadmap, r1] = useSync<RoadmapPhase[]>('roadmap_data_coding_v1', DEFAULT_ROADMAP, uid);
   const [weight, setWeight, r2] = useSync<WeightData>('weight', { start: 78, current: 78, target: 63 }, uid);
   const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises', {}, uid);
   const [rprog, setRprog, r4] = useSync<RoadmapProgress>('roadmap_v2', {}, uid);
@@ -72,10 +72,10 @@ export default function App() {
   const [diary, setDiary, r9] = useSync<DiaryEntry[]>('diary', [], uid);
   const [habitLog, setHabitLog, r10] = useSync<HabitLog>('habit_log', {}, uid);
   const [weeklyAnalysis, setWeeklyAnalysis, r13] = useSync<WeeklyAnalysis[]>('weekly_analysis', [], uid);
-  const [toeflData, , r14] = useSync<ToeflPhase[]>('toefl_data_v1', DEFAULT_TOEFL, uid);
-  const [toeflProg, setToeflProg, r15] = useSync<ToeflProgress>('toefl_prog_v1', {}, uid);
-  const [toeflSched, setToeflSched, r16] = useSync<ToeflSchedule>('toefl_sched_v1', DEFAULT_TOEFL_SCHEDULE, uid);
-  const [toeflDaily, setToeflDaily, r17] = useSync<ToeflDailyProgress>('toefl_daily_v1', {}, uid);
+  const [toeflData, , r14] = useSync<ToeflPhase[]>('cpns_data_v1', DEFAULT_TOEFL, uid);
+  const [toeflProg, setToeflProg, r15] = useSync<ToeflProgress>('cpns_prog_v1', {}, uid);
+  const [toeflSched, setToeflSched, r16] = useSync<ToeflSchedule>('cpns_sched_v1', DEFAULT_TOEFL_SCHEDULE, uid);
+  const [toeflDaily, setToeflDaily, r17] = useSync<ToeflDailyProgress>('cpns_daily_v1', {}, uid);
   const [quickNote, setQuickNote, r18] = useSync<string>('quick_notes_v1', '', uid);
 
   const isReady = r1 && r2 && r3 && r4 && r6 && r7 && r8 && r9 && r10 && r13 && r14 && r15 && r16 && r17 && r18;

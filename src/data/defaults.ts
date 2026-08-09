@@ -2,91 +2,79 @@ import { HabitDefinition, RoadmapPhase, ToeflPhase, ToeflSchedule, WorkoutSchedu
 
 export const HABITS: HabitDefinition[] = [
   { id: 'nojunkfood', label: 'No Junkfood', color: '#10b981', iconName: 'warn', description: 'Bersih dari makanan olahan & gula berlebih' },
-  { id: 'coding', label: 'Belajar Data Analyst', color: '#a855f7', iconName: 'laptop', description: 'Minimal 1-2 jam perhari tuntas modul Data Analytics' },
-  { id: 'toefl', label: 'Belajar TOEFL', color: '#8b5cf6', iconName: 'book', description: 'Latihan Listening, Reading, Speaking, Writing' },
+  { id: 'coding', label: 'Belajar Coding', color: '#a855f7', iconName: 'laptop', description: 'Minimal 1-2 jam per hari tuntas modul Coding' },
+  { id: 'toefl', label: 'Belajar CPNS', color: '#8b5cf6', iconName: 'book', description: 'Latihan TWK, TIU, TKP, & Tryout SKD CPNS' },
   { id: 'workout', label: 'Workout', color: '#f59e0b', iconName: 'fitness', description: 'Disiplin penderitaan fisik & terapi scapular' },
   { id: 'nofap', label: 'NoFap', color: '#0ea5e9', iconName: 'lock', description: 'Fokus energi & retensi vitalitas penuh' },
 ];
 
 export const DEFAULT_ROADMAP: RoadmapPhase[] = [
   {
-    id: 'excel_data_analytics',
-    title: 'Excel Data Analytics Mastery',
+    id: 'coding_mastery',
+    title: 'Full-Stack Coding: JS, PHP & Laravel',
     week: '1–5',
     targetDeadline: '2026-08-31',
-    desc: 'Penguasaan 5 Sub-Modul Utama Excel: Intermediate, Advanced, Data Manipulation, Forecasting & Statistics, serta Real-World Portfolio Project.',
+    desc: 'Fokus Utama Coding Mastery: Penguasaan Modern JavaScript (ES6+), Fundamentals & OOP PHP, serta Laravel Framework (MVC, REST API, Database & Blade/SPA).',
     color: '#a855f7',
-    pl: 'https://www.youtube.com/results?search_query=excel+data+analytics+mastery',
+    pl: 'https://www.youtube.com/results?search_query=belajar+javascript+php+laravel+indonesia',
     videos: [
-      { id: 'ex_mod_1', title: '1. Microsoft Excel Intermediate (Lookup, Formulas, Validation)', url: '' },
-      { id: 'ex_mod_2', title: '2. Microsoft Excel Advanced (Power Query, Dynamic Arrays, Pivot)', url: '' },
-      { id: 'ex_mod_3', title: '3. Data Manipulation (Text Parsing, Date/Time, Data Cleaning)', url: '' },
-      { id: 'ex_mod_4', title: '4. Forecasting, Regression and Statistic in Excel', url: '' },
-      { id: 'ex_mod_5', title: '5. Portfolio in Microsoft Excel (Executive Dashboard & Report)', url: '' }
+      { id: 'cd_mod_1', title: '1. Modern JavaScript Essentials (DOM, ES6+, Async/Await & Fetch)', url: '' },
+      { id: 'cd_mod_2', title: '2. PHP Fundamentals & Object Oriented Programming (OOP PHP)', url: '' },
+      { id: 'cd_mod_3', title: '3. Laravel Core Concepts (Routing, Controller, Eloquent ORM & Blade)', url: '' },
+      { id: 'cd_mod_4', title: '4. Laravel REST API Development, Authentication (Sanctum) & MySQL', url: '' },
+      { id: 'cd_mod_5', title: '5. Full-Stack Portfolio: Building & Deploying Web App (Laravel + JS)', url: '' }
     ],
     casestudies: [
-      { id: 'ex_cs_1', title: 'Project 1: Sales Data Cleaning & Lookup System', desc: 'Olah dan bersihkan data transaksi penjualan dengan formula VLOOKUP/XLOOKUP & kriteria ganda.' },
-      { id: 'ex_cs_2', title: 'Project 2: Power Query & Advanced Interactive Executive Dashboard', desc: 'Rancang dashboard eksekutif otomatis yang dapat di-refresh dengan sekali klik.' },
-      { id: 'ex_cs_3', title: 'Project 3: Multi-Source Data Transformation & Standardization', desc: 'Transformasikan data pelanggan berformat tidak terstruktur menjadi format siap analisis.' },
-      { id: 'ex_cs_4', title: 'Project 4: Financial Revenue & Demand Growth Projection', desc: 'Proyeksikan tren pendapatan dan permintaan produk kuartal berikutnya berbasis statistik & regresi.' },
-      { id: 'ex_cs_5', title: 'Project 5: End-to-End Excel Analytics Portfolio Showcase', desc: 'Projek komprehensif siap pamer ke recruiter dengan laporan bisnis dan visualisasi profesional.' }
+      { id: 'cd_cs_1', title: 'Project 1: Interactive Web App with Modern JavaScript', desc: 'Bangun fitur interaktif berbasis DOM, Event Listeners, Async API calls, dan Local Storage.' },
+      { id: 'cd_cs_2', title: 'Project 2: PHP OOP & Database CRUD System', desc: 'Rancang sistem backend dasar menggunakan sintaks OOP PHP murni dan koneksi MySQL.' },
+      { id: 'cd_cs_3', title: 'Project 3: Laravel Web Application & Management System', desc: 'Kembangkan aplikasi web utuh menggunakan arsitektur MVC Laravel dan Eloquent ORM.' },
+      { id: 'cd_cs_4', title: 'Project 4: Laravel RESTful API Backend Service', desc: 'Buat endpoint API backend secure dengan autentikasi token Sanctum dan validasi data.' },
+      { id: 'cd_cs_5', title: 'Project 5: End-to-End Laravel + JS Full-Stack Portfolio Showcase', desc: 'Projek komprehensif siap pamer ke recruiter dengan fitur auth, database, API, dan visualisasi rapi.' }
     ]
   }
 ];
 
 export const DEFAULT_TOEFL: ToeflPhase[] = [
   {
-    id: 'toefl_reading', title: 'Reading Comprehension', week: '1-2',
-    desc: 'Fokus pada vocab, skimming, scanning, dan inference questions.',
+    id: 'cpns_twk', title: 'TWK (Tes Wawasan Kebangsaan)', week: '1-2',
+    desc: 'Pemahaman santai Pancasila, UUD 1945, NKRI, Bhinneka Tunggal Ika, & Integritas.',
     color: '#8b5cf6',
     items: [
-      { id: 'tr_01', title: 'Vocab Builder: Academic Words 1-100' },
-      { id: 'tr_02', title: 'Strategy: Skimming & Scanning' },
-      { id: 'tr_03', title: 'Practice: Factual Information Questions' },
-      { id: 'tr_04', title: 'Practice: Inference & Rhetorical' }
+      { id: 'twk_01', title: 'Rangkuman Santai Pancasila & Pengamalan Sila' },
+      { id: 'twk_02', title: 'Highlight Pasal-Pasal Penting UUD 1945' },
+      { id: 'twk_03', title: 'Poin Kunci Sejarah & Integrasi NKRI' },
+      { id: 'twk_04', title: 'Konsep Dasar Bela Negara & Integritas' }
     ]
   },
   {
-    id: 'toefl_listening', title: 'Listening Comprehension', week: '3-4',
-    desc: 'Memahami main idea, details, function, dan attitude dari percakapan akademik.',
+    id: 'cpns_tiu', title: 'TIU (Tes Inteligensia Umum)', week: '3-4',
+    desc: 'Latihan ringan Verbal (Analogi/Silogisme) & Numerik Trik Cepat.',
     color: '#3b82f6',
     items: [
-      { id: 'tl_01', title: 'Note-taking Strategies' },
-      { id: 'tl_02', title: 'Practice: Campus Conversations' },
-      { id: 'tl_03', title: 'Practice: Academic Lectures (Science)' },
-      { id: 'tl_04', title: 'Practice: Academic Lectures (Arts/History)' }
+      { id: 'tiu_01', title: 'Trik Singkat Analogi Kata & Silogisme' },
+      { id: 'tiu_02', title: 'Rumus Cepat Deret Angka & Pecahan' },
+      { id: 'tiu_03', title: 'Pola Mudah Soal Cerita Matematika' },
+      { id: 'tiu_04', title: 'Latihan Visual Figural Ringan' }
     ]
   },
   {
-    id: 'toefl_speaking', title: 'Speaking Section', week: '5-6',
-    desc: 'Independent & Integrated Speaking practice.',
+    id: 'cpns_tkp', title: 'TKP (Tes Karakteristik Pribadi)', week: '5-6',
+    desc: 'Mindset kunci opsi nilai 5 untuk Pelayanan Publik & Profesionalisme.',
     color: '#10b981',
     items: [
-      { id: 'ts_01', title: 'Task 1: Independent Speaking (Templates)' },
-      { id: 'ts_02', title: 'Task 2: Campus Situation' },
-      { id: 'ts_03', title: 'Task 3: Academic Reading & Listening' },
-      { id: 'ts_04', title: 'Task 4: Academic Lecture Summary' }
+      { id: 'tkp_01', title: 'Kata Kunci Opsi Nilai 5 Pelayanan Publik' },
+      { id: 'tkp_02', title: 'Mindset Profesionalisme & Jejaring Kerja' },
+      { id: 'tkp_03', title: 'Pemahaman Ringan TIK & Radikalisme' }
     ]
   },
   {
-    id: 'toefl_writing', title: 'Writing Section', week: '7-8',
-    desc: 'Integrated & Academic Discussion (New Format).',
+    id: 'cpns_review', title: 'Review & Quiz Santai SKD', week: '7-8',
+    desc: 'Latihan santai 10-15 soal tanpa tekanan timer berat.',
     color: '#f59e0b',
     items: [
-      { id: 'tw_01', title: 'Integrated Writing: Structuring the Essay' },
-      { id: 'tw_02', title: 'Integrated Writing: Practice Test' },
-      { id: 'tw_03', title: 'Academic Discussion: Expressing Opinion' },
-      { id: 'tw_04', title: 'Full Practice Test: Writing Section' }
-    ]
-  },
-  {
-    id: 'toefl_full', title: 'Full Practice Tests', week: '9-10',
-    desc: 'Simulasi ujian lengkap TOEFL iBT.',
-    color: '#f43f5e',
-    items: [
-      { id: 'tf_01', title: 'Full Mock Test 1 & Review' },
-      { id: 'tf_02', title: 'Full Mock Test 2 & Review' },
-      { id: 'tf_03', title: 'Target Score Evaluation' }
+      { id: 'str_01', title: 'Tips & Trik Mengatasi Soal Jebakan SKD' },
+      { id: 'str_02', title: 'Quiz Ringan 15 Soal Mix SKD' },
+      { id: 'str_03', title: 'Review Pembahasan Kunci Jawaban' }
     ]
   }
 ];
@@ -170,55 +158,49 @@ export const DEFAULT_WORKOUT: WorkoutSchedule = {
 
 export const DEFAULT_TOEFL_SCHEDULE: ToeflSchedule = {
   'Senin': {
-    type: 'Reading Focus', focus: 'Membaca Cepat & Analisa',
+    type: 'TWK Santai', focus: 'Rangkuman UUD 1945 & Pancasila',
     tasks: [
-      { name: 'Hafal 20 Vocab Baru', detail: 'Gunakan Anki/Quizlet', time: '15m' },
-      { name: '1 Academic Passage', detail: 'Simulasi tes (18 menit)', time: '20m' },
-      { name: 'Evaluasi Jawaban', detail: 'Analisis letak kesalahan', time: '15m' }
+      { name: 'Baca 5 Pasal Penting UUD 1945', detail: 'Fokus pasal amandemen secara santai', time: '10m' },
+      { name: 'Latihan 10 Soal TWK Ringan', detail: 'Soal pengamalan Pancasila', time: '10m' }
     ]
   },
   'Selasa': {
-    type: 'Listening Focus', focus: 'Note-taking & Pemahaman',
+    type: 'TIU Verbal Ringan', focus: 'Silogisme & Analogi',
     tasks: [
-      { name: '1 Conversation + 1 Lecture', detail: 'Dengar & catat poin penting', time: '20m' },
-      { name: 'Shadowing Latihan', detail: 'Tirukan intonasi speaker native', time: '15m' },
-      { name: 'Review Script', detail: 'Cari vocab yang tidak dikenali', time: '15m' }
+      { name: 'Trik Cepat Silogisme', detail: 'Pahami logika dasar tanpa rumus rumit', time: '10m' },
+      { name: 'Latihan 10 Soal TIU Verbal', detail: 'Analogi kata & logika sederhana', time: '10m' }
     ]
   },
   'Rabu': {
-    type: 'Speaking Focus', focus: 'Pronunciation & Struktur',
+    type: 'TIU Numerik Santai', focus: 'Deret & Hitung Cepat',
     tasks: [
-      { name: 'Task 1 (Independent)', detail: 'Latihan 2 topik, rekam suara', time: '15m' },
-      { name: 'Task 2/3 (Integrated)', detail: 'Latihan baca-dengar-bicara', time: '20m' },
-      { name: 'Self-Evaluation', detail: 'Dengarkan ulang dan kritik rekaman', time: '10m' }
+      { name: 'Latihan 10 Soal Deret Angka', detail: 'Pola deret aritmatika & geometri', time: '10m' },
+      { name: 'Review Trik Hitung Cepat', detail: 'Persentase & pecahan sederhana', time: '10m' }
     ]
   },
   'Kamis': {
-    type: 'Writing Focus', focus: 'Grammar & Kecepatan Ngetik',
+    type: 'TKP Santai', focus: 'Kata Kunci Opsi Nilai 5',
     tasks: [
-      { name: 'Academic Discussion', detail: 'Tulis 100+ kata dalam 10 menit', time: '15m' },
-      { name: 'Integrated Writing Outline', detail: 'Latihan membuat kerangka essay', time: '20m' },
-      { name: 'Grammar Review', detail: 'Perbaiki sentence structure di Grammarly', time: '15m' }
+      { name: 'Latihan 10 Soal TKP', detail: 'Fokus Pelayanan Publik & Integritas', time: '10m' },
+      { name: 'Cek Kunci Opsi Nilai 5', detail: 'Pahami pola jawaban positif', time: '10m' }
     ]
   },
   'Jumat': {
-    type: 'Mixed Practice', focus: 'Target Kelemahan',
+    type: 'Quiz Santai', focus: 'Mix Soal SKD Ringan',
     tasks: [
-      { name: 'Mini Test Bebas', detail: 'Gabungan bagian yang paling lemah', time: '30m' },
-      { name: 'Review Total Mingguan', detail: 'Evaluasi progress belajar minggu ini', time: '20m' }
+      { name: 'Quiz Ringan 15 Soal (TWK+TIU+TKP)', detail: 'Tanpa batasan timer ketat', time: '15m' }
     ]
   },
   'Sabtu': {
-    type: 'Simulation', focus: 'Endurance Building',
+    type: 'Review Ringan', focus: 'Pembahasan Soal',
     tasks: [
-      { name: 'Full Section Test', detail: 'Kerjakan 1 section penuh secara intens', time: '60m' }
+      { name: 'Review 10 Soal yang Belum Dipahami', detail: 'Cukup baca pembahasan kunci jawaban', time: '15m' }
     ]
   },
   'Minggu': {
-    type: 'Passive Immersion', focus: 'Rest & Enjoyment',
+    type: 'Rest & Santai', focus: 'Istirahat Penuh',
     tasks: [
-      { name: 'Podcast/Movie (No Subtitle)', detail: 'Minimal 30 menit fokus mendengar', time: '30m' },
-      { name: 'Light Reading', detail: 'Artikel/Berita bahasa Inggris kesukaan', time: '15m' }
+      { name: 'Review Rangkuman Singkat (Opsional)', detail: 'Baca kilas rangkuman TWK', time: '10m' }
     ]
   },
 };
