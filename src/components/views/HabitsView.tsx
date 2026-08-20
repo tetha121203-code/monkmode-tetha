@@ -21,7 +21,7 @@ export const HabitsView: React.FC<HabitsViewProps> = ({
   fmtDate
 }) => {
   const [view, setView] = useState<'today' | 'calendar' | 'chart'>('today');
-  const [selHabit, setSelHabit] = useState<string>('coding');
+  const [selHabit, setSelHabit] = useState<string>('toefl');
   const [calMonth, setCalMonth] = useState({ y: today.getFullYear(), m: today.getMonth() });
   const [selDate, setSelDate] = useState<Date>(() => {
     const [y, m, d] = dateKey.split('-').map(Number);

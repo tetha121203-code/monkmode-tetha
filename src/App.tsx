@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthGate } from './components/AuthGate';
 import { Sidebar } from './components/Sidebar';
 import { Topbar } from './components/Topbar';
@@ -10,16 +10,15 @@ import { DashboardView } from './components/views/DashboardView';
 import { HabitsView } from './components/views/HabitsView';
 import { DiaryView } from './components/views/DiaryView';
 import { FitnessView } from './components/views/FitnessView';
-import { RoadmapView } from './components/views/RoadmapView';
 import { ToeflView } from './components/views/ToeflView';
 import { SettingsModal } from './components/views/SettingsView';
 
 import { useSync } from './hooks/useSync';
 import {
-  DEFAULT_ROADMAP,
   DEFAULT_WORKOUT,
   DEFAULT_TOEFL,
   DEFAULT_TOEFL_SCHEDULE,
+  DEFAULT_TRYOUTS,
   SCAPULAR,
   PROGRAM_START_DATE,
   TOTAL_DAYS
@@ -27,7 +26,6 @@ import {
 import {
   WeightData,
   ExerciseLog,
-  RoadmapProgress,
   WorkoutSchedule,
   DiaryEntry,
   HabitLog,
@@ -36,16 +34,15 @@ import {
   ToeflProgress,
   ToeflSchedule,
   ToeflDailyProgress,
-  RoadmapPhase
+  TryoutRecord
 } from './types';
 
 const NAV_ITEMS = [
   { id: 'dashboard', n: 'home', l: 'Overview' },
+  { id: 'toefl', n: 'book', l: 'Belajar CPNS SKD' },
   { id: 'habits', n: 'habits', l: 'Daily Activity' },
   { id: 'diary', n: 'diary', l: 'Diary & AI' },
-  { id: 'fitness', n: 'fitness', l: 'Fitness' },
-  { id: 'roadmap', n: 'map', l: 'Data Analyst' },
-  { id: 'toefl', n: 'book', l: 'Belajar CPNS' }
+  { id: 'fitness', n: 'fitness', l: 'Fitness' }
 ];
 
 export default function App() {
@@ -56,29 +53,27 @@ export default function App() {
   const [calOpen, setCalOpen] = useState(false);
   const [wtOpen, setWtOpen] = useState(false);
   const [settOpen, setSettOpen] = useState(false);
-  const [settTab, setSettTab] = useState('roadmap');
+  const [settTab, setSettTab] = useState('toefl');
 
-  const [roadPhase, setRoadPhase] = useState<string | null>(null);
   const [toeflPhase, setToeflPhase] = useState<string | null>(null);
 
   // Firestore Real-time Sync Hooks
-  const [roadmap, setRoadmap, r1] = useSync<RoadmapPhase[]>('roadmap_data_analytics_v4', DEFAULT_ROADMAP, uid);
   const [weight, setWeight, r2] = useSync<WeightData>('weight', { start: 78, current: 78, target: 63 }, uid);
   const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises', {}, uid);
-  const [rprog, setRprog, r4] = useSync<RoadmapProgress>('roadmap_v2', {}, uid);
   const [workout, setWorkout, r6] = useSync<WorkoutSchedule>('workout_schedule_v2', DEFAULT_WORKOUT, uid);
   const [streakNF, , r7] = useSync<Record<string, boolean>>('streak_nofap', {}, uid);
   const [streakNJ, , r8] = useSync<Record<string, boolean>>('streak_nojunkfood', {}, uid);
   const [diary, setDiary, r9] = useSync<DiaryEntry[]>('diary', [], uid);
   const [habitLog, setHabitLog, r10] = useSync<HabitLog>('habit_log', {}, uid);
   const [weeklyAnalysis, setWeeklyAnalysis, r13] = useSync<WeeklyAnalysis[]>('weekly_analysis', [], uid);
-  const [toeflData, , r14] = useSync<ToeflPhase[]>('cpns_data_v1', DEFAULT_TOEFL, uid);
+  const [toeflData, setToeflData, r14] = useSync<ToeflPhase[]>('cpns_data_v1', DEFAULT_TOEFL, uid);
   const [toeflProg, setToeflProg, r15] = useSync<ToeflProgress>('cpns_prog_v1', {}, uid);
-  const [toeflSched, setToeflSched, r16] = useSync<ToeflSchedule>('cpns_sched_v1', DEFAULT_TOEFL_SCHEDULE, uid);
+  const [toeflSched, setToeflSched, r16] = useSync<ToeflSchedule>('cpns_sched_v2', DEFAULT_TOEFL_SCHEDULE, uid);
   const [toeflDaily, setToeflDaily, r17] = useSync<ToeflDailyProgress>('cpns_daily_v1', {}, uid);
   const [quickNote, setQuickNote, r18] = useSync<string>('quick_notes_v1', '', uid);
+  const [tryouts, setTryouts, r19] = useSync<TryoutRecord[]>('cpns_tryouts_v1', DEFAULT_TRYOUTS, uid);
 
-  const isReady = r1 && r2 && r3 && r4 && r6 && r7 && r8 && r9 && r10 && r13 && r14 && r15 && r16 && r17 && r18;
+  const isReady = r2 && r3 && r6 && r7 && r8 && r9 && r10 && r13 && r14 && r15 && r16 && r17 && r18 && r19;
 
   useEffect(() => {
     if (uid) {
@@ -107,10 +102,8 @@ export default function App() {
   const dateKey = today.toISOString().split('T')[0];
   const fmtDate = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
 
-  const safeRM = Array.isArray(roadmap) ? roadmap : DEFAULT_ROADMAP;
   const safeWO = typeof workout === 'object' && !Array.isArray(workout) ? workout : DEFAULT_WORKOUT;
   const safeExDone = exDone || {};
-  const safeRprog = rprog || {};
   const safeDiary = Array.isArray(diary) ? diary : [];
   const safeNF = streakNF || {};
   const safeNJ = streakNJ || {};
@@ -121,6 +114,11 @@ export default function App() {
   const safeToeflProg = toeflProg || {};
   const safeToeflSched = typeof toeflSched === 'object' && !Array.isArray(toeflSched) ? toeflSched : DEFAULT_TOEFL_SCHEDULE;
   const safeToeflDaily = toeflDaily || {};
+  const safeTryouts = Array.isArray(tryouts) ? tryouts : DEFAULT_TRYOUTS;
+
+  const handleAddTryout = (record: TryoutRecord) => {
+    setTryouts(prev => [record, ...(Array.isArray(prev) ? prev : DEFAULT_TRYOUTS)]);
+  };
 
   const ws = safeWO[dayName] || { type: 'Rest', focus: '-', exercises: [] };
   const exKey = (ex: any) => `${dateKey}-${dayName}-${ex.name}`;
@@ -138,41 +136,9 @@ export default function App() {
     return { done: all.filter(e => isExDone(e)).length, total: all.length };
   })();
 
-  const allVids = safeRM.flatMap(p => [
-    ...(p.videos || []).map(v => v.id),
-    ...(p.casestudies || []).map(c => c.id)
-  ]);
-  const codeDone = allVids.filter(id => safeRprog[id]).length;
-  const toggleRprog = (id: string) => setRprog(p => ({ ...(p || {}), [id]: !p?.[id] }));
-
   const allToeflItems = safeToefl.flatMap(p => (p.items || []).map(i => i.id));
   const toeflDone = allToeflItems.filter(id => safeToeflProg[id]).length;
   const toggleToeflProg = (id: string) => setToeflProg(p => ({ ...(p || {}), [id]: !p?.[id] }));
-
-  const missions = useMemo(() => {
-    const vids: any[] = [];
-    const cases: any[] = [];
-    safeRM.forEach(ph => {
-      (ph.videos || []).forEach(v => vids.push({ ...v, phase: ph.title, type: 'video' }));
-      (ph.casestudies || []).forEach(c => cases.push({ ...c, phase: ph.title, type: 'case' }));
-    });
-    const ms: any[][] = [];
-    let vi = 0;
-    let ci = 0;
-    for (let d = 0; d < TOTAL_DAYS; d++) {
-      const dm = [];
-      for (let i = 0; i < 2; i++) {
-        if (vi < vids.length) dm.push(vids[vi++]);
-      }
-      if (d % 5 === 4 && ci < cases.length) {
-        dm.push(cases[ci++]);
-      }
-      ms.push(dm);
-    }
-    return ms;
-  }, [safeRM]);
-
-  const todayM = missions[Math.max(0, Math.min(TOTAL_DAYS - 1, diffDays))] || [];
 
   const countStreak = (obj: Record<string, boolean>) => {
     let n = 0;
@@ -217,7 +183,7 @@ export default function App() {
           slim={slim}
           setSlim={setSlim}
           onOpenSettings={() => {
-            setSettTab('roadmap');
+            setSettTab('toefl');
             setSettOpen(true);
           }}
           onLogout={() => setUid(null)}
@@ -237,7 +203,7 @@ export default function App() {
           onOpenCalendar={() => setCalOpen(true)}
           onOpenWeight={() => setWtOpen(true)}
           onOpenSettings={() => {
-            setSettTab('roadmap');
+            setSettTab('toefl');
             setSettOpen(true);
           }}
         />
@@ -251,11 +217,6 @@ export default function App() {
               fp={fp}
               nfStreak={nfStreak}
               njStreak={njStreak}
-              todayM={todayM}
-              safeRprog={safeRprog}
-              toggleRprog={toggleRprog}
-              codeDone={codeDone}
-              allVidsLength={allVids.length}
               setTab={setTab}
               ws={ws}
               priEx={priEx}
@@ -268,21 +229,48 @@ export default function App() {
               dateKey={dateKey}
               toeflDone={toeflDone}
               allToeflLength={allToeflItems.length}
+              safeToefl={safeToefl}
+              safeToeflProg={safeToeflProg}
+              toeflSched={safeToeflSched}
+              toeflDaily={safeToeflDaily}
+              setToeflDaily={setToeflDaily}
               quickNote={quickNote || ''}
               setQuickNote={setQuickNote}
+              tryouts={safeTryouts}
+              onAddTryout={handleAddTryout}
               onCopyToDiary={(textText) => {
                 if (!textText) return;
                 const newEntry: DiaryEntry = {
                   id: Date.now(),
                   date: dateKey,
                   dateLabel: fmtDate,
-                  text: `[Quick Note - Deep Work]\n${textText}`,
+                  text: `[Quick Note - Deep Study CPNS]\n${textText}`,
                   mood: 'good',
                   aiAnalysis: null
                 };
                 setDiary(prev => [...(prev || []), newEntry]);
                 alert('Catatan Quick Note berhasil ditambahkan ke Diary!');
               }}
+            />
+          )}
+
+          {tab === 'toefl' && (
+            <ToeflView
+              safeToefl={safeToefl}
+              safeToeflProg={safeToeflProg}
+              toggleToeflProg={toggleToeflProg}
+              toeflPhase={toeflPhase}
+              setToeflPhase={setToeflPhase}
+              toeflSched={safeToeflSched}
+              setToeflSched={setToeflSched}
+              toeflDaily={safeToeflDaily}
+              setToeflDaily={setToeflDaily}
+              tryoutHistory={safeTryouts}
+              setTryoutHistory={setTryouts}
+              dayName={dayName}
+              dateKey={dateKey}
+              setSettTab={setSettTab}
+              setSettOpen={setSettOpen}
             />
           )}
 
@@ -306,8 +294,8 @@ export default function App() {
               today={today}
               weeklyAnalysis={safeWeeklyAnalysis}
               setWeeklyAnalysis={setWeeklyAnalysis}
-              codeDone={codeDone}
-              totalCode={allVids.length}
+              cpnsDone={toeflDone}
+              totalCpns={allToeflItems.length}
             />
           )}
 
@@ -324,37 +312,6 @@ export default function App() {
               priEx={priEx}
               isExDone={isExDone}
               toggleEx={toggleEx}
-            />
-          )}
-
-          {tab === 'roadmap' && (
-            <RoadmapView
-              safeRM={safeRM}
-              setRoadmap={setRoadmap}
-              safeRprog={safeRprog}
-              toggleRprog={toggleRprog}
-              roadPhase={roadPhase}
-              setRoadPhase={setRoadPhase}
-              setSettTab={setSettTab}
-              setSettOpen={setSettOpen}
-            />
-          )}
-
-          {tab === 'toefl' && (
-            <ToeflView
-              safeToefl={safeToefl}
-              safeToeflProg={safeToeflProg}
-              toggleToeflProg={toggleToeflProg}
-              toeflPhase={toeflPhase}
-              setToeflPhase={setToeflPhase}
-              toeflSched={safeToeflSched}
-              setToeflSched={setToeflSched}
-              toeflDaily={safeToeflDaily}
-              setToeflDaily={setToeflDaily}
-              dayName={dayName}
-              dateKey={dateKey}
-              setSettTab={setSettTab}
-              setSettOpen={setSettOpen}
             />
           )}
         </div>
@@ -442,18 +399,26 @@ export default function App() {
         onClose={() => setSettOpen(false)}
         tab={settTab}
         setTab={setSettTab}
-        roadmap={safeRM}
-        setRoadmap={setRoadmap}
+        toeflData={safeToefl}
+        setToeflData={setToeflData}
         workout={safeWO}
         setWorkout={setWorkout}
         toeflSched={safeToeflSched}
         setToeflSched={setToeflSched}
-        setRprog={setRprog}
         setExDone={setExDone}
         setHabitLog={setHabitLog}
         setDiary={setDiary}
         setToeflProg={setToeflProg}
       />
+
+      {/* Mobile Bottom Navigation */}
+      {mob && (
+        <MobileNav
+          tab={tab}
+          setTab={setTab}
+          navItems={NAV_ITEMS}
+        />
+      )}
     </div>
   );
 }

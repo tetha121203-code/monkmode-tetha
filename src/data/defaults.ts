@@ -1,154 +1,90 @@
-import { HabitDefinition, RoadmapPhase, ToeflPhase, ToeflSchedule, WorkoutSchedule, Exercise } from '../types';
+import { HabitDefinition, RoadmapPhase, ToeflPhase, ToeflSchedule, WorkoutSchedule, Exercise, TryoutRecord } from '../types';
 
 export const HABITS: HabitDefinition[] = [
   { id: 'nojunkfood', label: 'No Junkfood', color: '#10b981', iconName: 'warn', description: 'Bersih dari makanan olahan & gula berlebih' },
-  { id: 'coding', label: 'Belajar Data Analyst', color: '#a855f7', iconName: 'laptop', description: 'Minimal 1-2 jam per hari tuntas modul Data Analyst' },
-  { id: 'toefl', label: 'Belajar CPNS', color: '#8b5cf6', iconName: 'book', description: 'Latihan TWK, TIU, TKP, & Tryout SKD CPNS' },
-  { id: 'workout', label: 'Workout', color: '#f59e0b', iconName: 'fitness', description: 'Disiplin penderitaan fisik & terapi scapular' },
+  { id: 'toefl', label: 'Belajar CPNS (SKD)', color: '#8b5cf6', iconName: 'book', description: 'Protokol Ekstrem: Target Skor 450+, Drill 50-80 Soal/Hari, Speed TIU & Mindset TKP 200+' },
+  { id: 'workout', label: 'Workout', color: '#f59e0b', iconName: 'fitness', description: 'Disiplin latihan fisik & terapi scapular' },
   { id: 'nofap', label: 'NoFap', color: '#0ea5e9', iconName: 'lock', description: 'Fokus energi & retensi vitalitas penuh' },
 ];
 
-export const DEFAULT_ROADMAP: RoadmapPhase[] = [
-  {
-    id: 'da_excel',
-    title: '1. Microsoft Excel for Data Analytics',
-    week: '1–2',
-    targetDeadline: '2026-08-15',
-    desc: 'Penguasaan VLOOKUP/XLOOKUP, Power Query, Dynamic Arrays, Pivot Tables, & Visualisasi Executive Dashboard.',
-    color: '#10b981',
-    pl: 'https://www.youtube.com/results?search_query=belajar+excel+data+analyst+indonesia',
-    videos: [
-      { id: 'ex_mod_1', title: '1. Formula Intermediate & Advanced (XLOOKUP, INDEX/MATCH, Nested IF)', url: '' },
-      { id: 'ex_mod_2', title: '2. Data Cleaning & Text Functions (TRIM, CONCAT, Text to Columns)', url: '' },
-      { id: 'ex_mod_3', title: '3. Power Query & ETL Data Transformation', url: '' },
-      { id: 'ex_mod_4', title: '4. Dynamic Pivot Tables, Slicers & Calculated Fields', url: '' },
-      { id: 'ex_mod_5', title: '5. Building Interactive Executive Business Dashboard in Excel', url: '' }
-    ],
-    casestudies: [
-      { id: 'ex_cs_1', title: 'Project 1: Sales Transaction Cleaning & Standardization', desc: 'Olah dan bersihkan data transaksi penjualan dengan formula XLOOKUP & kriteria ganda.' },
-      { id: 'ex_cs_2', title: 'Project 2: Interactive Executive Sales Dashboard in Excel', desc: 'Rancang dashboard eksekutif otomatis yang dapat di-refresh dengan sekali klik.' }
-    ]
-  },
-  {
-    id: 'da_sql',
-    title: '2. SQL & Relational Database Querying',
-    week: '3–4',
-    targetDeadline: '2026-08-31',
-    desc: 'Mastering SQL queries: SELECT, WHERE, JOINs, Aggregations, GROUP BY, Subqueries, CTEs, & Window Functions di PostgreSQL/MySQL.',
-    color: '#3b82f6',
-    pl: 'https://www.youtube.com/results?search_query=belajar+sql+data+analyst+indonesia',
-    videos: [
-      { id: 'sql_mod_1', title: '1. SQL Fundamentals: SELECT, WHERE, ORDER BY, & Operators', url: '' },
-      { id: 'sql_mod_2', title: '2. Data Aggregations & Grouping (COUNT, SUM, AVG, GROUP BY, HAVING)', url: '' },
-      { id: 'sql_mod_3', title: '3. Relational Joins (INNER, LEFT, RIGHT, FULL OUTER JOIN)', url: '' },
-      { id: 'sql_mod_4', title: '4. Subqueries & CTEs (Common Table Expressions)', url: '' },
-      { id: 'sql_mod_5', title: '5. Advanced Window Functions (RANK, DENSE_RANK, ROW_NUMBER, LAG/LEAD)', url: '' }
-    ],
-    casestudies: [
-      { id: 'sql_cs_1', title: 'Project 1: E-Commerce Customer Cohort & Retention Analysis in SQL', desc: 'Ekstrak metrik retensi dan kelompok pelanggan menggunakan SQL CTE & Window Functions.' },
-      { id: 'sql_cs_2', title: 'Project 2: Monthly Revenue & Product Growth Analytics', desc: 'Hitung pertumbuhan pendapatan bulanan (MoM) dan produk terlaris dengan SQL Aggregations.' }
-    ]
-  },
-  {
-    id: 'da_powerbi',
-    title: '3. Power BI & Business Intelligence',
-    week: '5–6',
-    targetDeadline: '2026-09-15',
-    desc: 'Desain dashboard bisnis interaktif, data modeling Star Schema, DAX measures (CALCULATE, SUMX), dan visual storytelling.',
-    color: '#f59e0b',
-    pl: 'https://www.youtube.com/results?search_query=belajar+power+bi+indonesia',
-    videos: [
-      { id: 'pbi_mod_1', title: '1. Introduction to Power BI Desktop & Importing Data', url: '' },
-      { id: 'pbi_mod_2', title: '2. Data Modeling & Star Schema Relationships', url: '' },
-      { id: 'pbi_mod_3', title: '3. DAX Formulas Essentials (CALCULATE, ALL, RELATED, SUMX)', url: '' },
-      { id: 'pbi_mod_4', title: '4. Designing Interactive Reports & Custom Visuals', url: '' },
-      { id: 'pbi_mod_5', title: '5. Publishing Reports & Managing Power BI Workspaces', url: '' }
-    ],
-    casestudies: [
-      { id: 'pbi_cs_1', title: 'Project 1: Executive KPI Dashboard & Financial Overview', desc: 'Rancang dashboard eksekutif real-time dengan filter interaktif dan laporan performa.' },
-      { id: 'pbi_cs_2', title: 'Project 2: Customer Churn & HR Analytics BI Report', desc: 'Visualisasikan tingkat churn pelanggan dan analisis turnover karyawan secara interaktif.' }
-    ]
-  },
-  {
-    id: 'da_python',
-    title: '4. Python for Data Analysis (Pandas & NumPy)',
-    week: '7–8',
-    targetDeadline: '2026-09-30',
-    desc: 'Exploratory Data Analysis (EDA) menggunakan Python, Pandas untuk manipulasi dataframe, NumPy, dan visualisasi Matplotlib/Seaborn.',
-    color: '#8b5cf6',
-    pl: 'https://www.youtube.com/results?search_query=belajar+python+data+analyst+indonesia',
-    videos: [
-      { id: 'py_mod_1', title: '1. Python Basics & Jupyter Notebook Environment', url: '' },
-      { id: 'py_mod_2', title: '2. NumPy Arrays & Vectorized Operations', url: '' },
-      { id: 'py_mod_3', title: '3. Pandas DataFrames: Cleaning, Filtering & GroupBy', url: '' },
-      { id: 'py_mod_4', title: '4. Data Visualization with Matplotlib & Seaborn', url: '' },
-      { id: 'py_mod_5', title: '5. Exploratory Data Analysis (EDA) Workflow on Real Datasets', url: '' }
-    ],
-    casestudies: [
-      { id: 'py_cs_1', title: 'Project 1: Exploratory Data Analysis (EDA) on Hotel Booking Dataset', desc: 'Lakukan pembersihan data, statistik deskriptif, dan visualisasi distribusi data menggunakan Python.' },
-      { id: 'py_cs_2', title: 'Project 2: Customer Segmentation & Statistical Analysis with Python', desc: 'Analisis segmen pelanggan berbasis perilaku pembelian menggunakan Pandas & Seaborn.' }
-    ]
-  },
-  {
-    id: 'da_portfolio',
-    title: '5. Portfolio Showcase & Business Storytelling',
-    week: '9–10',
-    targetDeadline: '2026-10-15',
-    desc: 'Penyusunan portofolio profesional di GitHub/LinkedIn/Notion, teknik presentasi bisnis, dan persiapan wawancara Data Analyst.',
-    color: '#ec4899',
-    pl: 'https://www.youtube.com/results?search_query=portofolio+data+analyst+siap+kerja',
-    videos: [
-      { id: 'pf_mod_1', title: '1. Structuring a High-Impact Data Analyst Portfolio', url: '' },
-      { id: 'pf_mod_2', title: '2. Data Storytelling & Executive Presentation Skills', url: '' },
-      { id: 'pf_mod_3', title: '3. Building a Personal Portfolio Website / GitHub Readme', url: '' }
-    ],
-    casestudies: [
-      { id: 'pf_cs_1', title: 'Project 1: End-to-End Business Case Study Portfolio Presentation', desc: 'Projek komprehensif siap pamer ke recruiter dengan laporan analisis bisnis dan visualisasi profesional.' }
-    ]
-  }
-];
+export const DEFAULT_ROADMAP: RoadmapPhase[] = [];
 
 export const DEFAULT_TOEFL: ToeflPhase[] = [
   {
-    id: 'cpns_twk', title: 'TWK (Tes Wawasan Kebangsaan)', week: '1-2',
-    desc: 'Pemahaman santai Pancasila, UUD 1945, NKRI, Bhinneka Tunggal Ika, & Integritas.',
+    id: 'cpns_twk',
+    title: 'TWK (Tes Wawasan Kebangsaan)',
+    week: '1–2',
+    desc: 'Penguasaan 30 Soal TWK (Target Ekstrem 110–125/150): Bedah 45 Butir Pancasila, UUD 1945 Amandemen I–IV, Tata Negara, Sejarah Tokoh Bangsa, Bela Negara HOTS, Integritas ASN, & PUEBI.',
     color: '#8b5cf6',
     items: [
-      { id: 'twk_01', title: 'Rangkuman Santai Pancasila & Pengamalan Sila' },
-      { id: 'twk_02', title: 'Highlight Pasal-Pasal Penting UUD 1945' },
-      { id: 'twk_03', title: 'Poin Kunci Sejarah & Integrasi NKRI' },
-      { id: 'twk_04', title: 'Konsep Dasar Bela Negara & Integritas' }
+      { id: 'twk_01', title: 'Pancasila: Sejarah BPUPKI/PPKI, Piagam Jakarta, Kedudukan Dasar Negara & 45 Butir Pengamalan Sila I–V (TAP MPR I/2003)' },
+      { id: 'twk_02', title: 'UUD NRI 1945: Struktur Pembukaan, Batang Tubuh, Pasal Kunci & Hasil Amandemen I (1999) s/d IV (2002)' },
+      { id: 'twk_03', title: 'Lembaga Negara & Sistem Tata Negara: Wewenang MPR, DPR, DPD, Presiden, BPK, MA, MK, KY' },
+      { id: 'twk_04', title: 'NKRI & Wawasan Nusantara: Batas Wilayah, Deklarasi Djuanda, Geopolitik & Tokoh Pahlawan Nasional' },
+      { id: 'twk_05', title: 'Bhinneka Tunggal Ika: Asal Usul Kitab Sutasoma, Integrasi Nasional & Manajemen Konflik Sosial Budaya' },
+      { id: 'twk_06', title: 'Bela Negara & Nasionalisme HOTS: Unsur Dasar Bela Negara, Patriotisme, & Penerapan di Era Modern' },
+      { id: 'twk_07', title: 'Integritas ASN, Core Values BerAKHLAK, Gratifikasi, Delik Korupsi & Penegakan Hukum KPK' },
+      { id: 'twk_08', title: 'Bahasa Indonesia SKD: PUEBI, Kalimat Efektif, Paragraf Deduktif/Induktif & Penarikan Gagasan Pokok' }
     ]
   },
   {
-    id: 'cpns_tiu', title: 'TIU (Tes Inteligensia Umum)', week: '3-4',
-    desc: 'Latihan ringan Verbal (Analogi/Silogisme) & Numerik Trik Cepat.',
+    id: 'cpns_tiu',
+    title: 'TIU (Tes Inteligensia Umum)',
+    week: '3–4',
+    desc: 'Penguasaan 35 Soal TIU (Target Ekstrem 150–165/175): Speed Hitung Cepat < 40 Detik/Soal, Deret Angka Multitingkat, Silogisme Negasi Kompleks, Logika Posisi, Soal Cerita Aljabar & Figural 9 Kotak.',
     color: '#3b82f6',
     items: [
-      { id: 'tiu_01', title: 'Trik Singkat Analogi Kata & Silogisme' },
-      { id: 'tiu_02', title: 'Rumus Cepat Deret Angka & Pecahan' },
-      { id: 'tiu_03', title: 'Pola Mudah Soal Cerita Matematika' },
-      { id: 'tiu_04', title: 'Latihan Visual Figural Ringan' }
+      { id: 'tiu_01', title: 'Kemampuan Verbal: Analogi Kata Tingkat Lanjut, Hubungan Semantik Kompleks & Antonim/Sinonim' },
+      { id: 'tiu_02', title: 'Kemampuan Verbal: Silogisme Tingkat Lanjut (Semua/Sebagian, Premis Implisit, Modus Ponens/Tollens & Negasi)' },
+      { id: 'tiu_03', title: 'Kemampuan Verbal: Penalaran Analitis Urutan Posisi, Pemetaan Tabel Kombinasi & Rute Transit' },
+      { id: 'tiu_04', title: 'Kemampuan Numerik: Trik Hitung Cepat Tanpa Coretan, Pecahan Istimewa, Desimal & Persentase Kilat' },
+      { id: 'tiu_05', title: 'Kemampuan Numerik: Deret Angka Lompat 2-3 Tingkat, Deret Huruf & Deret Pola Fibonacci' },
+      { id: 'tiu_06', title: 'Kemampuan Numerik: Soal Cerita Aljabar Jarak, Kecepatan, Waktu Berpapasan & Menyusul' },
+      { id: 'tiu_07', title: 'Kemampuan Numerik: Perbandingan Senilai, Berbalik Nilai, & Rumus Pekerja Bersama/Terhenti' },
+      { id: 'tiu_08', title: 'Kemampuan Numerik: Aritmatika Sosial Tingkat Lanjut (Untung/Rugi, Diskon Ganda, Bunga Tunggal & Pajak)' },
+      { id: 'tiu_09', title: 'Kemampuan Figural: Analogi Bentuk, Ketidaksamaan Pola, & Serial Rotasi 9 Kotak Speed Run' }
     ]
   },
   {
-    id: 'cpns_tkp', title: 'TKP (Tes Karakteristik Pribadi)', week: '5-6',
-    desc: 'Mindset kunci opsi nilai 5 untuk Pelayanan Publik & Profesionalisme.',
+    id: 'cpns_tkp',
+    title: 'TKP (Tes Karakteristik Pribadi)',
+    week: '5–6',
+    desc: 'Penguasaan 45 Soal TKP (Target Ekstrem 210–220/225): Mindset Skor 5 Tanpa Kompromi (Zero Tolerance Skor ≤ 3) pada Pelayanan Publik, Integritas ASN, Anti-Radikalisme, & TIK Digital.',
     color: '#10b981',
     items: [
-      { id: 'tkp_01', title: 'Kata Kunci Opsi Nilai 5 Pelayanan Publik' },
-      { id: 'tkp_02', title: 'Mindset Profesionalisme & Jejaring Kerja' },
-      { id: 'tkp_03', title: 'Pemahaman Ringan TIK & Radikalisme' }
+      { id: 'tkp_01', title: 'Pelayanan Publik Ekstrem: Mindset Cepat, Ramah, Solutif Tanpa Menunda, & Zero Pungli (Kunci Poin 5)' },
+      { id: 'tkp_02', title: 'Jejaring Kerja & Kolaborasi: Komunikasi Efektif, Sinergi Lintas Sektoral, & Kepemimpinan Solutif' },
+      { id: 'tkp_03', title: 'Sosial Budaya & Adaptasi: Menghargai Keberagaman, Inklusif, Anti Diskriminasi, & Manajemen Stres Kerja' },
+      { id: 'tkp_04', title: 'Teknologi Informasi & Komunikasi (TIK): Efisiensi Digital, Inovasi Otomasi, & Adaptasi Sistem Baru' },
+      { id: 'tkp_05', title: 'Profesionalisme & Integritas: Tanggung Jawab Tuntas, Memisahkan Urusan Pribadi, & Komitmen Jam Kerja ASN' },
+      { id: 'tkp_06', title: 'Anti Radikalisme & Netralitas ASN: Moderasi Beragama, Deteksi Dini Intoleransi, & Kesetiaan Mutlak NKRI' }
     ]
   },
   {
-    id: 'cpns_review', title: 'Review & Quiz Santai SKD', week: '7-8',
-    desc: 'Latihan santai 10-15 soal tanpa tekanan timer berat.',
+    id: 'cpns_strategi',
+    title: 'Strategi CAT & Fast Trik SKD',
+    week: '7–8',
+    desc: 'Teknik Ekstrem Manajemen Waktu 100 Menit untuk 110 Soal: Urutan TKP (45 dtk) → TWK (35 dtk) → TIU (50 dtk), Eliminasi Opsi Salah, & Skimming Cepat.',
     color: '#f59e0b',
     items: [
-      { id: 'str_01', title: 'Tips & Trik Mengatasi Soal Jebakan SKD' },
-      { id: 'str_02', title: 'Quiz Ringan 15 Soal Mix SKD' },
-      { id: 'str_03', title: 'Review Pembahasan Kunci Jawaban' }
+      { id: 'str_01', title: 'Manajemen Waktu CAT Ekstrem: 100 Menit untuk 110 Soal (Rata-rata 45-50 Detik per Butir Soal)' },
+      { id: 'str_02', title: 'Protokol Urutan Eksekusi Terbaik: TKP (45 soal ~ 30m) → TWK (30 soal ~ 20m) → TIU (35 soal ~ 40m) + Sisa 10m Review' },
+      { id: 'str_03', title: 'Trik Cepat Eliminasi Pilihan Pengecoh & Teknik Skimming Paragraf Panjang' },
+      { id: 'str_04', title: 'Pola Mindset Poin 5 TKP: Kata Kunci Integritas, Empati Aktif & Orientasi Pelayanan Tanpa Syarat' },
+      { id: 'str_05', title: 'Rumus Cepat Instan TIU: Pecahan Istimewa, Pola Deret Kilat, & Perbandingan Pekerja' }
+    ]
+  },
+  {
+    id: 'cpns_tryout',
+    title: 'Simulasi CAT & Tryout SKD Mandiri',
+    week: '9–10',
+    desc: 'Simulasi Real 110 Soal Timer 100 Menit dengan Target Ekstrem Lolos Ranking 1 Formasi (Skor Aman 450+).',
+    color: '#ec4899',
+    items: [
+      { id: 'try_01', title: 'Tryout Mandiri SKD Paket 1 (110 Soal) & Evaluasi Passing Grade Ketat' },
+      { id: 'try_02', title: 'Tryout Mandiri SKD Paket 2 (110 Soal) & Analisis Kelemahan Sub-Tes' },
+      { id: 'try_03', title: 'Tryout CAT SKD Paket 3 & Simulasi Realistis Waktu 100 Menit Standar BKN' },
+      { id: 'try_04', title: 'Review Mendalam Bank Soal Error & Pemantapan Mental Juara 1 Formasi' }
     ]
   }
 ];
@@ -232,49 +168,64 @@ export const DEFAULT_WORKOUT: WorkoutSchedule = {
 
 export const DEFAULT_TOEFL_SCHEDULE: ToeflSchedule = {
   'Senin': {
-    type: 'TWK Santai', focus: 'Rangkuman UUD 1945 & Pancasila',
+    type: 'TWK Hardcore & Penalaran HOTS',
+    focus: 'Target TWK 110+ — UUD 1945 Amandemen I–IV & 45 Butir Pancasila',
     tasks: [
-      { name: 'Baca 5 Pasal Penting UUD 1945', detail: 'Fokus pasal amandemen secara santai', time: '10m' },
-      { name: 'Latihan 10 Soal TWK Ringan', detail: 'Soal pengamalan Pancasila', time: '10m' }
+      { name: 'Bedah 45 Butir Pancasila & Pasal Kunci UUD 1945', detail: 'Hafalan pasal amandemen, lembaga negara, & butir TAP MPR I/2003', time: '25m' },
+      { name: 'Speed Drill 30 Soal TWK HOTS (Timer 20 Menit)', detail: 'Soal penalaran bela negara, integritas ASN & sejarah perjuangan bangsa', time: '25m' },
+      { name: 'Analisis Soal Jebakan & Pembuatan Flashcard', detail: 'Catat opsi pengecoh & bedah undang-undang yang sering salah', time: '20m' }
     ]
   },
   'Selasa': {
-    type: 'TIU Verbal Ringan', focus: 'Silogisme & Analogi',
+    type: 'TIU Extreme Numerik & Speed Run',
+    focus: 'Target TIU 150+ — Hitung Cepat < 40 Detik & Deret Angka Multitingkat',
     tasks: [
-      { name: 'Trik Cepat Silogisme', detail: 'Pahami logika dasar tanpa rumus rumit', time: '10m' },
-      { name: 'Latihan 10 Soal TIU Verbal', detail: 'Analogi kata & logika sederhana', time: '10m' }
+      { name: 'Drill 35 Soal Hitung Cepat & Pecahan Istimewa', detail: 'Trik eliminasi tanpa coretan panjang, batas maksimal 40 detik/soal', time: '35m' },
+      { name: 'Drill 25 Soal Deret Angka Lompat 2-3 Tingkat', detail: 'Pola aritmatika bertingkat, geometri & kombinasi huruf/Fibonacci', time: '25m' },
+      { name: 'Soal Cerita Aljabar: Kecepatan, Debit & Pekerja', detail: 'Rumus cepat berpapasan, menyusul, & efisiensi pekerja bersama', time: '25m' }
     ]
   },
   'Rabu': {
-    type: 'TIU Numerik Santai', focus: 'Deret & Hitung Cepat',
+    type: 'TIU Extreme Logika & Figural Serial',
+    focus: 'Target TIU 150+ — Silogisme Kompleks, Penalaran Analitis & 9 Kotak',
     tasks: [
-      { name: 'Latihan 10 Soal Deret Angka', detail: 'Pola deret aritmatika & geometri', time: '10m' },
-      { name: 'Review Trik Hitung Cepat', detail: 'Persentase & pecahan sederhana', time: '10m' }
+      { name: 'Drill 30 Soal Silogisme Negasi & Premis Implisit', detail: 'Hukum semua/sebagian, modus ponens, tollens & silogisme bersyarat', time: '30m' },
+      { name: 'Drill 20 Soal Penalaran Analitis Urutan & Posisi', detail: 'Trik tabel eliminasi posisi, perankingan & kombinasi rute transit', time: '25m' },
+      { name: 'Speed Run 15 Soal Figural Serial 9 Kotak', detail: 'Rotasi, pencerminan, & pergeseran elemen gambar waktu < 30 detik', time: '20m' }
     ]
   },
   'Kamis': {
-    type: 'TKP Santai', focus: 'Kata Kunci Opsi Nilai 5',
+    type: 'TKP Extreme Mindset Skor 5 (Zero Tolerance ≤ 3)',
+    focus: 'Target TKP 210+ — Pelayanan Publik, Anti Radikalisme & TIK Digital',
     tasks: [
-      { name: 'Latihan 10 Soal TKP', detail: 'Fokus Pelayanan Publik & Integritas', time: '10m' },
-      { name: 'Cek Kunci Opsi Nilai 5', detail: 'Pahami pola jawaban positif', time: '10m' }
+      { name: 'Drill 45 Soal TKP HOTS Standar Timer 35 Menit', detail: 'Simulasi realistik pengerjaan cepat 45-50 detik per soal', time: '35m' },
+      { name: 'Bedah Kunci Opsi Poin 5 vs Poin 4', detail: 'Eliminasi total opsi bernilai 1-3, kuasai kata kunci inisiatif & empati', time: '25m' },
+      { name: 'Pendalaman Modul Anti Radikalisme & Moderasi', detail: 'Pola jawaban kesetiaan NKRI, toleransi & netralitas ASN mutlak', time: '20m' }
     ]
   },
   'Jumat': {
-    type: 'Quiz Santai', focus: 'Mix Soal SKD Ringan',
+    type: 'SKD Speed Sprint & Bank Soal Error',
+    focus: 'Sprint Campuran 65 Soal & Re-Drill Soal Terlemah',
     tasks: [
-      { name: 'Quiz Ringan 15 Soal (TWK+TIU+TKP)', detail: 'Tanpa batasan timer ketat', time: '15m' }
+      { name: 'Speed Sprint 65 Soal Campuran TWK+TIU+TKP', detail: 'Timer 55 menit non-stop untuk melatih stamina dan konsentrasi CAT', time: '55m' },
+      { name: 'Bedah Total Kesalahan & Re-drill Bank Soal Salah', detail: 'Ulangi setiap butir soal salah hingga mencapai akurasi 100%', time: '30m' }
     ]
   },
   'Sabtu': {
-    type: 'Review Ringan', focus: 'Pembahasan Soal',
+    type: 'Full CAT Marathon 110 Soal (Real 100 Menit)',
+    focus: 'Simulasi Standar BKN — Target Skor Ekstrem 450+ / 550',
     tasks: [
-      { name: 'Review 10 Soal yang Belum Dipahami', detail: 'Cukup baca pembahasan kunci jawaban', time: '15m' }
+      { name: 'Simulasi Akbar CAT SKD 110 Soal (Timer 100 Menit)', detail: 'Eksekusi urutan: TKP (45 soal) → TWK (30 soal) → TIU (35 soal)', time: '100m' },
+      { name: 'Evaluasi Passing Grade & Input Skor Target 450+', detail: 'Breakdown capaian sub-tes dan catat analisis gap di riwayat tryout', time: '30m' }
     ]
   },
   'Minggu': {
-    type: 'Rest & Santai', focus: 'Istirahat Penuh',
+    type: 'Weekly Retrospective & Flashcard Mastery',
+    focus: 'Audit Progres Mingguan & Penguatan Sub-Tes Terlemah',
     tasks: [
-      { name: 'Review Rangkuman Singkat (Opsional)', detail: 'Baca kilas rangkuman TWK', time: '10m' }
+      { name: 'Review Rangkuman Formula Cepat & Flashcard TWK', detail: 'Ulas rumus pekerja, pecahan, tabel wewenang lembaga & hak DPR', time: '30m' },
+      { name: 'Drill 30 Soal Remedial Sub-Tes Terlemah Pekan Ini', detail: 'Targetkan penguasaan materi yang paling sering keliru', time: '30m' },
+      { name: 'Perencanaan Target Ekstrem Pekan Depan & Recovery', detail: 'Evaluasi metrik belajar dan siapkan disiplin Monk Mode penuh', time: '15m' }
     ]
   },
 };
@@ -289,4 +240,12 @@ export const MOODS = [
   { key: 'good' as const, label: 'Tak Terkalahkan', color: 'var(--green)' },
   { key: 'neutral' as const, label: 'Disiplin', color: 'var(--blue-hover)' },
   { key: 'bad' as const, label: 'Berdarah-darah', color: 'var(--red)' }
+];
+
+export const DEFAULT_TRYOUTS: TryoutRecord[] = [
+  { id: 'to_1', name: 'Simulasi Baseline #1', date: '2026-08-04', twk: 60, tiu: 75, tkp: 162, notes: 'Evaluasi awal: TWK dan TIU masih di bawah passing grade.' },
+  { id: 'to_2', name: 'Tryout Mandiri #2', date: '2026-08-08', twk: 70, tiu: 85, tkp: 168, notes: 'Peningkatan di TWK UUD 1945. Lolos passing grade tipis total 323.' },
+  { id: 'to_3', name: 'Simulasi CAT Akbar #3', date: '2026-08-12', twk: 80, tiu: 105, tkp: 178, notes: 'TIU deret angka mulai lancar, total 363.' },
+  { id: 'to_4', name: 'Tryout Intensif #4', date: '2026-08-16', twk: 85, tiu: 115, tkp: 186, notes: 'TKP tembus 186 dengan mindset opsi 5, total 386 mendekati target 400.' },
+  { id: 'to_5', name: 'Simulasi CAT Nasional #5', date: '2026-08-19', twk: 95, tiu: 130, tkp: 194, notes: 'Total skor 419! Lolos aman passing grade & masuk zona ranking formasi.' }
 ];

@@ -23,18 +23,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className={`sidebar${slim ? ' slim' : ''}`}>
       <div className="sb-top">
-        <div className="sb-logo" style={{ background: 'linear-gradient(135deg, #a855f7 0%, #38bdf8 100%)', boxShadow: '0 0 20px rgba(168, 85, 247, 0.5)' }}>
-          <Icon name="cpu" size={20} />
+        <div className="sb-logo">
+          <Icon name="cpu" size={18} />
         </div>
         {!slim && (
           <div>
             <div className="sb-title">Monk Mode</div>
-            <div className="sb-sub">Brutal Transformation</div>
+            <div className="sb-sub">CPNS SKD Mastery</div>
           </div>
         )}
       </div>
 
-      <div className="sb-nav" style={{ marginTop: 10 }}>
+      <div className="sb-nav" style={{ marginTop: 8 }}>
         {navItems.map(n => (
           <button
             key={n.id}
@@ -51,25 +51,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <div className="sb-foot">
         {!slim && (
-          <div style={{ background: '#070c1e', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '10px', padding: '12px', marginBottom: '8px', boxShadow: '0 0 15px rgba(168, 85, 247, 0.15)' }}>
+          <div style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '9px', padding: '10px 12px', marginBottom: '8px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-              <span style={{ fontSize: '10px', color: '#a855f7', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em' }}>Firestore Cloud Sync</span>
-              <span style={{ fontSize: '10px', color: '#00f0ff', fontWeight: 700, textShadow: '0 0 8px rgba(0, 240, 255, 0.6)' }}>● Connected</span>
+              <span style={{ fontSize: '10px', color: 'var(--text3)', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '0.05em' }}>Cloud Sync</span>
+              <span style={{ fontSize: '10px', color: 'var(--blue-hover)', fontWeight: 700 }}>● Active</span>
             </div>
-            <div style={{ width: '100%', background: 'rgba(255, 255, 255, 0.08)', height: '4px', borderRadius: '9999px', overflow: 'hidden' }}>
-              <div style={{ background: 'linear-gradient(90deg, #a855f7 0%, #38bdf8 100%)', height: '100%', width: '100%' }} />
+            <div style={{ width: '100%', background: 'rgba(255, 255, 255, 0.08)', height: '3px', borderRadius: '9999px', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--blue)', height: '100%', width: '100%' }} />
             </div>
           </div>
         )}
 
         <button
           className="nb"
-          style={{ justifyContent: slim ? 'center' : 'flex-start', color: '#94a3b8' }}
+          style={{ justifyContent: slim ? 'center' : 'flex-start', color: 'var(--text2)' }}
           onClick={onOpenSettings}
           title="Settings"
         >
           <Icon name="settings" size={18} />
-          {!slim && 'Settings'}
+          {!slim && 'Pengaturan'}
         </button>
 
         <button
@@ -84,12 +84,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <button
           className="nb"
-          style={{ color: '#f43f5e', justifyContent: slim ? 'center' : 'flex-start' }}
+          style={{ color: 'var(--red)', justifyContent: slim ? 'center' : 'flex-start' }}
           onClick={onLogout}
           title="Logout"
         >
           <Icon name="logout" size={18} />
-          {!slim && 'Disconnect'}
+          {!slim && 'Keluar Akun'}
         </button>
       </div>
     </div>

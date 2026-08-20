@@ -60,12 +60,17 @@ export interface RoadmapPhase {
 export interface ToeflItem {
   id: string;
   title: string;
+  duration?: string;
+  source?: string;
+  notes?: string;
+  url?: string;
 }
 
 export interface ToeflPhase {
   id: string;
   title: string;
-  week: string;
+  category?: 'TWK' | 'TIU' | 'TKP' | 'STRATEGY' | 'TRYOUT' | string;
+  week?: string;
   desc: string;
   color: string;
   items: ToeflItem[];
@@ -105,3 +110,13 @@ export type ExerciseLog = Record<string, boolean>; // exKey -> boolean
 export type RoadmapProgress = Record<string, boolean>; // itemId -> boolean
 export type ToeflProgress = Record<string, boolean>; // itemId -> boolean
 export type ToeflDailyProgress = Record<string, boolean>; // dailyKey -> boolean
+
+export interface TryoutRecord {
+  id: string;
+  name: string;
+  date: string; // YYYY-MM-DD
+  twk: number;  // Passing grade: 65, Max: 150
+  tiu: number;  // Passing grade: 80, Max: 175
+  tkp: number;  // Passing grade: 166, Max: 225
+  notes?: string;
+}

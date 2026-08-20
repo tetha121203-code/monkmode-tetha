@@ -25,26 +25,26 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({ dayN, tota
 
   return (
     <div className="card card-p" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div className="between" style={{ marginBottom: 16 }}>
+      <div className="between" style={{ marginBottom: 14 }}>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 900, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
             {new Date(y, m, 1).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
           </div>
           <div style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 600, marginTop: 2 }}>Hari ke-{dayN} dari {total} Protocol</div>
         </div>
-        <div style={{ display: 'flex', gap: 10, fontSize: 10, color: 'var(--text2)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+        <div style={{ display: 'flex', gap: 10, fontSize: 10, color: 'var(--text2)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: '#f43f5e' }}></span> HARI INI
+            <span style={{ width: 8, height: 8, borderRadius: 2, background: 'var(--blue)' }}></span> Hari Ini
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(56, 189, 248, 0.2)', border: '1px solid rgba(56, 189, 248, 0.5)' }}></span> PERFECT DAY
+            <span style={{ width: 8, height: 8, borderRadius: 2, background: 'var(--blue-dim)', border: '1px solid var(--blue-border)' }}></span> Perfect
           </div>
         </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
         {dayLabels.map(l => (
-          <div key={l} style={{ fontSize: 11, fontWeight: 700, color: 'var(--text3)', textAlign: 'center', paddingBottom: 6 }}>
+          <div key={l} style={{ fontSize: 11, fontWeight: 700, color: 'var(--text3)', textAlign: 'center', paddingBottom: 4 }}>
             {l}
           </div>
         ))}
@@ -71,25 +71,25 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({ dayN, tota
             if (habitsDoneCount === HABITS.length) status = 'done-all';
           }
 
-          let bg = '#0b1120';
-          let border = '1px solid rgba(255, 255, 255, 0.08)';
-          let color = '#94a3b8';
+          let bg = 'var(--surface2)';
+          let border = '1px solid var(--border)';
+          let color = 'var(--text2)';
 
           if (status === 'today') {
-            bg = '#f43f5e';
+            bg = 'var(--blue)';
             color = '#ffffff';
-            border = '1px solid #f43f5e';
+            border = '1px solid var(--blue-hover)';
           } else if (status === 'done-all') {
-            bg = 'rgba(56, 189, 248, 0.15)';
-            color = '#38bdf8';
-            border = '1px solid rgba(56, 189, 248, 0.35)';
+            bg = 'var(--blue-dim)';
+            color = 'var(--blue-hover)';
+            border = '1px solid var(--blue-border)';
           } else if (status === 'past') {
-            bg = '#080d1a';
-            color = '#64748b';
-            border = '1px solid rgba(255, 255, 255, 0.05)';
+            bg = 'var(--surface2)';
+            color = 'var(--text3)';
+            border = '1px solid rgba(255, 255, 255, 0.04)';
           } else if (status === 'future') {
             bg = 'transparent';
-            color = '#334155';
+            color = 'var(--text-muted)';
             border = '1px solid transparent';
           }
 
@@ -101,8 +101,8 @@ export const DashboardCalendar: React.FC<DashboardCalendarProps> = ({ dayN, tota
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 12,
-                fontWeight: status === 'today' ? 900 : 700,
+                fontSize: 11,
+                fontWeight: status === 'today' ? 800 : 600,
                 borderRadius: '6px',
                 background: bg,
                 border: border,

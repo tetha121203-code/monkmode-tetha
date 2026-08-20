@@ -13,8 +13,8 @@ interface DiaryViewProps {
   today: Date;
   weeklyAnalysis: WeeklyAnalysis[];
   setWeeklyAnalysis: React.Dispatch<React.SetStateAction<WeeklyAnalysis[]>>;
-  codeDone: number;
-  totalCode: number;
+  cpnsDone: number;
+  totalCpns: number;
 }
 
 const formatAIResponse = (text: string | null) => {
@@ -31,8 +31,8 @@ export const DiaryView: React.FC<DiaryViewProps> = ({
   today,
   weeklyAnalysis,
   setWeeklyAnalysis,
-  codeDone,
-  totalCode,
+  cpnsDone,
+  totalCpns,
 }) => {
   const [writing, setWriting] = useState(false);
   const [text, setText] = useState('');
@@ -113,7 +113,7 @@ export const DiaryView: React.FC<DiaryViewProps> = ({
       return;
     }
     setAiLoading(true);
-    const prompt = `Ini adalah tulisan diary saya hari ini: "${text}". Mood saya: ${mood}. Progres hari ini: Roadmap Data Analyst (${codeDone}/${totalCode} selesai). Tolong baca dan pahami isi diary saya, lalu berikan tanggapan layaknya AI Asisten Monk Mode bernama "Friday". Fokus saya adalah "Brutal Transformation" selama 97 hari (3 Agustus - 7 November 2026). Jangan memanjakan saya, bersikaplah logis, disiplin, namun tetap solutif. Buatkan juga tabel HTML sederhana (gunakan <table>, <tr>, <th>, <td>) yang merangkum 'Kelemahan Hari Ini' dan 'Tindakan Besok'.`;
+    const prompt = `Ini adalah tulisan diary saya hari ini: "${text}". Mood saya: ${mood}. Progres hari ini: Penguasaan Silabus SKD CPNS (${cpnsDone}/${totalCpns} materi tuntas). Tolong baca dan pahami isi diary saya, lalu berikan tanggapan layaknya AI Asisten Monk Mode bernama "Friday". Fokus saya adalah "Brutal Transformation" selama 97 hari (3 Agustus - 7 November 2026) dengan target mutlak Lolos SKD CPNS 2026 dengan skor aman 400+ dan kebugaran fisik maksimal. Jangan memanjakan saya, bersikaplah logis, disiplin, namun tetap solutif. Buatkan juga tabel HTML sederhana (gunakan <table>, <tr>, <th>, <td>) yang merangkum 'Kelemahan Hari Ini' dan 'Tindakan Besok'.`;
     const sysIns = "Kamu adalah Friday, AI asisten personal Monk Mode yang dingin, analitis, logis, dan menjunjung tinggi disiplin ekstrem (Brutal Transformation). Output HANYA boleh dalam format HTML murni (<b>, <i>, <p>, <table>, <ul>, dsb). DILARANG KERAS menggunakan format Markdown seperti **, ###, atau asteris. Gunakan bahasa Indonesia yang formal, tegas, tajam namun tetap membangun.";
     
     const response = await callFridayAPI(prompt, sysIns);
@@ -123,7 +123,7 @@ export const DiaryView: React.FC<DiaryViewProps> = ({
 
   const generateWeeklyAnalysis = async () => {
     setAiLoading(true);
-    let reportData = "Data 7 Hari Terakhir (Fokus: Brutal Transformation):\n\n";
+    let reportData = "Data 7 Hari Terakhir (Fokus: Brutal Transformation & Lolos SKD CPNS 2026):\n\n";
     for (let i = 0; i < 7; i++) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
@@ -134,8 +134,8 @@ export const DiaryView: React.FC<DiaryViewProps> = ({
       const diaryText = diaryEn ? diaryEn.text : 'Tidak ada tulisan diary hari ini';
       reportData += `- Tanggal: ${k} | Habits (${HABITS.map(h => h.label).join(', ')}): ${dayHabits}/${HABITS.length} | Mood: ${moodText} | Isi Diary: "${diaryText}"\n`;
     }
-    reportData += `\nProgres Keseluruhan Roadmap Belajar: ${codeDone} dari ${totalCode} materi telah diselesaikan.\n\n`;
-    reportData += "Tolong evaluasi secara ketat dan tanpa basa-basi data jurnal saya di atas. Apakah saya sudah layak disebut menjalankan Monk Mode? Buat laporan mingguan menggunakan tabel HTML (wajib ada <table>, <tr>, <th>, <td>) untuk merangkum performa per hari. Berikan insight mendalam mengenai pola tulisan diary saya, kelemahan disiplin, konsistensi habit utama, progres belajar, dan tren emosi saya di bawah tabel tersebut. Ingat, hanya gunakan tag HTML murni, JANGAN gunakan Markdown sama sekali.";
+    reportData += `\nProgres Keseluruhan Silabus SKD CPNS: ${cpnsDone} dari ${totalCpns} materi telah diselesaikan.\n\n`;
+    reportData += "Tolong evaluasi secara ketat dan tanpa basa-basi data jurnal saya di atas. Apakah saya sudah layak disebut menjalankan Monk Mode menuju ASN Berprestasi? Buat laporan mingguan menggunakan tabel HTML (wajib ada <table>, <tr>, <th>, <td>) untuk merangkum performa per hari. Berikan insight mendalam mengenai pola tulisan diary saya, kelemahan disiplin, konsistensi habit utama, progres belajar CPNS, dan tren emosi saya di bawah tabel tersebut. Ingat, hanya gunakan tag HTML murni, JANGAN gunakan Markdown sama sekali.";
 
     const sysIns = "Kamu adalah Friday, AI asisten Monk Mode. Kamu pandai menganalisa kelemahan dan memberikan teguran serta feedback rasional untuk Brutal Transformation. Output WAJIB dalam format HTML murni. DILARANG menggunakan Markdown (seperti **, ###). Gunakan tabel HTML untuk menampilkan data agar terstruktur dan profesional.";
 
