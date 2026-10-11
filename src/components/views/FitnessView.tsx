@@ -148,6 +148,11 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
                 <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)' }}>
                   {ws.type} — {ws.focus}
                 </div>
+                {ws.targetTime && (
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 6, fontSize: 11, fontWeight: 700, color: 'var(--cyan)', background: 'rgba(56, 189, 248, 0.1)', padding: '3px 10px', borderRadius: 6, border: '1px solid rgba(56, 189, 248, 0.25)' }}>
+                    ⏱️ {ws.targetTime}
+                  </div>
+                )}
               </div>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 42, fontWeight: 800, color: 'var(--text)', lineHeight: 1 }}>{totalDone}</div>
@@ -165,6 +170,30 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
                 Scapular: <strong style={{ color: 'var(--text)' }}>{scapDone}/{SCAPULAR.length}</strong>
               </span>
             </div>
+
+            {ws.notes && (
+              <div
+                style={{
+                  marginTop: 14,
+                  padding: '12px 16px',
+                  borderRadius: 12,
+                  background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%)',
+                  border: '1px solid rgba(96, 165, 250, 0.25)',
+                  boxShadow: '0 0 16px rgba(59, 130, 246, 0.15)',
+                  display: 'flex',
+                  gap: 12,
+                  alignItems: 'flex-start'
+                }}
+              >
+                <div style={{ color: 'var(--cyan)', marginTop: 2, flexShrink: 0 }}>
+                  <Icon name="info" size={18} />
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--cyan)' }}>Catatan & Panduan Fisioterapi: </strong>
+                  {ws.notes}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="sep">
@@ -258,6 +287,11 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
                   {selDay} — {viewWS.type}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 500 }}>{viewWS.focus}</div>
+                {viewWS.targetTime && (
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 6, fontSize: 11, fontWeight: 700, color: 'var(--cyan)', background: 'rgba(56, 189, 248, 0.1)', padding: '3px 10px', borderRadius: 6, border: '1px solid rgba(56, 189, 248, 0.25)' }}>
+                    ⏱️ {viewWS.targetTime}
+                  </div>
+                )}
               </div>
               <div style={{ display: 'flex', gap: 10 }}>
                 {selDay === dayName && <span className="tag tag-green">Hari Ini</span>}
@@ -266,6 +300,30 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
                 </button>
               </div>
             </div>
+
+            {viewWS.notes && (
+              <div
+                style={{
+                  marginBottom: 16,
+                  padding: '12px 16px',
+                  borderRadius: 12,
+                  background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(124, 58, 237, 0.12) 100%)',
+                  border: '1px solid rgba(96, 165, 250, 0.25)',
+                  boxShadow: '0 0 16px rgba(59, 130, 246, 0.15)',
+                  display: 'flex',
+                  gap: 12,
+                  alignItems: 'flex-start'
+                }}
+              >
+                <div style={{ color: 'var(--cyan)', marginTop: 2, flexShrink: 0 }}>
+                  <Icon name="info" size={18} />
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
+                  <strong style={{ color: 'var(--cyan)' }}>Catatan & Panduan Fisioterapi: </strong>
+                  {viewWS.notes}
+                </div>
+              </div>
+            )}
 
             {editMeta === selDay && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20, paddingTop: 16, borderTop: '1px solid var(--border)' }}>

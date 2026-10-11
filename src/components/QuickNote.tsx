@@ -30,7 +30,7 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
     onChange(val);
     setTimeout(() => {
       setSavedStatus('Tersimpan');
-    }, 500);
+    }, 450);
   };
 
   const handleCopy = () => {
@@ -57,9 +57,9 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
         bottom: 24,
         right: 24,
         zIndex: 9000,
-        width: isMinimized ? 'auto' : 340,
+        width: isMinimized ? 'auto' : 350,
         maxWidth: 'calc(100vw - 48px)',
-        transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+        transition: 'all 0.28s cubic-bezier(0.16, 1, 0.3, 1)'
       }}
     >
       {isMinimized ? (
@@ -70,32 +70,33 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            padding: '12px 18px',
+            padding: '12px 20px',
             borderRadius: 9999,
-            background: '#0b1120',
-            border: '1px solid rgba(56, 189, 248, 0.35)',
+            background: 'linear-gradient(135deg, rgba(9, 16, 38, 0.95) 0%, rgba(27, 17, 61, 0.95) 100%)',
+            border: '1px solid rgba(96, 165, 250, 0.45)',
             color: '#ffffff',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(56, 189, 248, 0.2)',
+            boxShadow: '0 12px 36px rgba(0, 0, 0, 0.85), 0 0 24px rgba(59, 130, 246, 0.35)',
             cursor: 'pointer',
             fontWeight: 800,
             fontSize: 13,
-            backdropFilter: 'blur(12px)'
+            backdropFilter: 'blur(16px)',
+            transition: 'all 0.22s ease'
           }}
           title="Buka Quick Note"
         >
-          <span style={{ color: '#38bdf8', display: 'flex', alignItems: 'center' }}>
-            <Icon name="note" size={18} />
+          <span style={{ color: 'var(--cyan)', display: 'flex', alignItems: 'center' }}>
+            <Icon name="note" size={18} className="pulse-glow" />
           </span>
           <span>Quick Note</span>
           {charCount > 0 && (
             <span
               style={{
                 fontSize: 10,
-                background: 'rgba(56, 189, 248, 0.2)',
-                color: '#38bdf8',
+                background: 'rgba(56, 189, 248, 0.22)',
+                color: 'var(--cyan)',
                 padding: '2px 8px',
                 borderRadius: 12,
-                border: '1px solid rgba(56, 189, 248, 0.3)',
+                border: '1px solid rgba(56, 189, 248, 0.4)',
                 fontWeight: 900
               }}
             >
@@ -107,21 +108,21 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
         <div
           className="pop-in"
           style={{
-            background: '#0b1120',
-            border: '1px solid rgba(56, 189, 248, 0.3)',
-            borderRadius: 16,
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(56, 189, 248, 0.15)',
+            background: 'linear-gradient(135deg, rgba(9, 16, 38, 0.95) 0%, rgba(22, 14, 46, 0.95) 100%)',
+            border: '1px solid rgba(96, 165, 250, 0.4)',
+            borderRadius: 18,
+            boxShadow: '0 24px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(59, 130, 246, 0.25), 0 0 40px rgba(139, 92, 246, 0.18)',
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            backdropFilter: 'blur(16px)'
+            backdropFilter: 'blur(20px)'
           }}
         >
           {/* Header */}
           <div
             style={{
-              padding: '12px 16px',
-              background: '#080d1a',
+              padding: '13px 18px',
+              background: 'rgba(5, 9, 22, 0.85)',
               borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
               display: 'flex',
               alignItems: 'center',
@@ -129,21 +130,25 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ color: '#38bdf8', display: 'flex', alignItems: 'center' }}>
-                <Icon name="note" size={16} />
+              <span style={{ color: 'var(--cyan)', display: 'flex', alignItems: 'center' }}>
+                <Icon name="note" size={17} />
               </span>
-              <span style={{ fontSize: 13, fontWeight: 900, color: '#ffffff', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+              <span style={{ fontSize: 13, fontWeight: 900, color: '#ffffff', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 Quick Note
               </span>
               <span
                 style={{
                   fontSize: 10,
-                  color: savedStatus === 'Tersimpan' ? '#22c55e' : '#f59e0b',
+                  color: savedStatus === 'Tersimpan' ? 'var(--green-hover)' : 'var(--amber)',
                   fontWeight: 700,
-                  marginLeft: 4
+                  marginLeft: 4,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4
                 }}
               >
-                • {savedStatus}
+                <span className="glow-dot" style={{ width: 6, height: 6, background: savedStatus === 'Tersimpan' ? 'var(--green-hover)' : 'var(--amber)' }} />
+                {savedStatus}
               </span>
             </div>
 
@@ -152,14 +157,14 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
                 <button
                   onClick={handleCopy}
                   style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: copied ? '#22c55e' : '#94a3b8',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: copied ? 'var(--green)' : 'var(--text2)',
                     cursor: 'pointer',
-                    padding: 4,
+                    padding: 5,
                     display: 'flex',
                     alignItems: 'center',
-                    borderRadius: 4
+                    borderRadius: 6
                   }}
                   title={copied ? 'Tersalin!' : 'Salin Catatan'}
                 >
@@ -169,14 +174,14 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
               <button
                 onClick={() => setIsMinimized(true)}
                 style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#cbd5e1',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: 'var(--text2)',
                   cursor: 'pointer',
-                  padding: 4,
+                  padding: 5,
                   display: 'flex',
                   alignItems: 'center',
-                  borderRadius: 4
+                  borderRadius: 6
                 }}
                 title="Kecilkan Window"
               >
@@ -190,37 +195,43 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
             <textarea
               value={text}
               onChange={handleTextChange}
-              placeholder="Catat ide, insight, atau distraksi saat deep work agar tidak lupa..."
+              placeholder="Catat ide, insight belajar, rumus, atau catatan penting saat deep work..."
               rows={5}
               style={{
                 width: '100%',
-                background: '#101728',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                borderRadius: 10,
+                background: 'rgba(14, 23, 53, 0.85)',
+                border: '1px solid rgba(59, 130, 246, 0.25)',
+                borderRadius: 12,
                 color: '#ffffff',
-                padding: '12px',
+                padding: '12px 14px',
                 fontSize: 13,
                 lineHeight: 1.6,
                 fontFamily: 'inherit',
                 resize: 'none',
                 outline: 'none',
-                transition: 'border-color 0.2s'
+                transition: 'all 0.2s'
               }}
-              onFocus={e => (e.target.style.borderColor = 'rgba(56, 189, 248, 0.4)')}
-              onBlur={e => (e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)')}
+              onFocus={e => {
+                e.target.style.borderColor = 'var(--cyan)';
+                e.target.style.boxShadow = '0 0 16px rgba(56, 189, 248, 0.3)';
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = 'rgba(59, 130, 246, 0.25)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           {/* Footer Controls */}
           <div
             style={{
-              padding: '8px 14px 12px 14px',
+              padding: '10px 16px 14px 16px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.06)',
               fontSize: 11,
-              color: '#64748b'
+              color: 'var(--text3)'
             }}
           >
             <span>{charCount} karakter ({wordCount} kata)</span>
@@ -228,15 +239,12 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
               {text && onCopyToDiary && (
                 <button
                   onClick={() => onCopyToDiary(text)}
+                  className="btn btn-purple"
                   style={{
-                    background: 'rgba(168, 85, 247, 0.15)',
-                    border: '1px solid rgba(168, 85, 247, 0.3)',
-                    color: '#c084fc',
-                    borderRadius: 6,
-                    padding: '4px 8px',
+                    padding: '5px 12px',
                     fontSize: 11,
-                    fontWeight: 700,
-                    cursor: 'pointer'
+                    fontWeight: 800,
+                    borderRadius: 8
                   }}
                   title="Simpan ide ini ke Diary"
                 >
@@ -246,15 +254,14 @@ export const QuickNote: React.FC<QuickNoteProps> = ({
               {text && (
                 <button
                   onClick={handleClear}
+                  className="btn btn-ghost"
                   style={{
-                    background: 'transparent',
-                    border: '1px solid rgba(244, 63, 94, 0.2)',
-                    color: '#f43f5e',
-                    borderRadius: 6,
-                    padding: '4px 8px',
+                    padding: '5px 10px',
                     fontSize: 11,
                     fontWeight: 700,
-                    cursor: 'pointer'
+                    borderRadius: 8,
+                    color: 'var(--red-hover)',
+                    borderColor: 'var(--red-dim)'
                   }}
                 >
                   Clear

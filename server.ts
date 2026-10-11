@@ -82,8 +82,8 @@ async function startServer() {
   {"name": "Nama Gerakan", "detail": "Set/Rep/Durasi", "target": "Target Otot"}
 ]
 Teks: ${text}`;
-      } else if (type === "toefl" || type === "cpns") {
-        promptInstruction = `Analisis teks jadwal belajar CPNS/SKD atau akademis berikut. Ekstrak menjadi JSON array murni:
+      } else if (type === "toefl" || type === "study") {
+        promptInstruction = `Analisis teks jadwal belajar atau deep work berikut. Ekstrak menjadi JSON array murni:
 [
   {"name": "Nama Task", "detail": "Instruksi detail", "time": "Durasi (cth: 15m, 30m)"}
 ]

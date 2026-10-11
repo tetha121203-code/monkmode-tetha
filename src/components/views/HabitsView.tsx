@@ -23,20 +23,25 @@ export const HabitsView: React.FC<HabitsViewProps> = ({
   const [view, setView] = useState<'today' | 'calendar' | 'chart'>('today');
   const [selHabit, setSelHabit] = useState<string>('toefl');
   const [calMonth, setCalMonth] = useState({ y: today.getFullYear(), m: today.getMonth() });
+
+  const stripDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const minDate = stripDay(PROGRAM_START_DATE);
+  const maxDate = new Date(Math.max(stripDay(today).getTime(), stripDay(PROGRAM_START_DATE).getTime()));
+
   const [selDate, setSelDate] = useState<Date>(() => {
     const [y, m, d] = dateKey.split('-').map(Number);
-    return new Date(y, m - 1, d);
+    const dObj = new Date(y, m - 1, d);
+    return stripDay(dObj) < minDate ? new Date(PROGRAM_START_DATE) : dObj;
   });
 
   const toKey = (d: Date) => toDateKey(d);
 
-  const stripDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
   const todayKey = toKey(today);
   const selDateKey = toKey(selDate);
   const isSelToday = selDateKey === todayKey;
   const fmtSelDate = selDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-  const canGoPrev = stripDay(selDate) > stripDay(PROGRAM_START_DATE);
-  const canGoNext = stripDay(selDate) < stripDay(today);
+  const canGoPrev = stripDay(selDate) > minDate;
+  const canGoNext = stripDay(selDate) < maxDate;
 
   const goPrevDay = () => {
     if (!canGoPrev) return;
@@ -52,11 +57,14 @@ export const HabitsView: React.FC<HabitsViewProps> = ({
     setSelDate(d);
   };
 
-  const goToday = () => setSelDate(new Date(today.getFullYear(), today.getMonth(), today.getDate()));
+  const goToday = () => {
+    const curToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    setSelDate(stripDay(curToday) < minDate ? new Date(PROGRAM_START_DATE) : curToday);
+  };
 
   const openDayChecklist = (y: number, m: number, d: number) => {
     const target = new Date(y, m, d);
-    if (stripDay(target) > stripDay(today)) return;
+    if (stripDay(target) < minDate || stripDay(target) > maxDate) return;
     setSelDate(target);
     setView('today');
   };

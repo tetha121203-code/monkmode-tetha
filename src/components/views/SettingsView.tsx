@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DEFAULT_WORKOUT, DEFAULT_TOEFL, DEFAULT_TOEFL_SCHEDULE, DAYS } from '../../data/defaults';
-import { DiaryEntry, HabitLog, ExerciseLog, ToeflPhase, ToeflItem, ToeflProgress, ToeflSchedule, WorkoutSchedule } from '../../types';
+import { DiaryEntry, HabitLog, ExerciseLog, ToeflPhase, ToeflItem, ToeflProgress, ToeflSchedule, WorkoutSchedule, ToeflDailyProgress, TryoutRecord, WeeklyAnalysis } from '../../types';
 import { Icon } from '../Icon';
 import { Modal } from '../Modal';
 
@@ -19,6 +19,9 @@ interface SettingsViewProps {
   setHabitLog: React.Dispatch<React.SetStateAction<HabitLog>>;
   setDiary: React.Dispatch<React.SetStateAction<DiaryEntry[]>>;
   setToeflProg: React.Dispatch<React.SetStateAction<ToeflProgress>>;
+  setToeflDaily?: React.Dispatch<React.SetStateAction<ToeflDailyProgress>>;
+  setTryouts?: React.Dispatch<React.SetStateAction<TryoutRecord[]>>;
+  setWeeklyAnalysis?: React.Dispatch<React.SetStateAction<WeeklyAnalysis[]>>;
 }
 
 export const SettingsModal: React.FC<SettingsViewProps> = ({
@@ -35,16 +38,19 @@ export const SettingsModal: React.FC<SettingsViewProps> = ({
   setExDone,
   setHabitLog,
   setDiary,
-  setToeflProg
+  setToeflProg,
+  setToeflDaily,
+  setTryouts,
+  setWeeklyAnalysis
 }) => {
   return (
     <Modal open={open} onClose={onClose} title="Settings & Protocols" wide>
       <div style={{ display: 'flex', gap: 8, marginBottom: 24, padding: '6px', background: 'var(--surface)', borderRadius: 14, border: '1px solid var(--border)', overflowX: 'auto' }}>
         {[
-          { id: 'toefl', l: 'Jadwal Harian CPNS' },
-          { id: 'cpns_silabus', l: 'Silabus & Materi CPNS' },
+          { id: 'toefl', l: 'Jadwal Harian Belajar' },
+          { id: 'cpns_silabus', l: 'Silabus & Modul Belajar' },
           { id: 'workout', l: 'Latihan Fisik' },
-          { id: 'reset', l: 'Erase Data' }
+          { id: 'reset', l: 'Reset Progress' }
         ].map(t => (
           <button
             key={t.id}
@@ -66,6 +72,9 @@ export const SettingsModal: React.FC<SettingsViewProps> = ({
           setHabitLog={setHabitLog}
           setDiary={setDiary}
           setToeflProg={setToeflProg}
+          setToeflDaily={setToeflDaily}
+          setTryouts={setTryouts}
+          setWeeklyAnalysis={setWeeklyAnalysis}
         />
       )}
     </Modal>
@@ -77,14 +86,36 @@ const ResetPanel: React.FC<{
   setHabitLog: React.Dispatch<React.SetStateAction<HabitLog>>;
   setDiary: React.Dispatch<React.SetStateAction<DiaryEntry[]>>;
   setToeflProg: React.Dispatch<React.SetStateAction<ToeflProgress>>;
-}> = ({ setExDone, setHabitLog, setDiary, setToeflProg }) => {
+  setToeflDaily?: React.Dispatch<React.SetStateAction<ToeflDailyProgress>>;
+  setTryouts?: React.Dispatch<React.SetStateAction<TryoutRecord[]>>;
+  setWeeklyAnalysis?: React.Dispatch<React.SetStateAction<WeeklyAnalysis[]>>;
+}> = ({ setExDone, setHabitLog, setDiary, setToeflProg, setToeflDaily, setTryouts, setWeeklyAnalysis }) => {
   const [confirm, setConfirm] = useState<any>(null);
 
+  const resetAll = () => {
+    setToeflProg({});
+    if (setToeflDaily) setToeflDaily({});
+    setHabitLog({});
+    setExDone({});
+    if (setTryouts) setTryouts([]);
+    if (setWeeklyAnalysis) setWeeklyAnalysis([]);
+    setDiary([]);
+  };
+
   const resets = [
-    { id: 'toeflprog', label: 'Progress Materi CPNS', desc: 'Hapus semua checklist modul & materi SKD CPNS', icon: 'book', color: 'var(--purple)', fn: () => setToeflProg({}) },
-    { id: 'habits', label: 'Daily Habits', desc: 'Hapus riwayat aktivitas harian', icon: 'habits', color: 'var(--green)', fn: () => setHabitLog({}) },
-    { id: 'exdone', label: 'Riwayat Fisik', desc: 'Hapus riwayat penyelesaian latihan fisik', icon: 'fitness', color: 'var(--amber)', fn: () => setExDone({}) },
-    { id: 'diary', label: 'Audit & AI History', desc: 'Hapus permanen semua evaluasi diri', icon: 'diary', color: 'var(--red)', fn: () => setDiary([]) }
+    { 
+      id: 'all', 
+      label: 'RESET TOTAL PROGRESS (KICKOFF 12 OKT 2026)', 
+      desc: 'Nolkan seluruh checklist habits, latihan fisik, silabus belajar, dan riwayat untuk memulai fresh dari 12 Oktober 2026', 
+      icon: 'fire', 
+      color: 'var(--red)', 
+      fn: resetAll 
+    },
+    { id: 'toeflprog', label: 'Progress Modul Belajar', desc: 'Hapus semua checklist modul & materi belajar', icon: 'book', color: 'var(--purple)', fn: () => { setToeflProg({}); if (setToeflDaily) setToeflDaily({}); } },
+    { id: 'habits', label: 'Daily Habits', desc: 'Hapus riwayat checklist aktivitas harian', icon: 'habits', color: 'var(--green)', fn: () => setHabitLog({}) },
+    { id: 'exdone', label: 'Riwayat Latihan Fisik', desc: 'Hapus riwayat penyelesaian latihan fisik', icon: 'fitness', color: 'var(--amber)', fn: () => setExDone({}) },
+    { id: 'tryouts', label: 'Evaluasi & Benchmark', desc: 'Kosongkan data benchmark performa', icon: 'award', color: 'var(--cyan)', fn: () => { if (setTryouts) setTryouts([]); } },
+    { id: 'diary', label: 'Audit & AI History', desc: 'Hapus permanen semua evaluasi diri & jurnal', icon: 'diary', color: 'var(--red)', fn: () => setDiary([]) }
   ];
 
   return (
@@ -139,9 +170,9 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
   const savePhase = (d: any) => {
     if (d.isNew) {
       const np: ToeflPhase = {
-        id: `cpns_${Date.now()}`,
+        id: `modul_${Date.now()}`,
         title: d.title,
-        category: d.category || 'TWK',
+        category: d.category || 'FOUNDATION',
         desc: d.desc || '',
         color: d.color || '#a855f7',
         items: []
@@ -154,7 +185,7 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
   };
 
   const delPhase = (id: string) => {
-    setConfirmDialog({ type: 'delete_phase', id, title: 'Hapus Modul CPNS?', desc: 'Modul materi ini akan dihapus secara permanen.' });
+    setConfirmDialog({ type: 'delete_phase', id, title: 'Hapus Modul Belajar?', desc: 'Modul materi ini akan dihapus secara permanen.' });
   };
 
   const execDelPhase = (id: string) => {
@@ -209,12 +240,12 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div className="between">
         <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-          Daftar Modul & Silabus SKD CPNS
+          Daftar Modul & Silabus Belajar
         </span>
         <button
           className="btn btn-purple"
           style={{ padding: '6px 14px', fontSize: 12 }}
-          onClick={() => setEditPhase({ isNew: true, title: '', category: 'TWK', desc: '', color: '#a855f7' })}
+          onClick={() => setEditPhase({ isNew: true, title: '', category: 'FOUNDATION', desc: '', color: '#a855f7' })}
         >
           + Tambah Modul
         </button>
@@ -323,7 +354,7 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
       )}
 
       {editPhase && (
-        <Modal open={!!editPhase} onClose={() => setEditPhase(null)} title={editPhase.isNew ? 'Tambah Modul CPNS' : 'Edit Modul CPNS'}>
+        <Modal open={!!editPhase} onClose={() => setEditPhase(null)} title={editPhase.isNew ? 'Tambah Modul Belajar' : 'Edit Modul Belajar'}>
           <form
             onSubmit={e => {
               e.preventDefault();
@@ -332,17 +363,17 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
             style={{ display: 'flex', flexDirection: 'column', gap: 14 }}
           >
             <div>
-              <span className="label">Kategori SKD</span>
+              <span className="label">Kategori Modul</span>
               <select
-                value={editPhase.category || 'TWK'}
+                value={editPhase.category || 'FOUNDATION'}
                 onChange={e => setEditPhase({ ...editPhase, category: e.target.value })}
                 className="inp"
               >
-                <option value="TWK">TWK (Tes Wawasan Kebangsaan)</option>
-                <option value="TIU">TIU (Tes Inteligensia Umum)</option>
-                <option value="TKP">TKP (Tes Karakteristik Pribadi)</option>
-                <option value="STRATEGY">Strategi & Manajemen Waktu</option>
-                <option value="TRYOUT">Simulasi & Tryout SKD</option>
+                <option value="FOUNDATION">Fondasi & Arsitektur Fokus</option>
+                <option value="ANALYTICAL">Penalaran & Problem Solving</option>
+                <option value="TECHNICAL">Eksekusi Teknis & Tools</option>
+                <option value="STRATEGY">Strategi & Komunikasi</option>
+                <option value="CAPSTONE">Proyek Flagship & Milestone</option>
               </select>
             </div>
             <div>
@@ -352,7 +383,7 @@ const CpnsSilabusMgr: React.FC<{ toeflData: ToeflPhase[]; setToeflData: React.Di
                 onChange={e => setEditPhase({ ...editPhase, title: e.target.value })}
                 className="inp"
                 required
-                placeholder="Contoh: TWK - Pilar Negara & UUD 1945"
+                placeholder="Contoh: Fondasi Deep Work & Arsitektur Fokus"
               />
             </div>
             <div>
@@ -542,11 +573,33 @@ const WorkoutMgr: React.FC<{ workout: WorkoutSchedule; setWorkout: React.Dispatc
         </div>
       </div>
 
-      <div className="between" style={{ marginTop: 8 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 12 }}>
+        <div>
+          <span className="label">Target Waktu (Durasi)</span>
+          <input value={day.targetTime || ''} onChange={e => saveMeta('targetTime', e.target.value)} className="inp" placeholder="35–45 menit..." />
+        </div>
+        <div>
+          <span className="label">Catatan & Panduan Fisioterapi</span>
+          <input value={day.notes || ''} onChange={e => saveMeta('notes', e.target.value)} className="inp" placeholder="Panduan form dan catatan fisioterapis..." />
+        </div>
+      </div>
+
+      <div className="between" style={{ marginTop: 8, flexWrap: 'wrap', gap: 8 }}>
         <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
           Gerakan Utama ({exercises.length})
         </span>
         <div style={{ display: 'flex', gap: 8 }}>
+          <button 
+            className="btn btn-ghost" 
+            style={{ padding: '6px 12px', fontSize: 12, color: 'var(--cyan)' }} 
+            onClick={() => {
+              if (confirm('Kembalikan seluruh jadwal fisik ke protokol baru (Back A, Leg Day, Back B, Chest/Shoulder/Arms)?')) {
+                setWorkout(DEFAULT_WORKOUT);
+              }
+            }}
+          >
+            Reset Jadwal Baru
+          </button>
           <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 12, color: 'var(--blue-hover)' }} onClick={() => setEditEx({ isNew: true, isBulk: true, dayKey: activeDay })}>
             <Icon name="sparkles" size={14} /> AI Bulk Import
           </button>
@@ -717,7 +770,7 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
   };
 
   const delTask = (i: number) => {
-    setConfirmDialog({ index: i, title: 'Hapus Task?', desc: 'Task belajar ini akan dihapus dari jadwal CPNS.' });
+    setConfirmDialog({ index: i, title: 'Hapus Task?', desc: 'Task belajar ini akan dihapus dari jadwal belajar.' });
   };
 
   const execDelTask = (i: number) => {
@@ -745,12 +798,12 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <span className="label">Fokus Belajar CPNS</span>
-          <input value={day.type || ''} onChange={e => saveMeta('type', e.target.value)} className="inp" placeholder="TWK & TIU..." />
+          <span className="label">Fokus Belajar & Deep Work</span>
+          <input value={day.type || ''} onChange={e => saveMeta('type', e.target.value)} className="inp" placeholder="Deep Work & Systems..." />
         </div>
         <div>
           <span className="label">Detail Sub-Fokus</span>
-          <input value={day.focus || ''} onChange={e => saveMeta('focus', e.target.value)} className="inp" placeholder="Pancasila & Deret Angka..." />
+          <input value={day.focus || ''} onChange={e => saveMeta('focus', e.target.value)} className="inp" placeholder="Arsitektur & Problem Solving..." />
         </div>
       </div>
 
@@ -763,12 +816,12 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
             className="btn btn-ghost"
             style={{ padding: '6px 10px', fontSize: 11, color: 'var(--red)' }}
             onClick={() => {
-              if (window.confirm('Reset seluruh jadwal CPNS ke Protokol Ekstrem (Target 450+)?')) {
+              if (window.confirm('Reset seluruh jadwal belajar ke Protokol Ekstrem?')) {
                 setToeflSched(DEFAULT_TOEFL_SCHEDULE);
               }
             }}
           >
-            ⚡ Template Ekstrem 450+
+            ⚡ Template Ekstrem
           </button>
           <button className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: 12, color: 'var(--purple)' }} onClick={() => setEditTask({ isNew: true, isBulk: true, dayKey: activeDay })}>
             <Icon name="sparkles" size={14} /> AI Bulk Import
@@ -797,7 +850,7 @@ const ToeflMgr: React.FC<{ toeflSched: ToeflSchedule; setToeflSched: React.Dispa
       </div>
 
       {editTask && (
-        <Modal open={!!editTask} onClose={() => setEditTask(null)} title={editTask.isBulk ? `AI Bulk Import CPNS — ${activeDay}` : editTask.isNew ? `Tambah Misi CPNS — ${activeDay}` : 'Edit Misi Belajar'}>
+        <Modal open={!!editTask} onClose={() => setEditTask(null)} title={editTask.isBulk ? `AI Bulk Import Jadwal Belajar — ${activeDay}` : editTask.isNew ? `Tambah Misi Belajar — ${activeDay}` : 'Edit Misi Belajar'}>
           {editTask.isBulk ? (
             <BulkToeflTaskForm init={editTask} onSave={saveTask} onClose={() => setEditTask(null)} />
           ) : (
@@ -838,7 +891,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text, type: 'toefl' })
       });
-      if (!res.ok) throw new Error('Failed to bulk parse CPNS task');
+      if (!res.ok) throw new Error('Failed to bulk parse study task');
       const data = await res.json();
       onSave({ ...init, bulkItems: data.result || [], isBulk: true });
     } catch (e: any) {
@@ -853,7 +906,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
     <form onSubmit={sub} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {err && <div style={{ color: 'var(--red)', fontSize: 13, background: 'rgba(225,29,72,0.1)', padding: 12, borderRadius: 8 }}>{err}</div>}
       <div>
-        <span className="label">Paste Daftar Misi Belajar CPNS Mentah</span>
+        <span className="label">Paste Daftar Misi Belajar Mentah</span>
         <div style={{ fontSize: 12, color: 'var(--text3)', marginBottom: 8 }}>
           Friday akan mengurai jadwal belajarmu menjadi Nama Tugas, Instruksi Spesifik, dan Estimasi Durasi (misal: 15m, 30m).
         </div>
@@ -862,7 +915,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
           onChange={e => setText(e.target.value)}
           className="inp"
           style={{ minHeight: 220, whiteSpace: 'pre-wrap', lineHeight: 1.6 }}
-          placeholder="Contoh:&#10;Latihan 30 Soal TWK Pancasila (20 menit)&#10;Hafal 10 Pasal UUD 1945&#10;Kerjakan 25 Soal TIU Silogisme"
+          placeholder="Contoh:&#10;Deep Work 90 Menit Arsitektur Sistem&#10;Drill 5 Studi Kasus Problem Solving (45m)&#10;Sintesis Esai Teknis & Ringkasan (30m)"
           required
         />
       </div>
@@ -870,7 +923,7 @@ const BulkToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onCl
         <button type="button" onClick={onClose} className="btn btn-ghost" style={{ flex: 1 }} disabled={loading}>Batal</button>
         <button type="submit" className="btn btn-purple" style={{ flex: 2 }} disabled={loading}>
           {loading ? <span className="spin-it"><Icon name="loader" /></span> : <Icon name="sparkles" />}
-          {loading ? ' Memproses Jadwal CPNS...' : ' AI Eksekusi Import'}
+          {loading ? ' Memproses Jadwal Belajar...' : ' AI Eksekusi Import'}
         </button>
       </div>
     </form>
@@ -891,12 +944,12 @@ const ToeflTaskForm: React.FC<{ init: any; onSave: (data: any) => void; onClose:
     <form onSubmit={sub} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
         <span className="label">Nama Misi Belajar</span>
-        <input value={name} onChange={e => setName(e.target.value)} className="inp" required placeholder="Latihan 30 Soal TIU Berhitung Cepat..." />
+        <input value={name} onChange={e => setName(e.target.value)} className="inp" required placeholder="Contoh: Sesi Deep Work 90 Menit Arsitektur Sistem..." />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
           <span className="label">Instruksi / Catatan</span>
-          <input value={detail} onChange={e => setDetail(e.target.value)} className="inp" required placeholder="Gunakan trik penyederhanaan pecahan..." />
+          <input value={detail} onChange={e => setDetail(e.target.value)} className="inp" required placeholder="Fokus tanpa distraksi, catat intisari ke Second Brain..." />
         </div>
         <div>
           <span className="label">Durasi Waktu</span>

@@ -1,6 +1,6 @@
 {
   "name": "Monk Mode - Brutal Transformation",
-  "description": "A comprehensive 214-day Monk Mode tracking application featuring real-time data sync, daily activity habits, fitness protocols, CPNS SKD mastery roadmap & study planner, and AI-powered Friday Assistant.",
+  "description": "A comprehensive 81-day Monk Mode tracking application starting October 12, 2026 with deadline until end of 2026, featuring real-time data sync, daily activity habits, fitness protocols, deep work mastery roadmap & study planner, and AI-powered Friday Assistant.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

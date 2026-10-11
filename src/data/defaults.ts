@@ -2,7 +2,7 @@ import { HabitDefinition, RoadmapPhase, ToeflPhase, ToeflSchedule, WorkoutSchedu
 
 export const HABITS: HabitDefinition[] = [
   { id: 'nojunkfood', label: 'No Junkfood', color: '#10b981', iconName: 'warn', description: 'Bersih dari makanan olahan & gula berlebih' },
-  { id: 'toefl', label: 'Belajar CPNS (SKD)', color: '#8b5cf6', iconName: 'book', description: 'Protokol Ekstrem: Target Skor 450+, Drill 50-80 Soal/Hari, Speed TIU & Mindset TKP 200+' },
+  { id: 'toefl', label: 'Deep Work & Study', color: '#8b5cf6', iconName: 'book', description: 'Protokol Ekstrem: 4–6 Jam Deep Work, High-Income Skills & Problem Solving' },
   { id: 'workout', label: 'Workout', color: '#f59e0b', iconName: 'fitness', description: 'Disiplin latihan fisik & terapi scapular' },
   { id: 'nofap', label: 'NoFap', color: '#0ea5e9', iconName: 'lock', description: 'Fokus energi & retensi vitalitas penuh' },
 ];
@@ -11,80 +11,75 @@ export const DEFAULT_ROADMAP: RoadmapPhase[] = [];
 
 export const DEFAULT_TOEFL: ToeflPhase[] = [
   {
-    id: 'cpns_twk',
-    title: 'TWK (Tes Wawasan Kebangsaan)',
-    week: '1–2',
-    desc: 'Penguasaan 30 Soal TWK (Target Ekstrem 110–125/150): Bedah 45 Butir Pancasila, UUD 1945 Amandemen I–IV, Tata Negara, Sejarah Tokoh Bangsa, Bela Negara HOTS, Integritas ASN, & PUEBI.',
+    id: 'deep_work_foundations',
+    title: 'Fondasi Deep Work & Arsitektur Fokus',
+    week: '1–4',
+    desc: 'Penguasaan protokol fokus tanpa distraksi, time-boxing 90 menit, dopamine reset, dan peningkatan kapasitas kognitif harian.',
     color: '#8b5cf6',
     items: [
-      { id: 'twk_01', title: 'Pancasila: Sejarah BPUPKI/PPKI, Piagam Jakarta, Kedudukan Dasar Negara & 45 Butir Pengamalan Sila I–V (TAP MPR I/2003)' },
-      { id: 'twk_02', title: 'UUD NRI 1945: Struktur Pembukaan, Batang Tubuh, Pasal Kunci & Hasil Amandemen I (1999) s/d IV (2002)' },
-      { id: 'twk_03', title: 'Lembaga Negara & Sistem Tata Negara: Wewenang MPR, DPR, DPD, Presiden, BPK, MA, MK, KY' },
-      { id: 'twk_04', title: 'NKRI & Wawasan Nusantara: Batas Wilayah, Deklarasi Djuanda, Geopolitik & Tokoh Pahlawan Nasional' },
-      { id: 'twk_05', title: 'Bhinneka Tunggal Ika: Asal Usul Kitab Sutasoma, Integrasi Nasional & Manajemen Konflik Sosial Budaya' },
-      { id: 'twk_06', title: 'Bela Negara & Nasionalisme HOTS: Unsur Dasar Bela Negara, Patriotisme, & Penerapan di Era Modern' },
-      { id: 'twk_07', title: 'Integritas ASN, Core Values BerAKHLAK, Gratifikasi, Delik Korupsi & Penegakan Hukum KPK' },
-      { id: 'twk_08', title: 'Bahasa Indonesia SKD: PUEBI, Kalimat Efektif, Paragraf Deduktif/Induktif & Penarikan Gagasan Pokok' }
+      { id: 'fw_01', title: 'Protokol Deep Work 90 Menit: Eliminasi Distraksi Kontekstual & Monotasking Ketat' },
+      { id: 'fw_02', title: 'Dopamine Reset & Pengendalian Impuls Notifikasi dan Scrolling Digital' },
+      { id: 'fw_03', title: 'Arsitektur Second Brain & Sistem Catatan Zettelkasten untuk Retensi Informasi' },
+      { id: 'fw_04', title: 'Metode Feynman: Dekonstruksi Konsep Rumit Menjadi Bahasa Sederhana' },
+      { id: 'fw_05', title: 'Optimalisasi Ritme Sirkadian, Kualitas Tidur & Energi Mental untuk Belajar' },
+      { id: 'fw_06', title: 'Speed Reading & Ekstraksi Intisari Buku dan Literatur Teknis' }
     ]
   },
   {
-    id: 'cpns_tiu',
-    title: 'TIU (Tes Inteligensia Umum)',
-    week: '3–4',
-    desc: 'Penguasaan 35 Soal TIU (Target Ekstrem 150–165/175): Speed Hitung Cepat < 40 Detik/Soal, Deret Angka Multitingkat, Silogisme Negasi Kompleks, Logika Posisi, Soal Cerita Aljabar & Figural 9 Kotak.',
+    id: 'analytical_mastery',
+    title: 'Penalaran Analitis & Problem Solving',
+    week: '5–8',
+    desc: 'Pengembangan logika tajam, pemikiran prinsip pertama (first principles), matematika intuitif, dan dekonstruksi masalah kompleks.',
     color: '#3b82f6',
     items: [
-      { id: 'tiu_01', title: 'Kemampuan Verbal: Analogi Kata Tingkat Lanjut, Hubungan Semantik Kompleks & Antonim/Sinonim' },
-      { id: 'tiu_02', title: 'Kemampuan Verbal: Silogisme Tingkat Lanjut (Semua/Sebagian, Premis Implisit, Modus Ponens/Tollens & Negasi)' },
-      { id: 'tiu_03', title: 'Kemampuan Verbal: Penalaran Analitis Urutan Posisi, Pemetaan Tabel Kombinasi & Rute Transit' },
-      { id: 'tiu_04', title: 'Kemampuan Numerik: Trik Hitung Cepat Tanpa Coretan, Pecahan Istimewa, Desimal & Persentase Kilat' },
-      { id: 'tiu_05', title: 'Kemampuan Numerik: Deret Angka Lompat 2-3 Tingkat, Deret Huruf & Deret Pola Fibonacci' },
-      { id: 'tiu_06', title: 'Kemampuan Numerik: Soal Cerita Aljabar Jarak, Kecepatan, Waktu Berpapasan & Menyusul' },
-      { id: 'tiu_07', title: 'Kemampuan Numerik: Perbandingan Senilai, Berbalik Nilai, & Rumus Pekerja Bersama/Terhenti' },
-      { id: 'tiu_08', title: 'Kemampuan Numerik: Aritmatika Sosial Tingkat Lanjut (Untung/Rugi, Diskon Ganda, Bunga Tunggal & Pajak)' },
-      { id: 'tiu_09', title: 'Kemampuan Figural: Analogi Bentuk, Ketidaksamaan Pola, & Serial Rotasi 9 Kotak Speed Run' }
+      { id: 'an_01', title: 'First Principles Thinking: Mengurai Masalah ke Elemen Paling Mendasar' },
+      { id: 'an_02', title: 'Logika Formal & Penalaran Kritis: Deduktif, Induktif & Deteksi Bias Kognitif' },
+      { id: 'an_03', title: 'Intuisi Matematika Cepat: Estimasi Kasus & Perhitungan Probabilitas Praktis' },
+      { id: 'an_04', title: 'Struktur Pemecahan Masalah 5-Whys dan Analisis Akar Masalah (Root Cause)' },
+      { id: 'an_05', title: 'Analisis Data & Interpretasi Pola: Mengubah Angka Menjadi Keputusan Strategis' },
+      { id: 'an_06', title: 'Model Mental Pengambilan Keputusan: Pareto 80/20, Inversi, & Second-Order Thinking' }
     ]
   },
   {
-    id: 'cpns_tkp',
-    title: 'TKP (Tes Karakteristik Pribadi)',
-    week: '5–6',
-    desc: 'Penguasaan 45 Soal TKP (Target Ekstrem 210–220/225): Mindset Skor 5 Tanpa Kompromi (Zero Tolerance Skor ≤ 3) pada Pelayanan Publik, Integritas ASN, Anti-Radikalisme, & TIK Digital.',
+    id: 'technical_execution',
+    title: 'Eksekusi Teknis & High-Income Skills',
+    week: '9–14',
+    desc: 'Penguasaan keterampilan teknis bernilai tinggi, otomatisasi alur kerja, penguasaan tools modern, dan arsitektur sistem.',
     color: '#10b981',
     items: [
-      { id: 'tkp_01', title: 'Pelayanan Publik Ekstrem: Mindset Cepat, Ramah, Solutif Tanpa Menunda, & Zero Pungli (Kunci Poin 5)' },
-      { id: 'tkp_02', title: 'Jejaring Kerja & Kolaborasi: Komunikasi Efektif, Sinergi Lintas Sektoral, & Kepemimpinan Solutif' },
-      { id: 'tkp_03', title: 'Sosial Budaya & Adaptasi: Menghargai Keberagaman, Inklusif, Anti Diskriminasi, & Manajemen Stres Kerja' },
-      { id: 'tkp_04', title: 'Teknologi Informasi & Komunikasi (TIK): Efisiensi Digital, Inovasi Otomasi, & Adaptasi Sistem Baru' },
-      { id: 'tkp_05', title: 'Profesionalisme & Integritas: Tanggung Jawab Tuntas, Memisahkan Urusan Pribadi, & Komitmen Jam Kerja ASN' },
-      { id: 'tkp_06', title: 'Anti Radikalisme & Netralitas ASN: Moderasi Beragama, Deteksi Dini Intoleransi, & Kesetiaan Mutlak NKRI' }
+      { id: 'tc_01', title: 'Penguasaan Core Technology Stack & Algoritma Efisien' },
+      { id: 'tc_02', title: 'Automasi Alur Kerja Berulang & Scripting Efisiensi Tinggi' },
+      { id: 'tc_03', title: 'Prinsip Arsitektur Modular, Clean Code & Desain Sistem Skalabel' },
+      { id: 'tc_04', title: 'Version Control, Git Best Practices & Manajemen Siklus Proyek' },
+      { id: 'tc_05', title: 'Troubleshooting & Root Cause Analysis Terstruktur di Bawah Tekanan' },
+      { id: 'tc_06', title: 'Refactoring & Optimalisasi Performa Eksekusi Sistem' }
     ]
   },
   {
-    id: 'cpns_strategi',
-    title: 'Strategi CAT & Fast Trik SKD',
-    week: '7–8',
-    desc: 'Teknik Ekstrem Manajemen Waktu 100 Menit untuk 110 Soal: Urutan TKP (45 dtk) → TWK (35 dtk) → TIU (50 dtk), Eliminasi Opsi Salah, & Skimming Cepat.',
+    id: 'strategic_output',
+    title: 'Komunikasi Strategis & Sintesis Output',
+    week: '15–18',
+    desc: 'Kemampuan mengartikulasikan ide kompleks, penulisan teknis tajam, dokumentasi berkualitas tinggi, dan kepemimpinan strategis.',
     color: '#f59e0b',
     items: [
-      { id: 'str_01', title: 'Manajemen Waktu CAT Ekstrem: 100 Menit untuk 110 Soal (Rata-rata 45-50 Detik per Butir Soal)' },
-      { id: 'str_02', title: 'Protokol Urutan Eksekusi Terbaik: TKP (45 soal ~ 30m) → TWK (30 soal ~ 20m) → TIU (35 soal ~ 40m) + Sisa 10m Review' },
-      { id: 'str_03', title: 'Trik Cepat Eliminasi Pilihan Pengecoh & Teknik Skimming Paragraf Panjang' },
-      { id: 'str_04', title: 'Pola Mindset Poin 5 TKP: Kata Kunci Integritas, Empati Aktif & Orientasi Pelayanan Tanpa Syarat' },
-      { id: 'str_05', title: 'Rumus Cepat Instan TIU: Pecahan Istimewa, Pola Deret Kilat, & Perbandingan Pekerja' }
+      { id: 'st_01', title: 'High-Impact Technical Writing: Penulisan Jelas, Padat & Berorientasi Solusi' },
+      { id: 'st_02', title: 'Sintesis Pengetahuan & Penyusunan Dokumen Ringkas Tingkat Eksekutif' },
+      { id: 'st_03', title: 'Penyampaian Presentasi & Artikulasi Ide Tanpa Catatan' },
+      { id: 'st_04', title: 'Negosiasi, Manajemen Ekspektasi & Komunikasi Tim Efektif' },
+      { id: 'st_05', title: 'Penyusunan Spesifikasi Solusi Teknis & Action Plan Terukur' }
     ]
   },
   {
-    id: 'cpns_tryout',
-    title: 'Simulasi CAT & Tryout SKD Mandiri',
-    week: '9–10',
-    desc: 'Simulasi Real 110 Soal Timer 100 Menit dengan Target Ekstrem Lolos Ranking 1 Formasi (Skor Aman 450+).',
+    id: 'capstone_mastery',
+    title: 'Proyek Flagship & Audit Capstone 2026',
+    week: '19–22',
+    desc: 'Pembangunan proyek nyata skala penuh, simulasi beban kerja realistis, benchmark performa, dan evaluasi pencapaian akhir tahun 2026.',
     color: '#ec4899',
     items: [
-      { id: 'try_01', title: 'Tryout Mandiri SKD Paket 1 (110 Soal) & Evaluasi Passing Grade Ketat' },
-      { id: 'try_02', title: 'Tryout Mandiri SKD Paket 2 (110 Soal) & Analisis Kelemahan Sub-Tes' },
-      { id: 'try_03', title: 'Tryout CAT SKD Paket 3 & Simulasi Realistis Waktu 100 Menit Standar BKN' },
-      { id: 'try_04', title: 'Review Mendalam Bank Soal Error & Pemantapan Mental Juara 1 Formasi' }
+      { id: 'cp_01', title: 'Perancangan & Eksekusi Proyek Flagship Tahap 1: Arsitektur & Prototype' },
+      { id: 'cp_02', title: 'Implementasi Intensif, Integrasi Modul & Pengetesan Menyeluruh' },
+      { id: 'cp_03', title: 'Simulasi Marathon Deep Work Penuh & Penanganan Tantangan Ekstrem' },
+      { id: 'cp_04', title: 'Finalisasi Proyek Flagship, Dokumentasi Lengkap & Refleksi Protokol 2026' }
     ]
   }
 ];
@@ -101,140 +96,156 @@ export const SCAPULAR: Exercise[] = [
 
 export const DEFAULT_WORKOUT: WorkoutSchedule = {
   'Senin': {
-    type: 'Push Day', focus: 'Dada, Bahu, Trisep',
+    type: 'Back A',
+    focus: 'Punggung & Postur (Upper Back Focus)',
+    targetTime: 'Maksimal 45 menit (termasuk pemanasan)',
+    notes: 'Mulailah dengan beban ringan. Pada Seated Cable Row, tarik pegangan ke arah badan tanpa menyentak atau mengangkat bahu. Pada Lat Pulldown, tarik ke arah dada bagian atas tanpa menarik palang ke belakang kepala. Chest-Supported Row mengurangi kebutuhan untuk menahan posisi badan dengan otot punggung bawah. Reverse Pec Deck melatih bahu belakang, tetapi gerakan ini tetap harus disesuaikan jika memicu ketegangan di sekitar belikat atau leher. Catatan: empat gerakan ini merupakan pilihan awal, bukan daftar wajib. Jika salah satu gerakan menambah keluhan, hentikan gerakan tersebut dan minta fisioterapismu menentukan penggantinya.',
     exercises: [
-      { name: 'Incline Dumbbell Press', detail: '3 x 10–12', target: 'Dada Atas', category: 'primary' },
-      { name: 'Pec Fly Machine', detail: '2 x 15', target: 'Dada', category: 'primary' },
-      { name: 'Shoulder Press DB', detail: '3 x 10–12', target: 'Bahu', category: 'primary' },
-      { name: 'Tricep Pushdown', detail: '3 x 12', target: 'Trisep', category: 'primary' },
-      { name: 'Cable Row', detail: '3 x 12-15', target: 'Punggung', category: 'primary' },
-      { name: 'Seated Cable Serratus Punches', detail: '2 x 15', target: 'Serratus', category: 'primary' },
-      { name: 'Face Pulls', detail: '2 x 10', target: 'Bahu Belakang', category: 'primary' }
+      { name: 'Seated Cable Row', detail: '2 set x 10–12 reps', target: 'Punggung Tengah / Lats', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Lat Pulldown Machine', detail: '2 set x 10–12 reps', target: 'Latissimus Dorsi', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Chest-Supported Row Machine', detail: '2 set x 10–12 reps', target: 'Rhomboids & Mid Back', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Reverse Pec Deck Machine', detail: '2 set x 12–15 reps', target: 'Rear Deltoid & Postur', sets: 2, reps: '12–15', category: 'primary' }
     ]
   },
   'Selasa': {
-    type: 'Core', focus: 'Otot Inti & Stabilitas',
+    type: 'Leg Day',
+    focus: 'Paha Depan, Paha Belakang, Pinggul & Betis',
+    targetTime: '35–45 menit',
+    notes: 'Program ini melatih paha depan, paha belakang, pinggul, dan betis tanpa mengharuskanmu melakukan banyak gerakan rumit. Pastikan posisi punggung tetap nyaman pada Leg Press dan jangan menurunkan beban terlalu dalam jika panggul mulai terangkat dari sandaran.',
     exercises: [
-      { name: 'Dead Bug', detail: '3 x 10–12', target: 'Deep Core', category: 'primary' },
-      { name: 'Bird Dog', detail: '3 x 10', target: 'Stabilitas', category: 'primary' },
-      { name: 'Plank Siku', detail: '3 x 30–45 detik', target: 'Core', category: 'primary' }
+      { name: 'Leg Press Machine', detail: '3 set x 10–12 reps', target: 'Quadriceps & Glutes', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Leg Extension Machine', detail: '2 set x 12–15 reps', target: 'Quadriceps Isolasi', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Seated Leg Curl Machine', detail: '3 set x 10–15 reps', target: 'Hamstrings', sets: 3, reps: '10–15', category: 'primary' },
+      { name: 'Hip Abductor Machine', detail: '2 set x 12–15 reps', target: 'Gluteus Medius / Pinggul', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Seated Calf Raise Machine', detail: '2 set x 12–20 reps', target: 'Betis (Calves)', sets: 2, reps: '12–20', category: 'primary' }
     ]
   },
   'Rabu': {
-    type: 'Leg Day', focus: 'Paha & Gluteus',
+    type: 'Rest & Recovery',
+    focus: 'Pemulihan Otot & Mobilitas Sendi',
+    targetTime: '20–30 menit santai',
+    notes: 'Hari istirahat aktif untuk membiarkan otot dan sistem saraf beradaptasi. Lakukan peregangan ringan dan hidrasi yang cukup.',
     exercises: [
-      { name: 'Goblet Squat', detail: '3 x 10–12', target: 'Paha', category: 'primary' },
-      { name: 'Bulgarian Split Squat', detail: '3 x 8–10', target: 'Kaki', category: 'primary' },
-      { name: 'Leg Curl Machine', detail: '3 x 12', target: 'Paha Belakang', category: 'primary' },
-      { name: 'Leg Extension', detail: '3 x 12', target: 'Paha Depan', category: 'primary' },
-      { name: 'Cable Row', detail: '3 x 12-15', target: 'Scapular', category: 'primary' },
-      { name: 'Seated Cable Punch', detail: '3 x 15', target: 'Scapular', category: 'primary' },
-      { name: 'Cable Seated Puch Serratus', detail: '3 x 15', target: 'Scapular', category: 'primary' },
-      { name: 'Face Pulls', detail: '3 x 15', target: 'Scapular', category: 'primary' }
+      { name: 'Mobilitas Panggul & Hamstring Ringan', detail: '10–15 menit peregangan lembut', target: 'Fleksibilitas Sendi', category: 'primary' },
+      { name: 'Jalan Kaki Santai (Brisk Walk)', detail: '15–20 menit intensitas ringan', target: 'Sirkulasi Darah Aktif', category: 'primary' }
     ]
   },
   'Kamis': {
-    type: 'Core', focus: 'Otot Inti & Stabilitas',
+    type: 'Back B',
+    focus: 'Punggung Variasi Tarikan & Bahu Belakang',
+    targetTime: '35–45 menit',
+    notes: 'Sesi ini menggunakan variasi tarikan, tetapi volumenya tetap rendah. Tidak perlu menambah Straight-Arm Pulldown, Shrug berat, atau Face Pull terlebih dahulu. Gerakan-gerakan tambahan tersebut dapat dipertimbangkan setelah fisioterapismu menilai respons tubuhmu. Karena keluhanmu juga muncul ketika berlari dan tidur, jangan menganggap semua ketegangan pasti berasal dari kelemahan otot back. Program latihan umum tidak dapat menentukan penyebabnya.',
     exercises: [
-      { name: 'Dead Bug', detail: '3 x 10–12', target: 'Deep Core', category: 'primary' },
-      { name: 'Bird Dog', detail: '3 x 10', target: 'Stabilitas', category: 'primary' }
+      { name: 'Neutral-Grip Lat Pulldown', detail: '2 set x 10–12 reps', target: 'Lats & Teres Major', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Chest-Supported Row Machine', detail: '2 set x 10–12 reps', target: 'Mid-Back & Scapular Stability', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Seated Cable Row (Beban Ringan)', detail: '2 set x 12–15 reps', target: 'Punggung Kontrol Penuh', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Reverse Pec Deck Machine', detail: '2 set x 12–15 reps', target: 'Rear Deltoid & Postur', sets: 2, reps: '12–15', category: 'primary' }
     ]
   },
   'Jumat': {
-    type: 'Pull Day', focus: 'Punggung & Bisep',
+    type: 'Rest & Recovery',
+    focus: 'Dekompresi Tulang Belakang & Relaksasi',
+    targetTime: '15–25 menit santai',
+    notes: 'Fokus pada relaksasi leher, bahu, dan belikat. Lakukan teknik pernapasan dan peregangan tulang belakang yang aman.',
     exercises: [
-      { name: 'Lat Pulldown', detail: '3 x 10–12', target: 'Lats', category: 'primary' },
-      { name: 'Seated Cable Row', detail: '3 x 10–12', target: 'Punggung Tengah', category: 'primary' },
-      { name: 'One Arm DB Row', detail: '3 x 10', target: 'Punggung', category: 'primary' },
-      { name: 'Hammer Curl', detail: '3 x 12', target: 'Bisep', category: 'primary' },
-      { name: 'Seated Cable Punch Serratus', detail: '3 x 15', target: 'Scapular', category: 'primary' },
-      { name: 'Face Pulls', detail: '3 x 15', target: 'Scapular', category: 'primary' }
+      { name: 'Dekompresi Tulang Belakang & Spine Stretch', detail: '10–15 menit relaksasi', target: 'Punggung & Relaksasi Saraf', category: 'primary' },
+      { name: 'Latihan Pernapasan Diafragma', detail: '5–10 menit pernapasan tenang', target: 'Regulasi Sistem Saraf', category: 'primary' }
     ]
   },
   'Sabtu': {
-    type: 'Core', focus: 'Otot Inti & Abs',
+    type: 'Chest, Shoulder & Arms',
+    focus: 'Dada, Bahu Samping & Bisep',
+    targetTime: '35–45 menit',
+    notes: 'Latihan mesin terkontrol untuk dada, bahu, dan lengan. Jaga postur leher tetap rileks, hindari mengunci sendi atau menyentak beban.',
     exercises: [
-      { name: 'Dead Bug', detail: '3 x 10–12', target: 'Core', category: 'primary' },
-      { name: 'Plank Siku', detail: '3 x 40–60 detik', target: 'Core', category: 'primary' }
+      { name: 'Chest Press Machine', detail: '3 set x 8–12 reps', target: 'Dada (Pectoralis)', sets: 3, reps: '8–12', category: 'primary' },
+      { name: 'Incline Chest Press Machine', detail: '2 set x 10–12 reps', target: 'Dada Bagian Atas', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Dumbbell Lateral Raise', detail: '2 set x 12–15 reps', target: 'Bahu Samping (Lateral Delt)', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Biceps Curl Machine', detail: '2 set x 10–15 reps', target: 'Bisep (Biceps Brachii)', sets: 2, reps: '10–15', category: 'primary' }
     ]
   },
   'Minggu': {
-    type: 'Rest Day', focus: 'Pemulihan',
+    type: 'Rest Day',
+    focus: 'Pemulihan Total & Deep Sleep',
+    targetTime: 'Sepanjang Hari',
+    notes: 'Hari pemulihan total tanpa beban. Optimalkan tidur malam minimal 8–9 jam untuk regenerasi otot dan stabilitas tubuh.',
     exercises: [
-      { name: 'Full Sleep', detail: '9 jam', target: 'Pemulihan', category: 'primary' }
+      { name: 'Deep Sleep & Istirahat Total', detail: '8–9 jam tidur lelap', target: 'Regenerasi Jaringan & Hormon', category: 'primary' }
     ]
   },
 };
 
 export const DEFAULT_TOEFL_SCHEDULE: ToeflSchedule = {
   'Senin': {
-    type: 'TWK Hardcore & Penalaran HOTS',
-    focus: 'Target TWK 110+ — UUD 1945 Amandemen I–IV & 45 Butir Pancasila',
+    type: 'Deep Work: Core Systems & Arsitektur Fondasi',
+    focus: 'Fokus Blok Pagi — Deep Dive Konsep Inti & Implementasi Dasar',
     tasks: [
-      { name: 'Bedah 45 Butir Pancasila & Pasal Kunci UUD 1945', detail: 'Hafalan pasal amandemen, lembaga negara, & butir TAP MPR I/2003', time: '25m' },
-      { name: 'Speed Drill 30 Soal TWK HOTS (Timer 20 Menit)', detail: 'Soal penalaran bela negara, integritas ASN & sejarah perjuangan bangsa', time: '25m' },
-      { name: 'Analisis Soal Jebakan & Pembuatan Flashcard', detail: 'Catat opsi pengecoh & bedah undang-undang yang sering salah', time: '20m' }
+      { name: 'Deep Work Blok #1 (90 Menit Tanpa Interupsi)', detail: 'Pelajari konsep inti dan catat intisari ke dalam Second Brain', time: '90m' },
+      { name: 'Hands-on Problem Solving & Coding Sprint', detail: 'Terapkan konsep ke dalam problem set nyata atau proyek', time: '45m' },
+      { name: 'Review Harian & Ekstraksi Intisari Pengetahuan', detail: 'Tulis ringkasan 3 insight penting hasil belajar hari ini', time: '20m' }
     ]
   },
   'Selasa': {
-    type: 'TIU Extreme Numerik & Speed Run',
-    focus: 'Target TIU 150+ — Hitung Cepat < 40 Detik & Deret Angka Multitingkat',
+    type: 'Problem Solving & Logika Analitis',
+    focus: 'Penalaran First Principles & Dekonstruksi Masalah Kompleks',
     tasks: [
-      { name: 'Drill 35 Soal Hitung Cepat & Pecahan Istimewa', detail: 'Trik eliminasi tanpa coretan panjang, batas maksimal 40 detik/soal', time: '35m' },
-      { name: 'Drill 25 Soal Deret Angka Lompat 2-3 Tingkat', detail: 'Pola aritmatika bertingkat, geometri & kombinasi huruf/Fibonacci', time: '25m' },
-      { name: 'Soal Cerita Aljabar: Kecepatan, Debit & Pekerja', detail: 'Rumus cepat berpapasan, menyusul, & efisiensi pekerja bersama', time: '25m' }
+      { name: 'Drill 5 Studi Kasus Problem Solving Terstruktur', detail: 'Latihan dekonstruksi masalah dengan metode 5-Whys dan logika formal', time: '60m' },
+      { name: 'Bedah Logika Algoritma & Second-Order Thinking', detail: 'Analisis skenario terburuk dan uji efisiensi alur pemecahan', time: '45m' },
+      { name: 'Refactoring Solusi untuk Efisiensi Eksekusi', detail: 'Optimasi cara penyelesaian agar lebih terstruktur dan reusable', time: '30m' }
     ]
   },
   'Rabu': {
-    type: 'TIU Extreme Logika & Figural Serial',
-    focus: 'Target TIU 150+ — Silogisme Kompleks, Penalaran Analitis & 9 Kotak',
+    type: 'Eksekusi Proyek & Technical Building',
+    focus: 'Pembangunan Proyek Nyata & Penguasaan Tools Bernilai Tinggi',
     tasks: [
-      { name: 'Drill 30 Soal Silogisme Negasi & Premis Implisit', detail: 'Hukum semua/sebagian, modus ponens, tollens & silogisme bersyarat', time: '30m' },
-      { name: 'Drill 20 Soal Penalaran Analitis Urutan & Posisi', detail: 'Trik tabel eliminasi posisi, perankingan & kombinasi rute transit', time: '25m' },
-      { name: 'Speed Run 15 Soal Figural Serial 9 Kotak', detail: 'Rotasi, pencerminan, & pergeseran elemen gambar waktu < 30 detik', time: '20m' }
+      { name: 'Sesi Building Blok Utama Proyek (90 Menit)', detail: 'Fokus pada penyelesaian modul inti dan fitur prioritas tinggi', time: '90m' },
+      { name: 'Testing, Debugging & Root Cause Analysis', detail: 'Identifikasi celah kelemahan sistem dan eliminasi bottleneck', time: '45m' },
+      { name: 'Dokumentasi Arsitektur & Git Commit Terstruktur', detail: 'Dokumentasikan keputusan arsitektur dan push milestone harian', time: '20m' }
     ]
   },
   'Kamis': {
-    type: 'TKP Extreme Mindset Skor 5 (Zero Tolerance ≤ 3)',
-    focus: 'Target TKP 210+ — Pelayanan Publik, Anti Radikalisme & TIK Digital',
+    type: 'Sintesis Pengetahuan & Penulisan Strategis',
+    focus: 'Dokumentasi Berkualitas Tinggi, Artikulasi Ide & Komunikasi',
     tasks: [
-      { name: 'Drill 45 Soal TKP HOTS Standar Timer 35 Menit', detail: 'Simulasi realistik pengerjaan cepat 45-50 detik per soal', time: '35m' },
-      { name: 'Bedah Kunci Opsi Poin 5 vs Poin 4', detail: 'Eliminasi total opsi bernilai 1-3, kuasai kata kunci inisiatif & empati', time: '25m' },
-      { name: 'Pendalaman Modul Anti Radikalisme & Moderasi', detail: 'Pola jawaban kesetiaan NKRI, toleransi & netralitas ASN mutlak', time: '20m' }
+      { name: 'Penyusunan Esai Teknis / Executive Summary', detail: 'Tulis sintesis komprehensif tentang sistem yang sedang dipelajari', time: '60m' },
+      { name: 'Uji Pemahaman Metode Feynman', detail: 'Jelaskan konsep rumit dengan bahasa sederhana tanpa jargon bertele-tele', time: '35m' },
+      { name: 'Deep Reading: Literatur Teknis & Best Practices', detail: 'Pelajari referensi standar industri dari sumber primer', time: '40m' }
     ]
   },
   'Jumat': {
-    type: 'SKD Speed Sprint & Bank Soal Error',
-    focus: 'Sprint Campuran 65 Soal & Re-Drill Soal Terlemah',
+    type: 'Sprint Audit Kualitas & Eliminasi Kelemahan',
+    focus: 'Review Output Mingguan & Penguatan Topik Paling Menantang',
     tasks: [
-      { name: 'Speed Sprint 65 Soal Campuran TWK+TIU+TKP', detail: 'Timer 55 menit non-stop untuk melatih stamina dan konsentrasi CAT', time: '55m' },
-      { name: 'Bedah Total Kesalahan & Re-drill Bank Soal Salah', detail: 'Ulangi setiap butir soal salah hingga mencapai akurasi 100%', time: '30m' }
+      { name: 'Audit Kelemahan & Topik Tersulit Pekan Ini', detail: 'Ulangi bagian materi atau kode yang masih belum dikuasai 100%', time: '60m' },
+      { name: 'Speed Sprint: Penyelesaian 3 Masalah Kompleks', detail: 'Uji ketahanan mental dan kecepatan berpikir di bawah batas waktu', time: '50m' }
     ]
   },
   'Sabtu': {
-    type: 'Full CAT Marathon 110 Soal (Real 100 Menit)',
-    focus: 'Simulasi Standar BKN — Target Skor Ekstrem 450+ / 550',
+    type: 'Deep Work Marathon (Simulasi Eksekusi Penuh)',
+    focus: 'Simulasi Kerja Nyata Skala Penuh — Ketahanan Mental & Fokus Ekstrem',
     tasks: [
-      { name: 'Simulasi Akbar CAT SKD 110 Soal (Timer 100 Menit)', detail: 'Eksekusi urutan: TKP (45 soal) → TWK (30 soal) → TIU (35 soal)', time: '100m' },
-      { name: 'Evaluasi Passing Grade & Input Skor Target 450+', detail: 'Breakdown capaian sub-tes dan catat analisis gap di riwayat tryout', time: '30m' }
+      { name: 'Sesi Marathon Fokus Tanpa Distraksi (2.5 Jam)', detail: 'Selesaikan milestone besar proyek atau integrasi sistem menyeluruh', time: '150m' },
+      { name: 'Evaluasi Output & Benchmark Hasil Akhir', detail: 'Ukur efektivitas kerja berdasarkan standar kualitas tertinggi', time: '30m' }
     ]
   },
   'Minggu': {
-    type: 'Weekly Retrospective & Flashcard Mastery',
-    focus: 'Audit Progres Mingguan & Penguatan Sub-Tes Terlemah',
+    type: 'Retrospektif Mingguan & Pemulihan Strategis',
+    focus: 'Audit Progres 7 Hari, Penataan Target Pekan Depan & Recovery Mental',
     tasks: [
-      { name: 'Review Rangkuman Formula Cepat & Flashcard TWK', detail: 'Ulas rumus pekerja, pecahan, tabel wewenang lembaga & hak DPR', time: '30m' },
-      { name: 'Drill 30 Soal Remedial Sub-Tes Terlemah Pekan Ini', detail: 'Targetkan penguasaan materi yang paling sering keliru', time: '30m' },
-      { name: 'Perencanaan Target Ekstrem Pekan Depan & Recovery', detail: 'Evaluasi metrik belajar dan siapkan disiplin Monk Mode penuh', time: '15m' }
+      { name: 'Review Jurnal Belajar & Flashcard Ringkasan', detail: 'Perkuat retensi memori jangka panjang dengan spaced repetition', time: '30m' },
+      { name: 'Perencanaan 3 Prioritas Mutlak Pekan Depan', detail: 'Tetapkan blok waktu dan deliverable konkret untuk minggu depan', time: '20m' },
+      { name: 'Mental Reset & Pemulihan Kognitif Penuh', detail: 'Istirahat berkualitas untuk mengembalikan kejernihan pikiran', time: '20m' }
     ]
   },
 };
 
 export const DAYS = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
 
-// MULAI 3 AGUSTUS 2026 - 7 NOVEMBER 2026 (97 HARI)
-export const TOTAL_DAYS = 97;
-export const PROGRAM_START_DATE = new Date(2026, 7, 3); // 3 August 2026
+// MULAI 12 OKTOBER 2026 - 31 DESEMBER 2026 (81 HARI)
+// TENGGAT WAKTU: AKHIR TAHUN 2026
+export const TOTAL_DAYS = 81;
+export const PROGRAM_START_DATE = new Date(2026, 9, 12); // 12 October 2026
+export const PROGRAM_END_DATE = new Date(2026, 11, 31); // 31 December 2026 (Akhir Tahun 2026)
 
 export const MOODS = [
   { key: 'good' as const, label: 'Tak Terkalahkan', color: 'var(--green)' },
@@ -242,10 +253,5 @@ export const MOODS = [
   { key: 'bad' as const, label: 'Berdarah-darah', color: 'var(--red)' }
 ];
 
-export const DEFAULT_TRYOUTS: TryoutRecord[] = [
-  { id: 'to_1', name: 'Simulasi Baseline #1', date: '2026-08-04', twk: 60, tiu: 75, tkp: 162, notes: 'Evaluasi awal: TWK dan TIU masih di bawah passing grade.' },
-  { id: 'to_2', name: 'Tryout Mandiri #2', date: '2026-08-08', twk: 70, tiu: 85, tkp: 168, notes: 'Peningkatan di TWK UUD 1945. Lolos passing grade tipis total 323.' },
-  { id: 'to_3', name: 'Simulasi CAT Akbar #3', date: '2026-08-12', twk: 80, tiu: 105, tkp: 178, notes: 'TIU deret angka mulai lancar, total 363.' },
-  { id: 'to_4', name: 'Tryout Intensif #4', date: '2026-08-16', twk: 85, tiu: 115, tkp: 186, notes: 'TKP tembus 186 dengan mindset opsi 5, total 386 mendekati target 400.' },
-  { id: 'to_5', name: 'Simulasi CAT Nasional #5', date: '2026-08-19', twk: 95, tiu: 130, tkp: 194, notes: 'Total skor 419! Lolos aman passing grade & masuk zona ranking formasi.' }
-];
+export const DEFAULT_TRYOUTS: TryoutRecord[] = [];
+

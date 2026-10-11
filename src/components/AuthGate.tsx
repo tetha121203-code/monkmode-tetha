@@ -54,7 +54,7 @@ export const AuthGate: React.FC<AuthGateProps> = ({ onLogin }) => {
         </div>
         <h1 className="auth-h1">Brutal Transformation</h1>
         <p className="auth-tagline">
-          97 Day Monk Mode Protocol<br />3 Agt → 7 Nov 2026
+          81 Hari Monk Mode Protocol<br />12 Okt → 31 Des 2026 (Akhir Tahun 2026)
         </p>
 
         <form className="auth-form" onSubmit={submit}>

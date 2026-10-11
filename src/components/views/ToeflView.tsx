@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DAYS, DEFAULT_TOEFL_SCHEDULE } from '../../data/defaults';
+import { DAYS, DEFAULT_TOEFL_SCHEDULE, TOTAL_DAYS } from '../../data/defaults';
 import { ToeflDailyProgress, ToeflPhase, ToeflProgress, ToeflSchedule, TryoutRecord } from '../../types';
 import { Icon } from '../Icon';
 import { Modal } from '../Modal';
@@ -35,33 +35,31 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
   setToeflDaily,
   dayName,
   dateKey,
-  setSettTab,
-  setSettOpen,
   tryoutHistory = [],
   setTryoutHistory,
 }) => {
   const [view, setView] = useState<'today' | 'roadmap' | 'cheatsheet' | 'tryout' | 'weekly'>('today');
   const [selDay, setSelDay] = useState<string>(dayName);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [activeCheatTab, setActiveCheatTab] = useState<'passing_grade' | 'uud' | 'pancasila' | 'tiu_formula' | 'tkp_mindset'>('passing_grade');
+  const [activeCheatTab, setActiveCheatTab] = useState<'deep_work' | 'first_principles' | 'mental_models' | 'problem_solving' | 'execution'>('deep_work');
   const [showDoctrines, setShowDoctrines] = useState<boolean>(false);
 
-  // Daily Questions Conquered Tracker
+  // Daily Focus Drill Tracker
   const [drillCount, setDrillCount] = useState<number>(() => {
     try {
-      const saved = localStorage.getItem(`cpns_drill_count_${dateKey}`);
+      const saved = localStorage.getItem(`study_drill_count_${dateKey}`);
       return saved ? parseInt(saved, 10) : 0;
     } catch {
       return 0;
     }
   });
-  const DAILY_DRILL_GOAL = 60; // 60 questions/day extreme quota
+  const DAILY_DRILL_GOAL = 60; // 60 mins/points daily focus goal
 
   const addDrills = (amount: number) => {
     const nextVal = Math.max(0, drillCount + amount);
     setDrillCount(nextVal);
     try {
-      localStorage.setItem(`cpns_drill_count_${dateKey}`, nextVal.toString());
+      localStorage.setItem(`study_drill_count_${dateKey}`, nextVal.toString());
     } catch (e) {
       console.error(e);
     }
@@ -70,7 +68,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
   const resetDrills = () => {
     setDrillCount(0);
     try {
-      localStorage.setItem(`cpns_drill_count_${dateKey}`, '0');
+      localStorage.setItem(`study_drill_count_${dateKey}`, '0');
     } catch (e) {
       console.error(e);
     }
@@ -96,9 +94,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
   };
 
   const handleApplyExtremeProtocol = () => {
-    if (window.confirm('Terapkan template Protokol Ekstrem SKD 450+ ke seluruh hari dalam jadwal?')) {
+    if (window.confirm('Terapkan template Protokol Ekstrem ke seluruh hari dalam jadwal?')) {
       setToeflSched(DEFAULT_TOEFL_SCHEDULE);
-      alert('Protokol Ekstrem SKD (Target 450+) berhasil diterapkan!');
+      alert('Protokol Ekstrem Belajar & Deep Work berhasil diterapkan!');
     }
   };
 
@@ -125,8 +123,8 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  // Tryout Form State
-  const [toName, setToName] = useState('Tryout SKD Mandiri #1');
+  // Evaluation Form State
+  const [toName, setToName] = useState('Evaluasi Benchmark #1');
   const [toTwk, setToTwk] = useState<number>(85);
   const [toTiu, setToTiu] = useState<number>(115);
   const [toTkp, setToTkp] = useState<number>(185);
@@ -134,9 +132,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
 
   const [localTryouts, setLocalTryouts] = useState<TryoutRecord[]>(() => {
     try {
-      const saved = localStorage.getItem('monk_mode_cpns_tryouts');
+      const saved = localStorage.getItem('monk_mode_study_evaluations');
       return saved ? JSON.parse(saved) : [
-        { id: 'to_init_1', name: 'Simulasi Mandiri #1', date: '2026-08-10', twk: 75, tiu: 95, tkp: 172, notes: 'TWK perlu review pasal UUD 1945, TIU perlu percepat deret angka.' }
+        { id: 'to_init_1', name: 'Evaluasi Mandiri #1', date: '2026-08-10', twk: 75, tiu: 95, tkp: 172, notes: 'Fokus pagi mantap, logika analitis dan problem solving berjalan konsisten.' }
       ];
     } catch {
       return [];
@@ -149,7 +147,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
     e.preventDefault();
     const newRecord: TryoutRecord = {
       id: `to_${Date.now()}`,
-      name: toName.trim() || 'Tryout SKD',
+      name: toName.trim() || 'Evaluasi Performa',
       date: dateKey,
       twk: Number(toTwk) || 0,
       tiu: Number(toTiu) || 0,
@@ -162,9 +160,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
       setTryoutHistory(updated);
     } else {
       setLocalTryouts(updated);
-      localStorage.setItem('monk_mode_cpns_tryouts', JSON.stringify(updated));
+      localStorage.setItem('monk_mode_study_evaluations', JSON.stringify(updated));
     }
-    setToName(`Tryout SKD Mandiri #${activeTryouts.length + 2}`);
+    setToName(`Evaluasi Benchmark #${activeTryouts.length + 2}`);
     setToNotes('');
   };
 
@@ -174,7 +172,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
       setTryoutHistory(updated);
     } else {
       setLocalTryouts(updated);
-      localStorage.setItem('monk_mode_cpns_tryouts', JSON.stringify(updated));
+      localStorage.setItem('monk_mode_study_evaluations', JSON.stringify(updated));
     }
   };
 
@@ -209,7 +207,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
   });
 
   return (
-    <div className="fade-up" style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+    <div className="fade-up" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* Top Header & Extreme Badge with Neon Glow */}
       <div className="between" style={{ flexWrap: 'wrap', gap: 14 }}>
         <div>
@@ -220,22 +218,21 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                 fontWeight: 900,
                 padding: '4px 12px',
                 borderRadius: 8,
-                background: 'rgba(239, 68, 68, 0.18)',
-                color: 'var(--red-hover)',
-                border: '1px solid rgba(239, 68, 68, 0.45)',
-                boxShadow: '0 0 16px rgba(239, 68, 68, 0.3)',
+                background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(124, 58, 237, 0.25) 100%)',
+                color: 'var(--cyan)',
+                border: '1px solid rgba(96, 165, 250, 0.45)',
+                boxShadow: '0 0 16px rgba(59, 130, 246, 0.35)',
                 letterSpacing: '0.04em'
               }}
             >
-              🔥 MONK MODE: TARGET EKSTREM 450+
+              ⚡ PROTOKOL DEEP WORK & MASTERY 2026
             </span>
-            <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 600 }}>Zona Ranking 1 Formasi Nasional</span>
+            <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 600 }}>
+              Tenggat Waktu: Akhir Tahun 2026 (31 Des 2026) • {TOTAL_DAYS} Hari
+            </span>
           </div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.01em', marginBottom: 3, textShadow: '0 0 14px rgba(255,255,255,0.2)' }}>
-            Protokol Belajar SKD CPNS 2026
-          </div>
-          <div style={{ fontSize: 13, color: 'var(--text2)', fontWeight: 500 }}>
-            Mastery TWK (110+), TIU Speed (<span style={{ color: 'var(--blue-hover)', fontWeight: 700, textShadow: '0 0 8px rgba(96, 165, 250, 0.4)' }}>150+</span>), & TKP Mindset 5 (<span style={{ color: 'var(--green-hover)', fontWeight: 700, textShadow: '0 0 8px rgba(52, 211, 153, 0.4)' }}>210+</span>)
+          <div style={{ fontSize: 13, color: 'var(--text2)', fontWeight: 500, marginTop: 4 }}>
+            Mastery Fondasi Kognitif, Problem Solving Analitis (<span style={{ color: 'var(--blue-hover)', fontWeight: 700, textShadow: '0 0 8px rgba(96, 165, 250, 0.4)' }}>Logika</span>), & Eksekusi Proyek Puncak (<span style={{ color: 'var(--purple-light)', fontWeight: 700, textShadow: '0 0 8px rgba(168, 85, 247, 0.4)' }}>Kualitas 100%</span>)
           </div>
         </div>
 
@@ -243,9 +240,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
         <div className="tab-bar">
           {[
             { id: 'today', l: 'Target Hari Ini' },
-            { id: 'roadmap', l: 'Silabus SKD' },
-            { id: 'cheatsheet', l: 'Rumus & Materi' },
-            { id: 'tryout', l: 'Tryout & Nilai' },
+            { id: 'roadmap', l: 'Silabus Modul' },
+            { id: 'cheatsheet', l: 'Framework & Doktrin' },
+            { id: 'tryout', l: 'Benchmark & Nilai' },
             { id: 'weekly', l: 'Jadwal Mingguan' }
           ].map(v => (
             <button
@@ -261,318 +258,220 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
 
       {/* VIEW: TODAY */}
       {view === 'today' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 860, margin: '0 auto', width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 900, margin: '0 auto', width: '100%' }}>
           {/* Main Today Protocol Card */}
-          <div className="card card-p" style={{ border: '1px solid var(--blue-border)', background: 'linear-gradient(135deg, var(--surface), var(--surface2))', boxShadow: '0 0 24px rgba(59, 130, 246, 0.16)' }}>
+          <div className="card card-p glow-card-dual" style={{ background: 'linear-gradient(135deg, rgba(9, 16, 36, 0.9) 0%, rgba(22, 14, 46, 0.9) 100%)' }}>
             <div className="between" style={{ marginBottom: 14, flexWrap: 'wrap', gap: 12 }}>
               <div>
-                <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--red-hover)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span className="glow-dot red" />
-                  {dayName} — PROTOKOL SKD EKSTREM
+                <div style={{ fontSize: 11, fontWeight: 900, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span className="glow-dot" style={{ background: 'var(--cyan)' }} />
+                  {dayName} — PROTOKOL DEEP WORK EKSTREM
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 900, color: '#ffffff' }}>{todaySched.type}</div>
+                <div style={{ fontSize: 21, fontWeight: 900, color: '#ffffff' }}>{todaySched.type}</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 3, fontWeight: 500 }}>
                   Fokus Misi: <span style={{ color: '#ffffff', fontWeight: 700 }}>{todaySched.focus}</span>
                 </div>
               </div>
-              <div style={{ textAlign: 'center', background: 'var(--surface)', padding: '8px 18px', borderRadius: 10, border: '1px solid var(--border)', boxShadow: '0 0 16px rgba(59, 130, 246, 0.15)' }}>
-                <div style={{ fontSize: 26, fontWeight: 900, color: todayDone === todayTasks.length && todayTasks.length > 0 ? 'var(--green-hover)' : 'var(--blue-hover)', lineHeight: 1, textShadow: '0 0 12px rgba(96, 165, 250, 0.4)' }}>
+              <div style={{ textAlign: 'center', background: 'rgba(14, 23, 53, 0.8)', padding: '10px 20px', borderRadius: 12, border: '1px solid rgba(59, 130, 246, 0.35)', boxShadow: '0 0 20px rgba(59, 130, 246, 0.2)' }}>
+                <div style={{ fontSize: 28, fontWeight: 900, color: todayDone === todayTasks.length && todayTasks.length > 0 ? 'var(--green-hover)' : 'var(--cyan)', lineHeight: 1, textShadow: '0 0 14px rgba(56, 189, 248, 0.5)' }}>
                   {todayDone}
                 </div>
-                <div style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 700, marginTop: 2 }}>/ {todayTasks.length} Misi Tuntas</div>
+                <div style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 700, marginTop: 3 }}>/ {todayTasks.length} Misi Tuntas</div>
               </div>
             </div>
             <ProgressBar cur={todayDone} tot={todayTasks.length} cls="r" />
           </div>
 
-          {/* Extreme Question Drill Counter */}
+          {/* Focus Drill / Point Counter */}
           <div className="card" style={{ border: '1px solid var(--blue-border)', background: 'var(--surface2)', boxShadow: '0 0 20px rgba(59, 130, 246, 0.12)' }}>
             <div className="between" style={{ marginBottom: 12, flexWrap: 'wrap', gap: 10 }}>
               <div>
                 <div style={{ fontSize: 10, fontWeight: 900, color: 'var(--blue-hover)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <span className="glow-dot" />
-                  KUOTA DRILL SOAL HARIAN (TARGET 50–80 SOAL/HARI)
+                  KUOTA DEEP WORK / DRILL HARIAN (TARGET 60 MENIT / POIN)
                 </div>
                 <div style={{ fontSize: 16, fontWeight: 900, color: '#ffffff' }}>
-                  {drillCount} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 600 }}>/ {DAILY_DRILL_GOAL} Butir Soal Teruji Hari Ini</span>
+                  {drillCount} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 600 }}>/ {DAILY_DRILL_GOAL} Poin Terakumulasi Hari Ini</span>
                 </div>
               </div>
 
               <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                <button
-                  onClick={() => addDrills(5)}
-                  className="btn btn-ghost"
-                  style={{ padding: '6px 12px', fontSize: 12, fontWeight: 800 }}
-                  title="Tambah 5 soal"
-                >
-                  +5 Soal
+                <button onClick={() => addDrills(5)} className="btn btn-ghost" style={{ fontSize: 12, padding: '5px 10px' }}>
+                  +5m
                 </button>
-                <button
-                  onClick={() => addDrills(10)}
-                  className="btn btn-ghost"
-                  style={{ padding: '6px 12px', fontSize: 12, fontWeight: 800, color: 'var(--blue-hover)' }}
-                  title="Tambah 10 soal"
-                >
-                  +10 Soal
+                <button onClick={() => addDrills(15)} className="btn btn-blue" style={{ fontSize: 12, padding: '5px 12px' }}>
+                  +15m
                 </button>
-                <button
-                  onClick={() => addDrills(25)}
-                  className="btn btn-blue"
-                  style={{ padding: '6px 14px', fontSize: 12, fontWeight: 800 }}
-                  title="Tambah 25 soal sprint"
-                >
-                  +25 Sprint 🔥
+                <button onClick={() => addDrills(30)} className="btn btn-dual" style={{ fontSize: 12, padding: '5px 12px' }}>
+                  +30m
                 </button>
-                {drillCount > 0 && (
-                  <button
-                    onClick={resetDrills}
-                    className="btn btn-ghost"
-                    style={{ padding: '6px 8px', fontSize: 11, color: 'var(--text3)' }}
-                    title="Reset hitungan hari ini"
-                  >
-                    Reset
-                  </button>
-                )}
+                <button onClick={resetDrills} className="icon-btn red" title="Reset kuota hari ini" style={{ width: 30, height: 30 }}>
+                  <Icon name="trash" size={13} />
+                </button>
               </div>
             </div>
-
-            <ProgressBar cur={drillCount} tot={DAILY_DRILL_GOAL} cls={drillCount >= DAILY_DRILL_GOAL ? 'g' : 'r'} />
-            <div className="between" style={{ fontSize: 11, color: 'var(--text3)', marginTop: 8 }}>
-              <span>Status: {drillCount >= DAILY_DRILL_GOAL ? '👑 Monster CAT Kuota Tuntas!' : drillCount >= 25 ? '⚡ Hardcore Drilling Mode...' : '🎯 Pemanasan Awal'}</span>
-              <span>{Math.round((drillCount / DAILY_DRILL_GOAL) * 100)}% Capaian Kuota</span>
-            </div>
+            <ProgressBar cur={drillCount} tot={DAILY_DRILL_GOAL} cls="g" />
           </div>
 
-          {/* Hardcore Deep Study Timer */}
-          <div className="card" style={{ background: 'var(--surface2)', border: '1px solid var(--border)' }}>
-            <div className="between" style={{ flexWrap: 'wrap', gap: 12 }}>
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--red)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>
-                  Hardcore Focus Timer
-                </div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', fontWeight: 500 }}>
-                  Drill kecepatan tinggi dengan batasan waktu ketat
-                </div>
+          {/* Pomodoro Focus Timer */}
+          <div className="card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, background: 'rgba(12, 18, 36, 0.6)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div
+                style={{
+                  width: 52,
+                  height: 52,
+                  borderRadius: 14,
+                  background: timerRunning ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                  border: `1px solid ${timerRunning ? 'var(--cyan)' : 'var(--border)'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 20,
+                  fontWeight: 900,
+                  color: timerRunning ? 'var(--cyan)' : 'var(--text2)',
+                  boxShadow: timerRunning ? '0 0 20px rgba(56, 189, 248, 0.4)' : 'none',
+                  transition: 'all 0.3s'
+                }}
+              >
+                <Icon name="clock" size={24} />
               </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                <div style={{ fontSize: 28, fontWeight: 900, fontFamily: 'monospace', color: timerRunning ? 'var(--red)' : 'var(--text)', letterSpacing: '0.05em' }}>
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  Sesi Focus Timer (Flow State)
+                </div>
+                <div style={{ fontSize: 26, fontWeight: 900, color: '#ffffff', letterSpacing: '0.02em', fontVariantNumeric: 'tabular-nums' }}>
                   {formatTime(timerSeconds)}
                 </div>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                  <button
-                    onClick={() => setTimerRunning(!timerRunning)}
-                    className={`btn ${timerRunning ? 'btn-red' : 'btn-blue'}`}
-                    style={{ padding: '7px 16px', fontSize: 12, fontWeight: 700 }}
-                  >
-                    {timerRunning ? 'Pause' : 'Mulai Drill'}
-                  </button>
-                  <button
-                    onClick={() => resetTimer(25)}
-                    className="btn btn-ghost"
-                    style={{ padding: '7px 10px', fontSize: 11 }}
-                    title="25 menit sprint"
-                  >
-                    25m Sprint
-                  </button>
-                  <button
-                    onClick={() => resetTimer(35)}
-                    className="btn btn-ghost"
-                    style={{ padding: '7px 10px', fontSize: 11 }}
-                    title="35 menit drill TKP 45 soal"
-                  >
-                    35m TKP
-                  </button>
-                  <button
-                    onClick={() => resetTimer(50)}
-                    className="btn btn-ghost"
-                    style={{ padding: '7px 10px', fontSize: 11 }}
-                    title="50 menit speed sprint 65 soal"
-                  >
-                    50m Sprint
-                  </button>
-                  <button
-                    onClick={() => resetTimer(100)}
-                    className="btn btn-ghost"
-                    style={{ padding: '7px 10px', fontSize: 11, color: 'var(--purple)' }}
-                    title="100 menit Full CAT 110 soal standar BKN"
-                  >
-                    100m CAT
-                  </button>
-                </div>
               </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setTimerRunning(!timerRunning)}
+                className={`btn ${timerRunning ? 'btn-red' : 'btn-dual'}`}
+                style={{ padding: '8px 20px', fontWeight: 800 }}
+              >
+                {timerRunning ? 'Jeda Fokus' : 'Mulai Fokus'}
+              </button>
+              <button onClick={() => resetTimer(25)} className="btn btn-ghost" style={{ fontSize: 11, padding: '7px 10px' }}>
+                25m
+              </button>
+              <button onClick={() => resetTimer(50)} className="btn btn-ghost" style={{ fontSize: 11, padding: '7px 10px' }}>
+                50m
+              </button>
+              <button onClick={() => resetTimer(90)} className="btn btn-ghost" style={{ fontSize: 11, padding: '7px 10px' }}>
+                90m (Deep Work)
+              </button>
             </div>
           </div>
 
-          {/* Task List */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <div className="between" style={{ marginBottom: 4 }}>
-              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Misi Ekstrem Hari Ini ({todayDone}/{todayTasks.length})
+          {/* Task Checklist for Today */}
+          <div>
+            <div className="between" style={{ marginBottom: 12 }}>
+              <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <Icon name="check" size={16} style={{ color: 'var(--blue)' }} /> Misi Belajar Hari Ini ({todayTasks.length})
               </div>
-              <button
-                onClick={handleApplyExtremeProtocol}
-                className="btn btn-ghost"
-                style={{ fontSize: 11, padding: '3px 8px', color: 'var(--blue-hover)' }}
-                title="Terapkan Protokol Ekstrem SKD 450+"
-              >
-                ⚡ Reset Template Ekstrem
+              <button onClick={handleApplyExtremeProtocol} className="btn btn-ghost" style={{ fontSize: 11, padding: '4px 10px', color: 'var(--purple)' }}>
+                ⚡ Terapkan Template Ekstrem
               </button>
             </div>
 
-            {todayTasks.length > 0 ? (
-              todayTasks.map((t, i) => {
-                const done = isTaskDone(dayName, t.name);
-                return (
-                  <div
-                    key={i}
-                    className={`ex-card${done ? ' done' : ''}`}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => toggleTask(dayName, t.name)}
-                  >
-                    <div className="ex-num" style={{ borderColor: done ? 'var(--green)' : 'var(--blue)', color: done ? 'var(--green)' : 'var(--blue)' }}>
-                      {done ? <Icon name="check" size={13} /> : i + 1}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div className="ex-title" style={{ color: done ? 'var(--text3)' : 'var(--text)', textDecoration: done ? 'line-through' : 'none' }}>
-                        {t.name}
-                      </div>
-                      <div className="ex-meta">{t.detail}</div>
-                    </div>
+            {todayTasks.length === 0 ? (
+              <div className="card" style={{ textAlign: 'center', padding: '30px 20px', color: 'var(--text3)' }}>
+                Tidak ada tugas terjadwal untuk hari ini. Luangkan waktu untuk review modul atau eksplorasi materi di tab Silabus.
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {todayTasks.map((t, idx) => {
+                  const done = isTaskDone(dayName, t.name);
+                  return (
                     <div
+                      key={idx}
+                      className={`card${done ? ' done' : ''}`}
+                      onClick={() => toggleTask(dayName, t.name)}
                       style={{
-                        fontSize: 11,
-                        fontWeight: 800,
-                        color: done ? 'var(--green)' : 'var(--blue)',
-                        background: 'var(--surface)',
-                        padding: '4px 8px',
-                        borderRadius: 6,
-                        border: '1px solid var(--border)',
-                        flexShrink: 0
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 14,
+                        padding: '14px 18px',
+                        borderLeft: `3px solid ${done ? 'var(--green)' : 'var(--blue)'}`,
+                        transition: 'all 0.2s',
+                        background: done ? 'rgba(16, 185, 129, 0.05)' : 'var(--surface2)'
                       }}
                     >
-                      {t.time}
+                      <div
+                        style={{
+                          width: 24,
+                          height: 24,
+                          borderRadius: 7,
+                          border: `2px solid ${done ? 'var(--green)' : 'var(--border)'}`,
+                          background: done ? 'var(--green)' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#fff',
+                          flexShrink: 0
+                        }}
+                      >
+                        {done && <Icon name="check" size={14} />}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div
+                          style={{
+                            fontSize: 14,
+                            fontWeight: 700,
+                            color: done ? 'var(--text3)' : 'var(--text)',
+                            textDecoration: done ? 'line-through' : 'none',
+                            marginBottom: 2
+                          }}
+                        >
+                          {t.name}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--text3)' }}>
+                          {t.detail}
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 600, background: 'var(--surface)', padding: '4px 8px', borderRadius: 6 }}>
+                        ⏱ {t.time}
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div style={{ textAlign: 'center', padding: '30px 20px', color: 'var(--text3)', fontSize: 13 }}>
-                Tidak ada jadwal aktif. Klik "Reset Template Ekstrem" di atas untuk memuat protokol harian!
+                  );
+                })}
               </div>
             )}
           </div>
 
-          {/* 5 Doktrin SKD Ekstrem (Expandable Accordion) */}
-          <div className="card" style={{ background: 'var(--surface)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
-            <div
-              className="between"
-              style={{ cursor: 'pointer' }}
-              onClick={() => setShowDoctrines(!showDoctrines)}
-            >
+          {/* 5 Doctrines of Brutal Transformation */}
+          <div className="card" style={{ background: 'rgba(20, 13, 44, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+            <div className="between" style={{ cursor: 'pointer' }} onClick={() => setShowDoctrines(!showDoctrines)}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 16 }}>⚔️</span>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 900, color: 'var(--purple)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                    5 Doktrin SKD Ekstrem (Monk Mode CPNS)
-                  </div>
-                  <div style={{ fontSize: 11, color: 'var(--text3)' }}>
-                    Pedoman disiplin mutlak untuk menembus Ranking 1 Formasi
-                  </div>
-                </div>
+                <span className="glow-dot purple" />
+                <span style={{ fontSize: 14, fontWeight: 800, color: '#ffffff' }}>
+                  5 Doktrin Deep Work & Brutal Transformation
+                </span>
               </div>
-              <button className="btn btn-ghost" style={{ fontSize: 11, padding: '4px 10px' }}>
+              <span style={{ fontSize: 12, color: 'var(--purple-light)', fontWeight: 700 }}>
                 {showDoctrines ? 'Tutup ▲' : 'Buka Doktrin ▼'}
-              </button>
+              </span>
             </div>
 
             {showDoctrines && (
-              <div className="fade-up" style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 8, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+              <div className="fade-up" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12, marginTop: 14 }}>
                 {[
-                  { n: '1. Zero Tolerance Skip', d: 'Tidak ada hari tanpa drill minimal 50 butir soal SKD terukur.' },
-                  { n: '2. Speed Constraint TIU (< 40s/soal)', d: 'Eliminasi coretan berlebih di numerik & kuasai pola silogisme negasi seketika.' },
-                  { n: '3. TKP Skor 5 Mindset (Zero Tolerance ≤ 3)', d: 'Hanya terima opsi proaktif, solutif, integritas tinggi, & berorientasi pelayanan publik.' },
-                  { n: '4. Bank Soal Error Re-drill', d: 'Setiap butir soal yang salah wajib diulang sampai meraih akurasi 100% tanpa cela.' },
-                  { n: '5. Target Ranking 1 Nasional (Skor 450+)', d: 'Standar kita bukan sekadar lolos passing grade (311), melainkan skor overkill 450+ demi mengamankan selisih SKD saat SKB.' }
+                  { n: '1. Monotasking Mutlak', d: 'Satu tugas per blok 90 menit tanpa switch tab, tanpa browsing acak, dan tanpa multitasking.' },
+                  { n: '2. Zero Toleransi Distraksi', d: 'Mode pesawat aktif, notifikasi mati total saat sesi belajar. Distraksi 3 detik menghancurkan fokus 23 menit.' },
+                  { n: '3. First Principles & Logika', d: 'Jangan hanya menghafal, urai konsep rumit sampai ke hukum paling mendasar menggunakan metode Feynman.' },
+                  { n: '4. High-Yield Output', d: 'Setiap sesi harus menghasilkan deliverable konkret: kode bersih, esai tajam, atau problem set terpecahkan.' },
+                  { n: '5. Konsistensi Hingga Akhir 2026', d: `Jalankan ${TOTAL_DAYS} hari (12 Okt - 31 Des 2026) tanpa bolong. Repetisi harian adalah pembeda utama antara amatir dan master sejati.` }
                 ].map((doc, idx) => (
-                  <div key={idx} style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>{doc.n}</div>
+                  <div key={idx} style={{ background: 'rgba(12, 8, 30, 0.7)', padding: '12px 14px', borderRadius: 9, border: '1px solid rgba(139, 92, 246, 0.2)' }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--purple-light)', marginBottom: 4 }}>{doc.n}</div>
                     <div style={{ fontSize: 11, color: 'var(--text2)', lineHeight: 1.5 }}>{doc.d}</div>
                   </div>
                 ))}
               </div>
             )}
-          </div>
-
-          {/* Extreme Score Matrix vs Passing Grade */}
-          <div className="card" style={{ marginTop: 4 }}>
-            <div className="between" style={{ marginBottom: 12 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 900, color: 'var(--text)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  Target Skor Ekstrem 450+ vs Passing Grade Resmi
-                </div>
-                <div style={{ fontSize: 11, color: 'var(--text3)' }}>
-                  Perbandingan ambang batas minimum BKN vs Target Juara 1 Formasi
-                </div>
-              </div>
-              <button onClick={() => setView('cheatsheet')} className="btn btn-ghost" style={{ fontSize: 11, padding: '4px 10px' }}>
-                Lihat Silabus & Rumus →
-              </button>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
-              <div style={{ background: 'var(--surface2)', padding: '12px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                <div className="between" style={{ marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--blue)', fontWeight: 800 }}>TWK (30 Soal)</span>
-                  <span style={{ fontSize: 10, color: 'var(--red)', fontWeight: 800 }}>🔥 EKSTREM</span>
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)' }}>
-                  110–125 <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 150</span>
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
-                  Passing Grade Min: <b>65</b> (Target Benar 24–28 Soal)
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--surface2)', padding: '12px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                <div className="between" style={{ marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--blue-hover)', fontWeight: 800 }}>TIU (35 Soal)</span>
-                  <span style={{ fontSize: 10, color: 'var(--red)', fontWeight: 800 }}>🔥 EKSTREM</span>
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)' }}>
-                  150–165 <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 175</span>
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
-                  Passing Grade Min: <b>80</b> (Speed &lt; 40 dtk/soal)
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--surface2)', padding: '12px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                <div className="between" style={{ marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--green)', fontWeight: 800 }}>TKP (45 Soal)</span>
-                  <span style={{ fontSize: 10, color: 'var(--red)', fontWeight: 800 }}>🔥 EKSTREM</span>
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)' }}>
-                  210–220 <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 225</span>
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
-                  Passing Grade Min: <b>166</b> (Zero Opsi ≤ 3)
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--surface2)', padding: '12px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                <div className="between" style={{ marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--purple)', fontWeight: 900 }}>TOTAL SKD OVERKILL</span>
-                  <span style={{ fontSize: 10, color: 'var(--green)', fontWeight: 900 }}>RANK #1</span>
-                </div>
-                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--purple)', lineHeight: 1.1 }}>
-                  450–480+ <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
-                </div>
-                <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3 }}>
-                  Ambang Batas BKN: <b>311</b> (Selisih +140 Poin)
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}
@@ -585,16 +484,16 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
             <div className="between" style={{ marginBottom: 10, flexWrap: 'wrap', gap: 10 }}>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>
-                  Silabus Lengkap SKD CPNS
+                  Silabus Lengkap & Modul Belajar
                 </div>
                 <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)' }}>
-                  Total Penguasaan Materi
+                  Total Penguasaan Kurikulum
                 </div>
               </div>
               <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--blue-hover)' }}>
                 {Math.round((totalDoneRoadmap / Math.max(totalAllRoadmap, 1)) * 100)}%
                 <span style={{ fontSize: 13, color: 'var(--text3)', fontWeight: 600, marginLeft: 6 }}>
-                  ({totalDoneRoadmap}/{totalAllRoadmap} Modul)
+                  ({totalDoneRoadmap}/{totalAllRoadmap} Modul Tuntas)
                 </span>
               </div>
             </div>
@@ -608,7 +507,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Cari materi SKD (Pancasila, Silogisme, Jarak & Kecepatan, Pelayanan Publik)..."
+                placeholder="Cari materi (Deep Work, First Principles, Algoritma, High-Impact Writing)..."
                 className="inp"
                 style={{ fontSize: 13 }}
               />
@@ -653,7 +552,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                   className="card"
                   style={{
                     transition: 'all 0.2s',
-                    borderTop: '2px solid var(--blue)',
+                    borderTop: `2px solid ${p.color || 'var(--blue)'}`,
                     display: 'flex',
                     flexDirection: 'column',
                     gap: 12
@@ -670,14 +569,14 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                             width: 38,
                             height: 38,
                             borderRadius: 10,
-                            background: 'var(--blue-dim)',
-                            border: '1px solid var(--blue-border)',
+                            background: `${p.color || '#3b82f6'}18`,
+                            border: `1px solid ${p.color || '#3b82f6'}40`,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             fontSize: 16,
                             fontWeight: 900,
-                            color: 'var(--blue-hover)',
+                            color: p.color || 'var(--blue-hover)',
                             flexShrink: 0
                           }}
                         >
@@ -746,66 +645,51 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                         overflowY: 'auto'
                       }}
                     >
-                      <div className="between" style={{ marginBottom: 4 }}>
-                        <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                          Checklist Materi ({done}/{all.length})
-                        </span>
-                        <button
-                          className="btn btn-ghost"
-                          style={{ fontSize: 10, padding: '2px 8px' }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Toggle all in this phase
-                            const shouldMarkAll = done < all.length;
-                            all.forEach(id => {
-                              if (shouldMarkAll && !safeToeflProg[id]) toggleToeflProg(id);
-                              if (!shouldMarkAll && safeToeflProg[id]) toggleToeflProg(id);
-                            });
-                          }}
-                        >
-                          {done === all.length ? 'Reset Phase' : 'Centang Semua'}
-                        </button>
-                      </div>
-
-                      {(p.items || []).map((it, i) => {
-                        const isDone = !!safeToeflProg[it.id];
+                      {(p.items || []).map((it, itemIdx) => {
+                        const checked = !!safeToeflProg[it.id];
                         return (
                           <div
-                            key={it.id}
+                            key={it.id || itemIdx}
+                            onClick={() => toggleToeflProg(it.id)}
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               gap: 10,
                               padding: '8px 10px',
                               borderRadius: 6,
-                              background: isDone ? 'rgba(16, 185, 129, 0.08)' : 'var(--surface)',
-                              border: `1px solid ${isDone ? 'rgba(16, 185, 129, 0.3)' : 'var(--border)'}`,
+                              background: checked ? 'rgba(16, 185, 129, 0.08)' : 'var(--surface)',
+                              border: `1px solid ${checked ? 'rgba(16, 185, 129, 0.3)' : 'var(--border)'}`,
                               cursor: 'pointer',
                               transition: 'all 0.15s'
-                            }}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleToeflProg(it.id);
                             }}
                           >
                             <div
                               style={{
                                 width: 18,
                                 height: 18,
-                                borderRadius: 4,
-                                border: `1.5px solid ${isDone ? 'var(--green)' : 'var(--text3)'}`,
-                                background: isDone ? 'var(--green)' : 'transparent',
+                                borderRadius: 5,
+                                border: `2px solid ${checked ? 'var(--green)' : 'var(--border)'}`,
+                                background: checked ? 'var(--green)' : 'transparent',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
+                                color: '#fff',
                                 flexShrink: 0
                               }}
                             >
-                              {isDone && <Icon name="check" size={12} style={{ color: 'white' }} />}
+                              {checked && <Icon name="check" size={11} />}
                             </div>
-                            <div style={{ flex: 1, fontSize: 12, fontWeight: 600, color: isDone ? 'var(--text3)' : 'var(--text)', textDecoration: isDone ? 'line-through' : 'none' }}>
-                              {i + 1}. {it.title}
-                            </div>
+                            <span
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 500,
+                                color: checked ? 'var(--text3)' : 'var(--text)',
+                                textDecoration: checked ? 'line-through' : 'none',
+                                flex: 1
+                              }}
+                            >
+                              {it.title}
+                            </span>
                           </div>
                         );
                       })}
@@ -815,90 +699,19 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
               );
             })}
           </div>
-
-          {/* Modal for Phase Checklist */}
-          <Modal open={!!activeRoadmap} onClose={() => setToeflPhase(null)} title={activeRoadmap?.title || ''} wide>
-            {activeRoadmap && (() => {
-              const pitems = activeRoadmap.items || [];
-              const doneCount = pitems.filter(i => safeToeflProg[i.id]).length;
-              return (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 10, border: '1px solid var(--border)' }}>
-                    <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6, margin: 0 }}>
-                      {activeRoadmap.desc}
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="between" style={{ marginBottom: 10 }}>
-                      <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                        Checklist Materi ({doneCount}/{pitems.length})
-                      </div>
-                      <span style={{ fontSize: 12, fontWeight: 800, color: 'var(--blue-hover)' }}>
-                        {Math.round((doneCount / Math.max(pitems.length, 1)) * 100)}% Tuntas
-                      </span>
-                    </div>
-
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 380, overflowY: 'auto' }}>
-                      {pitems.map((it, i) => {
-                        const done = safeToeflProg[it.id];
-                        return (
-                          <div
-                            key={it.id}
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: 12,
-                              padding: '10px 14px',
-                              borderRadius: 8,
-                              border: `1px solid ${done ? 'rgba(16, 185, 129, 0.3)' : 'var(--border)'}`,
-                              background: done ? 'rgba(16, 185, 129, 0.06)' : 'var(--surface2)',
-                              cursor: 'pointer',
-                              transition: 'all 0.15s'
-                            }}
-                            onClick={() => toggleToeflProg(it.id)}
-                          >
-                            <div
-                              style={{
-                                width: 20,
-                                height: 20,
-                                borderRadius: 5,
-                                border: `1.5px solid ${done ? 'var(--green)' : 'var(--text3)'}`,
-                                background: done ? 'var(--green)' : 'transparent',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                flexShrink: 0
-                              }}
-                            >
-                              {done && <Icon name="check" size={12} style={{ color: 'white' }} />}
-                            </div>
-                            <div style={{ flex: 1, fontSize: 13, fontWeight: 600, color: done ? 'var(--text3)' : 'var(--text)', textDecoration: done ? 'line-through' : 'none' }}>
-                              {i + 1}. {it.title}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-          </Modal>
         </div>
       )}
 
-      {/* VIEW: CHEATSHEET & RUMUS CEPAT */}
+      {/* VIEW: CHEATSHEET & FRAMEWORKS */}
       {view === 'cheatsheet' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {/* Sub Navigation */}
-          <div className="tab-bar">
+          <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 4 }}>
             {[
-              { id: 'passing_grade', l: 'Passing Grade MenPAN-RB' },
-              { id: 'uud', l: 'Ringkasan UUD 1945' },
-              { id: 'pancasila', l: '45 Butir Pancasila' },
-              { id: 'tiu_formula', l: 'Rumus Cepat TIU' },
-              { id: 'tkp_mindset', l: 'Mindset Poin 5 TKP' }
+              { id: 'deep_work', l: 'Protokol Deep Work' },
+              { id: 'first_principles', l: 'First Principles' },
+              { id: 'mental_models', l: 'Mental Models' },
+              { id: 'problem_solving', l: 'Problem Solving' },
+              { id: 'execution', l: 'Framework Eksekusi' }
             ].map(tab => (
               <button
                 key={tab.id}
@@ -910,99 +723,54 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
             ))}
           </div>
 
-          {/* Tab Content: PASSING GRADE */}
-          {activeCheatTab === 'passing_grade' && (
+          {/* Tab Content: DEEP WORK */}
+          {activeCheatTab === 'deep_work' && (
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
-                  Ketentuan Nilai Ambang Batas SKD CPNS 2026
+                  4 Aturan Deep Work (Cal Newport Protocol)
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
-                  Berdasarkan standar Keputusan MenPAN-RB, pelamar harus melampaui Passing Grade di setiap sub-tes agar berhak masuk pemeringkatan (ranking) 3x formasi menuju tahap SKB.
+                  Kemampuan melakukan pekerjaan mendalam tanpa distraksi adalah superpower kognitif di era ekonomi digital modern.
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
-                <div style={{ background: 'var(--surface2)', padding: '14px', borderRadius: 10, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue)', marginBottom: 6 }}>
-                    1. TWK (Tes Wawasan Kebangsaan)
+                {[
+                  { t: '1. Jadwalkan Deep Work', d: 'Tentukan blok waktu spesifik 90 menit setiap pagi sebelum membuka inbox atau smartphone.' },
+                  { t: '2. Rangkul Kebosanan', d: 'Latih otak untuk menahan dorongan instan scrolling saat merasa jenuh atau buntu.' },
+                  { t: '3. Berhenti dari Media Sosial', d: 'Eliminasi platform yang merampas kapasitas rentang perhatian (attention span).' },
+                  { t: '4. Tumpas Aktivitas Dangkal', d: 'Batasi rapat, chatting acak, dan administrasi minor di luar jam fokus utama.' }
+                ].map((item, idx) => (
+                  <div key={idx} style={{ background: 'var(--surface2)', padding: '14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 6 }}>{item.t}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>{item.d}</div>
                   </div>
-                  <ul style={{ fontSize: 12, color: 'var(--text2)', paddingLeft: 16, margin: 0, lineHeight: 1.6 }}>
-                    <li>Jumlah Soal: <b>30 Butir</b></li>
-                    <li>Skor: Benar = <b>5</b>, Salah/Kosong = <b>0</b></li>
-                    <li>Maksimal: <b>150</b></li>
-                    <li><b>Passing Grade: 65</b> (Benar 13 soal)</li>
-                    <li>Target Rekomendasi: <b>≥ 90</b></li>
-                  </ul>
-                </div>
-
-                <div style={{ background: 'var(--surface2)', padding: '14px', borderRadius: 10, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 6 }}>
-                    2. TIU (Tes Inteligensia Umum)
-                  </div>
-                  <ul style={{ fontSize: 12, color: 'var(--text2)', paddingLeft: 16, margin: 0, lineHeight: 1.6 }}>
-                    <li>Jumlah Soal: <b>35 Butir</b></li>
-                    <li>Skor: Benar = <b>5</b>, Salah/Kosong = <b>0</b></li>
-                    <li>Maksimal: <b>175</b></li>
-                    <li><b>Passing Grade: 80</b> (Benar 16 soal)</li>
-                    <li>Target Rekomendasi: <b>≥ 130</b></li>
-                  </ul>
-                </div>
-
-                <div style={{ background: 'var(--surface2)', padding: '14px', borderRadius: 10, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 6 }}>
-                    3. TKP (Tes Karakteristik Pribadi)
-                  </div>
-                  <ul style={{ fontSize: 12, color: 'var(--text2)', paddingLeft: 16, margin: 0, lineHeight: 1.6 }}>
-                    <li>Jumlah Soal: <b>45 Butir</b></li>
-                    <li>Skor: Bertingkat <b>1 s/d 5</b> (Kosong = 0)</li>
-                    <li>Maksimal: <b>225</b></li>
-                    <li><b>Passing Grade: 166</b></li>
-                    <li>Target Rekomendasi: <b>≥ 200</b></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div style={{ background: 'var(--blue-dim)', padding: '14px 18px', borderRadius: 10, border: '1px solid var(--blue-border)' }}>
-                <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>
-                  Strategi Lolos Ranking 3x Formasi:
-                </div>
-                <div style={{ fontSize: 12, color: 'var(--text)', lineHeight: 1.6 }}>
-                  Lolos passing grade saja belum cukup jika total nilai berada di ambang batas bawah. Targetkan total skor <b>≥ 400+</b> dengan memaksimalkan perolehan di <b>TKP (200+)</b> dan <b>TIU (130+)</b>.
-                </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* Tab Content: UUD 1945 */}
-          {activeCheatTab === 'uud' && (
+          {/* Tab Content: FIRST PRINCIPLES */}
+          {activeCheatTab === 'first_principles' && (
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-                  Ringkasan Pasal Kunci UUD NRI 1945
+                  First Principles Thinking
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--text2)' }}>
-                  Pasal-pasal yang paling sering keluar dalam Tes Wawasan Kebangsaan (TWK).
+                  Pendekatan berpikir dengan merebus masalah hingga fakta paling mendasar, lalu membangun solusi baru dari nol.
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
                 {[
-                  { p: 'Pasal 1', desc: 'Ayat (1): Negara Kesatuan Republik. Ayat (2): Kedaulatan di tangan rakyat. Ayat (3): Negara Hukum.' },
-                  { p: 'Pasal 2 & 3', desc: 'MPR: Terdiri atas DPR dan DPD. Wewenang: Mengubah/menetapkan UUD, melantik Presiden/Wapres, memberhentikan Presiden sesuai UUD.' },
-                  { p: 'Pasal 4 s/d 16', desc: 'Presiden. Pasal 7: Masa jabatan 5 tahun, maks 2 periode. Pasal 11: Menyatakan perang/perjanjian (persetujuan DPR). Pasal 14: Grasi/Rehabilitasi (pertimbangan MA), Amnesti/Abolisi (pertimbangan DPR).' },
-                  { p: 'Pasal 19 s/d 22B', desc: 'DPR: Fungsi Legislasi, Anggaran, Pengawasan. Hak: Interpelasi, Angket, Menyatakan Pendapat.' },
-                  { p: 'Pasal 22C & 22D', desc: 'DPD: Dipilih melalui Pemilu per provinsi. Mengajukan RUU otonomi daerah, pemekaran.' },
-                  { p: 'Pasal 23 s/d 23G', desc: 'BPK: Bebas dan mandiri memeriksa pengelolaan keuangan negara, melapor ke DPR, DPD, DPRD.' },
-                  { p: 'Pasal 24 s/d 24C', desc: 'Peradilan: MA (kasasi & uji perundangan di bawah UU). MK (uji UU terhadap UUD, sengketa kewenangan, sengketa pemilu). KY (usul Hakim Agung).' },
-                  { p: 'Pasal 27', desc: 'Ayat (1): Persamaan di dalam hukum. Ayat (2): Hak pekerjaan layak. Ayat (3): Hak & kewajiban membela negara.' },
-                  { p: 'Pasal 28A s/d 28J', desc: 'Hak Asasi Manusia: Hak hidup (28A), berkeluarga (28B), mengembangkan diri (28C), kepastian hukum (28D), bebas beragama/berpendapat (28E).' },
-                  { p: 'Pasal 30', desc: 'Sishankamrata: TNI/Polri kekuatan utama, rakyat kekuatan pendukung.' },
-                  { p: 'Pasal 31', desc: 'Pendidikan: Pemerintah wajib membiayai pendidikan dasar. Anggaran min 20% APBN/APBD.' },
-                  { p: 'Pasal 33 & 34', desc: 'Ekonomi & Sosial: Cabang produksi penting dikuasai negara (33). Fakir miskin dipelihara negara (34).' }
+                  { p: 'Langkah 1: Identifikasi Asumsi', desc: 'Tuliskan semua asumsi yang kamu miliki tentang masalah tersebut.' },
+                  { p: 'Langkah 2: Dekonstruksi Masalah', desc: 'Tanyakan: Apakah ini fakta fisik yang mutlak benar, atau hanya kebiasaan lama?' },
+                  { p: 'Langkah 3: Bangun Solusi Baru', desc: 'Rancang solusi dari kebenaran mendasar tanpa terikat tradisi sebelumnya.' }
                 ].map((item, idx) => (
-                  <div key={idx} style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 2 }}>{item.p}</div>
+                  <div key={idx} style={{ background: 'var(--surface2)', padding: '12px 14px', borderRadius: 9, border: '1px solid var(--border)' }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--cyan)', marginBottom: 4 }}>{item.p}</div>
                     <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>{item.desc}</div>
                   </div>
                 ))}
@@ -1010,165 +778,95 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
             </div>
           )}
 
-          {/* Tab Content: PANCASILA */}
-          {activeCheatTab === 'pancasila' && (
+          {/* Tab Content: MENTAL MODELS */}
+          {activeCheatTab === 'mental_models' && (
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-                  45 Butir Pengamalan Sila Pancasila (TAP MPR No. I/MPR/2003)
+                  Model Mental Pilihan untuk Brutal Transformation
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--text2)' }}>
-                  Kunci menjawab soal analisis kasus dan pengamalan nilai dalam TWK.
+                  Kerangka berpikir untuk mempertajam penilaian dan membuat keputusan rasional.
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 10 }}>
                 {[
-                  {
-                    sila: 'Sila 1: Ketuhanan Yang Maha Esa (Bintang)',
-                    items: [
-                      'Percaya dan takwa kepada Tuhan YME sesuai agama dan kepercayaan masing-masing.',
-                      'Hormat menghormati dan bekerjasama antar pemeluk agama yang berbeda.',
-                      'Membina kerukunan hidup di antara sesama umat beragama.',
-                      'Tidak memaksakan suatu agama atau kepercayaan kepada orang lain.'
-                    ]
-                  },
-                  {
-                    sila: 'Sila 2: Kemanusiaan Yang Adil dan Beradab (Rantai)',
-                    items: [
-                      'Mengakui dan memperlakukan manusia sesuai harkat dan martabatnya.',
-                      'Mengakui persamaan derajat, hak, dan kewajiban tanpa membeda-bedakan suku/agama.',
-                      'Mengembangkan sikap saling mencintai sesama manusia dan tenggang rasa.',
-                      'Menjunjung tinggi nilai kemanusiaan dan berani membela kebenaran.'
-                    ]
-                  },
-                  {
-                    sila: 'Sila 3: Persatuan Indonesia (Pohon Beringin)',
-                    items: [
-                      'Menempatkan persatuan dan keselamatan bangsa di atas kepentingan pribadi/golongan.',
-                      'Rela berkorban untuk kepentingan negara dan bangsa.',
-                      'Mengembangkan rasa cinta kepada tanah air dan bangsa.',
-                      'Memelihara ketertiban dunia berdasarkan kemerdekaan dan keadilan sosial.'
-                    ]
-                  },
-                  {
-                    sila: 'Sila 4: Kerakyatan yang Dipimpin oleh Hikmat Kebijaksanaan... (Kepala Banteng)',
-                    items: [
-                      'Sebagai warga negara, mempunyai kedudukan, hak, dan kewajiban yang sama.',
-                      'Tidak boleh memaksakan kehendak kepada orang lain.',
-                      'Mengutamakan musyawarah dalam mengambil keputusan untuk kepentingan bersama.',
-                      'Menerima dan melaksanakan hasil keputusan musyawarah dengan iktikad baik.'
-                    ]
-                  },
-                  {
-                    sila: 'Sila 5: Keadilan Sosial bagi Seluruh Rakyat Indonesia (Padi & Kapas)',
-                    items: [
-                      'Mengembangkan perbuatan luhur yang mencerminkan kekeluargaan dan gotong royong.',
-                      'Mengembangkan sikap adil terhadap sesama dan menjaga keseimbangan hak-kewajiban.',
-                      'Suka memberi pertolongan kepada orang lain agar dapat berdiri sendiri.',
-                      'Tidak menggunakan hak milik untuk gaya hidup mewah atau pemborosan.'
-                    ]
-                  }
+                  { t: 'Prinsip Pareto (80/20)', d: '80% hasil berasal dari 20% upaya kunci. Temukan dan lipatgandakan 20% tersebut.' },
+                  { t: 'Inversi (Charlie Munger)', d: 'Alih-alih mencari cara untuk sukses, cari tahu cara pasti untuk gagal dan hindari itu.' },
+                  { t: 'Second-Order Thinking', d: 'Jangan hanya melihat dampak langsung, pertimbangkan konsekuensi dari konsekuensi berikutnya.' },
+                  { t: 'Teknik Feynman', d: 'Uji pemahamanmu dengan mengajarkannya ke orang lain dalam bahasa paling sederhana tanpa jargon.' }
                 ].map((s, idx) => (
                   <div key={idx} style={{ background: 'var(--surface2)', padding: '14px', borderRadius: 10, border: '1px solid var(--border)' }}>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 6 }}>{s.sila}</div>
-                    <ul style={{ fontSize: 12, color: 'var(--text2)', paddingLeft: 16, margin: 0, lineHeight: 1.6 }}>
-                      {s.items.map((it, i) => (
-                        <li key={i}>{it}</li>
-                      ))}
-                    </ul>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--purple-light)', marginBottom: 6 }}>{s.t}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>{s.d}</div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Tab Content: RUMUS TIU */}
-          {activeCheatTab === 'tiu_formula' && (
+          {/* Tab Content: PROBLEM SOLVING */}
+          {activeCheatTab === 'problem_solving' && (
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-                  Rumus Cepat TIU Numerik & Logika
+                  Prosedur Pemecahan Masalah Sistematis
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--text2)' }}>
-                  Gunakan trik cepat ini untuk menghemat waktu pengerjaan di bawah 50 detik per butir soal.
+                  Alur baku untuk mengurai tantangan teknis kompleks dalam hitungan menit.
                 </div>
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
                 <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>1. Pekerja Bersama</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>1. Root Cause (5-Whys)</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    Jika A selesai dlm <b>x</b> hari, B dlm <b>y</b> hari:<br />
-                    <code style={{ color: 'var(--blue-hover)', fontWeight: 700 }}>Waktu = (x × y) / (x + y)</code>
+                    Tanyakan "Mengapa hal ini terjadi?" sebanyak 5 kali berturut-turut untuk menyentuh akar masalah sebenarnya.
                   </div>
                 </div>
 
                 <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>2. Berpapasan & Menyusul</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>2. Reduksi Kompleksitas</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    • Waktu Berpapasan = <b>Jarak Total / (Kecepatan A + B)</b><br />
-                    • Waktu Menyusul = <b>Selisih Jarak / (Kecepatan B - A)</b>
+                    Pecah masalah besar menjadi sub-masalah kecil independen yang dapat diselesaikan satu per satu.
                   </div>
                 </div>
 
                 <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>3. Perbandingan</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>3. Validasi Solusi</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    • <b>Senilai</b> (Bensin & Jarak): <code>a1/b1 = a2/b2</code><br />
-                    • <b>Berbalik Nilai</b> (Pekerja & Waktu): <code>a1 × b1 = a2 × b2</code>
-                  </div>
-                </div>
-
-                <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--blue-hover)', marginBottom: 4 }}>4. Pecahan Istimewa</div>
-                  <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    • 1/8 = <b>12.5%</b> | 3/8 = <b>37.5%</b> | 5/8 = <b>62.5%</b><br />
-                    • 1/6 = <b>16.67%</b> | 1/3 = <b>33.33%</b> | 2/3 = <b>66.67%</b>
+                    Uji solusi dengan kondisi ekstrem (edge cases) sebelum menyatakan masalah selesai secara tuntas.
                   </div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Tab Content: TKP MINDSET */}
-          {activeCheatTab === 'tkp_mindset' && (
+          {/* Tab Content: EXECUTION */}
+          {activeCheatTab === 'execution' && (
             <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
                 <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-                  Mindset & Kata Kunci Opsi Skor 5 TKP
+                  Mindset Eksekusi & Deliverable
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--text2)' }}>
-                  Pilih selalu opsi yang mencerminkan integritas tinggi, pelayanan prima, dan kolaborasi tim.
+                  Standar kualitas dan kecepatan peluncuran proyek dalam Monk Mode.
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 10 }}>
                 <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>1. Pelayanan Publik</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>Bias Menuju Aksi</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    Pilih opsi yang <b>mengutamakan kepentingan masyarakat</b>, ramah, solutif tanpa menunda, dan menolak gratifikasi/pungli.
+                    Analisis berlebih tanpa eksekusi adalah ilusi produktivitas. Buat prototipe secepat mungkin.
                   </div>
                 </div>
 
                 <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>2. Profesionalisme</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>Standar Kualitas Tertinggi</div>
                   <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    Pilih opsi yang <b>bertanggung jawab penuh atas tugas</b>, memisahkan urusan pribadi, dan menuntaskan target tepat waktu.
-                  </div>
-                </div>
-
-                <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>3. Jejaring Kerja & Kolaborasi</div>
-                  <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    Pilih opsi yang <b>membangun komunikasi terbuka</b>, mendengarkan masukan tim, dan fokus pada target bersama.
-                  </div>
-                </div>
-
-                <div style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--green)', marginBottom: 4 }}>4. TIK & Digitalisasi</div>
-                  <div style={{ fontSize: 12, color: 'var(--text2)', lineHeight: 1.5 }}>
-                    Pilih opsi yang <b>antusias mengadopsi teknologi baru</b> dan proaktif membantu rekan kerja dalam efisiensi digital.
+                    Jangan pernah menyerahkan hasil setengah jadi. Periksa detail kecil dan dokumentasikan secara profesional.
                   </div>
                 </div>
               </div>
@@ -1177,34 +875,34 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
         </div>
       )}
 
-      {/* VIEW: TRYOUT & PASSING GRADE TRACKER */}
+      {/* VIEW: BENCHMARK & EVALUASI */}
       {view === 'tryout' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {/* Add Tryout Form */}
+          {/* Add Benchmark Form */}
           <div className="card card-p">
             <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-              Catat Hasil Simulasi / Tryout SKD
+              Catat Hasil Evaluasi / Benchmark Performa
             </div>
             <div style={{ fontSize: 12, color: 'var(--text2)', marginBottom: 14 }}>
-              Hitung otomatis skor total dan verifikasi kelolosan ambang batas MenPAN-RB.
+              Ukur skor berkala metrik Fokus, Logika Problem Solving, dan Kualitas Eksekusi hingga akhir tahun 2026.
             </div>
 
             <form onSubmit={handleAddTryout} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10 }}>
                 <div>
-                  <label className="label">Nama Tryout / Paket</label>
+                  <label className="label">Nama Sesi Evaluasi</label>
                   <input
                     type="text"
                     value={toName}
                     onChange={e => setToName(e.target.value)}
                     className="inp"
-                    placeholder="Contoh: Tryout Mandiri CAT #1"
+                    placeholder="Contoh: Benchmark Mandiri #1"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="label" style={{ color: 'var(--blue)' }}>Skor TWK (Min: 65, Maks: 150)</label>
+                  <label className="label" style={{ color: 'var(--cyan)' }}>Fokus & Disiplin (0–150)</label>
                   <input
                     type="number"
                     min={0}
@@ -1217,7 +915,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="label" style={{ color: 'var(--blue-hover)' }}>Skor TIU (Min: 80, Maks: 175)</label>
+                  <label className="label" style={{ color: 'var(--blue-hover)' }}>Problem Solving & Logika (0–175)</label>
                   <input
                     type="number"
                     min={0}
@@ -1230,7 +928,7 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                 </div>
 
                 <div>
-                  <label className="label" style={{ color: 'var(--green)' }}>Skor TKP (Min: 166, Maks: 225)</label>
+                  <label className="label" style={{ color: 'var(--purple-light)' }}>Kualitas Eksekusi (0–225)</label>
                   <input
                     type="number"
                     min={0}
@@ -1244,13 +942,13 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
               </div>
 
               <div>
-                <label className="label">Catatan Evaluasi / Topik Yang Perlu Diperbaiki (Opsional)</label>
+                <label className="label">Catatan Refleksi & Evaluasi (Opsional)</label>
                 <input
                   type="text"
                   value={toNotes}
                   onChange={e => setToNotes(e.target.value)}
                   className="inp"
-                  placeholder="Contoh: Kehabisan waktu di deret TIU, TWK UUD 1945 sudah stabil"
+                  placeholder="Contoh: Fokus 90m tercapai tanpa interupsi, eksekusi modul lancar..."
                 />
               </div>
 
@@ -1272,13 +970,13 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                     </div>
 
                     <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                      <span className={`tag ${twkPass ? 'tag-green' : 'tag-dim'}`}>TWK: {toTwk} ({twkPass ? 'Lolos' : '< 65'})</span>
-                      <span className={`tag ${tiuPass ? 'tag-green' : 'tag-dim'}`}>TIU: {toTiu} ({tiuPass ? 'Lolos' : '< 80'})</span>
-                      <span className={`tag ${tkpPass ? 'tag-green' : 'tag-dim'}`}>TKP: {toTkp} ({tkpPass ? 'Lolos' : '< 166'})</span>
+                      <span className={`tag ${twkPass ? 'tag-green' : 'tag-dim'}`}>Fokus: {toTwk} (≥65)</span>
+                      <span className={`tag ${tiuPass ? 'tag-green' : 'tag-dim'}`}>Logika: {toTiu} (≥80)</span>
+                      <span className={`tag ${tkpPass ? 'tag-green' : 'tag-dim'}`}>Eksekusi: {toTkp} (≥166)</span>
                     </div>
 
-                    <button type="submit" className="btn btn-blue" style={{ padding: '8px 18px', fontWeight: 700 }}>
-                      Simpan Hasil Tryout
+                    <button type="submit" className="btn btn-dual" style={{ padding: '8px 18px', fontWeight: 700 }}>
+                      Simpan Hasil Evaluasi
                     </button>
                   </div>
                 );
@@ -1286,10 +984,10 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
             </form>
           </div>
 
-          {/* Tryout History */}
+          {/* Evaluation History */}
           <div>
             <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', marginBottom: 10 }}>
-              Riwayat Skor Tryout ({activeTryouts.length})
+              Riwayat Skor Benchmark ({activeTryouts.length})
             </div>
 
             {activeTryouts.length > 0 ? (
@@ -1324,8 +1022,8 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                             <div style={{ fontSize: 20, fontWeight: 900, color: passed ? 'var(--text)' : 'var(--red)' }}>
                               {total} <span style={{ fontSize: 11, color: 'var(--text3)' }}>/ 550</span>
                             </div>
-                            <div style={{ fontSize: 10, fontWeight: 900, color: passed ? (total >= 450 ? 'var(--red)' : total >= 400 ? 'var(--green)' : 'var(--blue-hover)') : 'var(--red)' }}>
-                              {passed ? (total >= 450 ? '🔥 OVERKILL: RANKING 1 FORMASI' : total >= 400 ? '★ AMAN BERSAING (SKOR 400+)' : '✓ LOLOS PASSING GRADE') : '✗ BELUM MEMENUHI'}
+                            <div style={{ fontSize: 10, fontWeight: 900, color: passed ? (total >= 450 ? 'var(--cyan)' : total >= 400 ? 'var(--green)' : 'var(--blue-hover)') : 'var(--red)' }}>
+                              {passed ? (total >= 450 ? '🔥 OVERKILL: PERFORMA PUNCAK' : total >= 400 ? '★ DISIPLIN SOLID (SKOR 400+)' : '✓ MEMENUHI BENCHMARK') : '✗ BELUM MEMENUHI'}
                             </div>
                           </div>
                           <button
@@ -1340,9 +1038,9 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                       </div>
 
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                        <span className={`tag ${twkOk ? 'tag-green' : 'tag-dim'}`}>TWK: {tr.twk} / 150</span>
-                        <span className={`tag ${tiuOk ? 'tag-green' : 'tag-dim'}`}>TIU: {tr.tiu} / 175</span>
-                        <span className={`tag ${tkpOk ? 'tag-green' : 'tag-dim'}`}>TKP: {tr.tkp} / 225</span>
+                        <span className={`tag ${twkOk ? 'tag-green' : 'tag-dim'}`}>Fokus: {tr.twk} / 150</span>
+                        <span className={`tag ${tiuOk ? 'tag-green' : 'tag-dim'}`}>Logika: {tr.tiu} / 175</span>
+                        <span className={`tag ${tkpOk ? 'tag-green' : 'tag-dim'}`}>Eksekusi: {tr.tkp} / 225</span>
                       </div>
 
                       {tr.notes && (
@@ -1355,8 +1053,8 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
                 })}
               </div>
             ) : (
-              <div style={{ textAlign: 'center', padding: '30px 20px', color: 'var(--text3)', fontSize: 13 }}>
-                Belum ada data tryout tersimpan. Masukkan hasil simulasi pertama Anda di atas!
+              <div className="card" style={{ textAlign: 'center', padding: '30px 20px', color: 'var(--text3)' }}>
+                Belum ada catatan evaluasi benchmark.
               </div>
             )}
           </div>
@@ -1365,67 +1063,128 @@ export const ToeflView: React.FC<ToeflViewProps> = ({
 
       {/* VIEW: WEEKLY SCHEDULE */}
       {view === 'weekly' && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 860, margin: '0 auto', width: '100%' }}>
-          <div className="between">
-            <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 4 }}>
-              {DAYS.map(d => (
-                <button
-                  key={d}
-                  className={`day-btn${selDay === d ? ' on' : ''}`}
-                  onClick={() => setSelDay(d)}
-                  style={{ flexShrink: 0, minWidth: 70 }}
-                >
-                  {d} {d === dayName && <span style={{ marginLeft: 4, width: 5, height: 5, borderRadius: '50%', background: 'var(--green)', display: 'inline-block' }} />}
-                </button>
-              ))}
-            </div>
-            <button
-              className="btn btn-ghost"
-              onClick={() => {
-                setSettTab('toefl');
-                setSettOpen(true);
-              }}
-            >
-              <Icon name="settings" size={14} /> Kelola Jadwal
-            </button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {DAYS.map(d => (
+              <button
+                key={d}
+                onClick={() => setSelDay(d)}
+                className={`day-btn${selDay === d ? ' on' : ''}`}
+              >
+                {d}
+              </button>
+            ))}
           </div>
 
-          <div className="card">
-            <div className="between" style={{ marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
+          <div className="card card-p">
+            <div className="between" style={{ marginBottom: 12 }}>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text)', marginBottom: 2 }}>
-                  {selDay} — {viewSched.type}
+                <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--cyan)', textTransform: 'uppercase' }}>
+                  Jadwal Hari {selDay}
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', fontWeight: 500 }}>Fokus: {viewSched.focus}</div>
-              </div>
-              <div>
-                {selDay === dayName && <span className="tag tag-green">Hari Ini</span>}
+                <div style={{ fontSize: 18, fontWeight: 900, color: '#ffffff' }}>
+                  {viewSched.type}
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 2 }}>
+                  Fokus Misi: {viewSched.focus}
+                </div>
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {viewTasks.map((t, i) => (
-                <div key={i} className={`ex-card${isTaskDone(selDay, t.name) ? ' done' : ''}`} style={{ cursor: 'default' }}>
-                  <div className="ex-num" style={{ borderColor: isTaskDone(selDay, t.name) ? 'var(--green)' : 'var(--blue)', color: isTaskDone(selDay, t.name) ? 'var(--green)' : 'var(--blue)' }}>
-                    {isTaskDone(selDay, t.name) ? <Icon name="check" size={13} /> : i + 1}
+              {viewTasks.map((t, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    padding: '12px 14px',
+                    borderRadius: 8,
+                    background: 'var(--surface2)',
+                    border: '1px solid var(--border)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 12
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{t.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text3)' }}>{t.detail}</div>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div className="ex-title">{t.name}</div>
-                    <div className="ex-meta">{t.detail}</div>
-                  </div>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--text2)', background: 'var(--surface)', padding: '4px 8px', borderRadius: 6, border: '1px solid var(--border)' }}>
+                  <span style={{ fontSize: 11, color: 'var(--cyan)', fontWeight: 700, background: 'rgba(56, 189, 248, 0.1)', padding: '3px 8px', borderRadius: 6 }}>
                     {t.time}
-                  </div>
+                  </span>
                 </div>
               ))}
-              {viewTasks.length === 0 && (
-                <div style={{ color: 'var(--text3)', fontSize: 13, textAlign: 'center', padding: '20px' }}>
-                  Tidak ada tugas yang dijadwalkan.
-                </div>
-              )}
             </div>
           </div>
         </div>
+      )}
+
+      {/* Modal for detail Phase item list */}
+      {activeRoadmap && (
+        <Modal
+          open={!!activeRoadmap}
+          onClose={() => setToeflPhase(null)}
+          title={`Detail Modul: ${activeRoadmap.title}`}
+          wide
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <div style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
+              {activeRoadmap.desc}
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {(activeRoadmap.items || []).map((it, idx) => {
+                const checked = !!safeToeflProg[it.id];
+                return (
+                  <div
+                    key={it.id || idx}
+                    onClick={() => toggleToeflProg(it.id)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      padding: '12px 14px',
+                      borderRadius: 8,
+                      background: checked ? 'rgba(16, 185, 129, 0.08)' : 'var(--surface2)',
+                      border: `1px solid ${checked ? 'rgba(16, 185, 129, 0.3)' : 'var(--border)'}`,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 20,
+                        height: 20,
+                        borderRadius: 6,
+                        border: `2px solid ${checked ? 'var(--green)' : 'var(--border)'}`,
+                        background: checked ? 'var(--green)' : 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#fff',
+                        flexShrink: 0
+                      }}
+                    >
+                      {checked && <Icon name="check" size={12} />}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 700,
+                          color: checked ? 'var(--text3)' : 'var(--text)',
+                          textDecoration: checked ? 'line-through' : 'none'
+                        }}
+                      >
+                        {it.title}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Modal>
       )}
     </div>
   );

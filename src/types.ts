@@ -22,12 +22,17 @@ export interface Exercise {
   name: string;
   detail: string;
   target: string;
+  sets?: number;
+  reps?: string;
+  notes?: string;
   category?: 'primary' | 'secondary' | 'scapular';
 }
 
 export interface WorkoutDay {
   type: string;
   focus: string;
+  targetTime?: string;
+  notes?: string;
   exercises: Exercise[];
 }
 
@@ -69,7 +74,7 @@ export interface ToeflItem {
 export interface ToeflPhase {
   id: string;
   title: string;
-  category?: 'TWK' | 'TIU' | 'TKP' | 'STRATEGY' | 'TRYOUT' | string;
+  category?: 'FOUNDATION' | 'ANALYTICAL' | 'TECHNICAL' | 'STRATEGY' | 'CAPSTONE' | string;
   week?: string;
   desc: string;
   color: string;

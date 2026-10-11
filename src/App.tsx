@@ -39,7 +39,7 @@ import {
 
 const NAV_ITEMS = [
   { id: 'dashboard', n: 'home', l: 'Overview' },
-  { id: 'toefl', n: 'book', l: 'Belajar CPNS SKD' },
+  { id: 'toefl', n: 'book', l: 'Deep Work & Study' },
   { id: 'habits', n: 'habits', l: 'Daily Activity' },
   { id: 'diary', n: 'diary', l: 'Diary & AI' },
   { id: 'fitness', n: 'fitness', l: 'Fitness' }
@@ -59,19 +59,19 @@ export default function App() {
 
   // Firestore Real-time Sync Hooks
   const [weight, setWeight, r2] = useSync<WeightData>('weight', { start: 78, current: 78, target: 63 }, uid);
-  const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises', {}, uid);
-  const [workout, setWorkout, r6] = useSync<WorkoutSchedule>('workout_schedule_v2', DEFAULT_WORKOUT, uid);
-  const [streakNF, , r7] = useSync<Record<string, boolean>>('streak_nofap', {}, uid);
-  const [streakNJ, , r8] = useSync<Record<string, boolean>>('streak_nojunkfood', {}, uid);
-  const [diary, setDiary, r9] = useSync<DiaryEntry[]>('diary', [], uid);
-  const [habitLog, setHabitLog, r10] = useSync<HabitLog>('habit_log', {}, uid);
-  const [weeklyAnalysis, setWeeklyAnalysis, r13] = useSync<WeeklyAnalysis[]>('weekly_analysis', [], uid);
+  const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises_v2', {}, uid);
+  const [workout, setWorkout, r6] = useSync<WorkoutSchedule>('workout_schedule_v3', DEFAULT_WORKOUT, uid);
+  const [streakNF, setStreakNF, r7] = useSync<Record<string, boolean>>('streak_nofap_v2', {}, uid);
+  const [streakNJ, setStreakNJ, r8] = useSync<Record<string, boolean>>('streak_nojunkfood_v2', {}, uid);
+  const [diary, setDiary, r9] = useSync<DiaryEntry[]>('diary_v2', [], uid);
+  const [habitLog, setHabitLog, r10] = useSync<HabitLog>('habit_log_v2', {}, uid);
+  const [weeklyAnalysis, setWeeklyAnalysis, r13] = useSync<WeeklyAnalysis[]>('weekly_analysis_v2', [], uid);
   const [toeflData, setToeflData, r14] = useSync<ToeflPhase[]>('cpns_data_v1', DEFAULT_TOEFL, uid);
-  const [toeflProg, setToeflProg, r15] = useSync<ToeflProgress>('cpns_prog_v1', {}, uid);
+  const [toeflProg, setToeflProg, r15] = useSync<ToeflProgress>('cpns_prog_v2', {}, uid);
   const [toeflSched, setToeflSched, r16] = useSync<ToeflSchedule>('cpns_sched_v2', DEFAULT_TOEFL_SCHEDULE, uid);
-  const [toeflDaily, setToeflDaily, r17] = useSync<ToeflDailyProgress>('cpns_daily_v1', {}, uid);
+  const [toeflDaily, setToeflDaily, r17] = useSync<ToeflDailyProgress>('cpns_daily_v2', {}, uid);
   const [quickNote, setQuickNote, r18] = useSync<string>('quick_notes_v1', '', uid);
-  const [tryouts, setTryouts, r19] = useSync<TryoutRecord[]>('cpns_tryouts_v1', DEFAULT_TRYOUTS, uid);
+  const [tryouts, setTryouts, r19] = useSync<TryoutRecord[]>('cpns_tryouts_v2', DEFAULT_TRYOUTS, uid);
 
   const isReady = r2 && r3 && r6 && r7 && r8 && r9 && r10 && r13 && r14 && r15 && r16 && r17 && r18 && r19;
 
@@ -176,6 +176,13 @@ export default function App() {
 
   return (
     <div className="shell">
+      {/* 2026 Ambient Floating Glow Mesh */}
+      <div className="ambient-glow-mesh" aria-hidden="true">
+        <div className="ambient-orb ambient-orb-1" />
+        <div className="ambient-orb ambient-orb-2" />
+        <div className="ambient-orb ambient-orb-3" />
+      </div>
+
       {!mob && (
         <Sidebar
           tab={tab}
@@ -244,7 +251,7 @@ export default function App() {
                   id: Date.now(),
                   date: dateKey,
                   dateLabel: fmtDate,
-                  text: `[Quick Note - Deep Study CPNS]\n${textText}`,
+                  text: `[Quick Note - Deep Work]\n${textText}`,
                   mood: 'good',
                   aiAnalysis: null
                 };
@@ -294,8 +301,8 @@ export default function App() {
               today={today}
               weeklyAnalysis={safeWeeklyAnalysis}
               setWeeklyAnalysis={setWeeklyAnalysis}
-              cpnsDone={toeflDone}
-              totalCpns={allToeflItems.length}
+              studyDone={toeflDone}
+              totalStudy={allToeflItems.length}
             />
           )}
 
@@ -320,13 +327,22 @@ export default function App() {
       {mob && <MobileNav tab={tab} setTab={setTab} navItems={NAV_ITEMS} />}
 
       {/* Calendar Timeline Modal */}
-      <Modal open={calOpen} onClose={() => setCalOpen(false)} title={`Timeline — ${TOTAL_DAYS} Hari Protocol`}>
-        <div style={{ marginBottom: 20, display: 'flex', gap: 16, fontSize: 13, color: 'var(--text2)', flexWrap: 'wrap' }}>
-          <span>Mulai: <b style={{ color: 'var(--text)' }}>3 Agustus 2026</b></span>
-          <span>Selesai: <b style={{ color: 'var(--text)' }}>{end.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</b></span>
-          <span>Hari ini: <b style={{ color: 'var(--red)' }}>Day {dayN}</b></span>
+      <Modal open={calOpen} onClose={() => setCalOpen(false)} title={`Timeline — ${TOTAL_DAYS} Hari Protocol (Akhir Tahun 2026)`} wide>
+        <div style={{ marginBottom: 20, display: 'flex', gap: 16, fontSize: 13, color: 'var(--text2)', flexWrap: 'wrap', alignItems: 'center' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="glow-dot" style={{ background: 'var(--blue)' }} />
+            Mulai: <b style={{ color: 'var(--text)' }}>12 Oktober 2026</b>
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="glow-dot purple" />
+            Selesai: <b style={{ color: 'var(--text)' }}>{end.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</b>
+          </span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="glow-dot" style={{ background: 'var(--cyan)' }} />
+            Hari ini: <b className="text-glow-blue" style={{ color: 'var(--cyan)', fontWeight: 800 }}>Day {dayN} ({pct}%)</b>
+          </span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10,1fr)', gap: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(42px, 1fr))', gap: 8, maxHeight: '60vh', overflowY: 'auto', paddingRight: 4 }}>
           {Array.from({ length: TOTAL_DAYS }).map((_, i) => {
             const d = i + 1;
             const past = d < dayN;
@@ -345,9 +361,22 @@ export default function App() {
                   justifyContent: 'center',
                   fontSize: 12,
                   fontWeight: 800,
-                  background: cur ? 'var(--red)' : past ? 'var(--blue-dim)' : 'var(--surface2)',
+                  background: cur 
+                    ? 'linear-gradient(135deg, #2563eb, #7c3aed)' 
+                    : past 
+                    ? 'rgba(37, 99, 235, 0.16)' 
+                    : 'rgba(14, 23, 53, 0.6)',
                   color: cur ? '#fff' : past ? 'var(--blue-hover)' : 'var(--text3)',
-                  boxShadow: cur ? '0 0 10px rgba(225,29,72,0.5)' : 'none'
+                  border: cur 
+                    ? '1px solid #93c5fd' 
+                    : past 
+                    ? '1px solid rgba(59, 130, 246, 0.3)' 
+                    : '1px solid rgba(255, 255, 255, 0.05)',
+                  boxShadow: cur 
+                    ? '0 0 20px rgba(59, 130, 246, 0.7), 0 0 30px rgba(139, 92, 246, 0.5)' 
+                    : 'none',
+                  transition: 'all 0.2s ease',
+                  cursor: 'default'
                 }}
               >
                 {d}
@@ -358,15 +387,15 @@ export default function App() {
       </Modal>
 
       {/* Weight Modal */}
-      <Modal open={wtOpen} onClose={() => setWtOpen(false)} title="Update Berat Badan">
+      <Modal open={wtOpen} onClose={() => setWtOpen(false)} title="Update Berat Badan (Target 63kg)">
         <div style={{ marginBottom: 24, textAlign: 'center' }}>
-          <div style={{ fontSize: 56, fontWeight: 800, color: 'var(--text)', lineHeight: 1, marginBottom: 8 }}>
-            {weight.current}<span style={{ fontSize: 20, color: 'var(--text3)', fontWeight: 500, marginLeft: 4 }}>kg</span>
+          <div className="text-glow-blue" style={{ fontSize: 58, fontWeight: 900, color: 'var(--text)', lineHeight: 1, marginBottom: 8, letterSpacing: '-0.02em' }}>
+            {weight.current}<span style={{ fontSize: 22, color: 'var(--cyan)', fontWeight: 600, marginLeft: 4 }}>kg</span>
           </div>
-          <div style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 16 }}>
-            Target {weight.target}kg — sudah turun <strong style={{ color: 'var(--green)' }}>{(weight.start - weight.current).toFixed(1)}kg</strong> dari {weight.start}kg
+          <div style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 18 }}>
+            Target <b style={{ color: 'var(--cyan)' }}>{weight.target}kg</b> — progress turun <strong style={{ color: 'var(--green)', textShadow: '0 0 10px rgba(16, 185, 129, 0.5)' }}>{(weight.start - weight.current).toFixed(1)}kg</strong> dari {weight.start}kg
           </div>
-          <ProgressBar cur={weight.start - weight.current} tot={weight.start - weight.target} cls="g" />
+          <ProgressBar cur={Math.max(0, weight.start - weight.current)} tot={Math.max(0.1, weight.start - weight.target)} cls="r" />
         </div>
         <form
           onSubmit={e => {
@@ -386,10 +415,11 @@ export default function App() {
             step="0.1"
             placeholder={String(weight.current)}
             className="inp"
-            style={{ flex: 1, fontSize: 16, textAlign: 'center' }}
+            style={{ flex: 1, fontSize: 16, textAlign: 'center', fontWeight: 800 }}
             required
+            autoFocus
           />
-          <button className="btn btn-red" type="submit" style={{ padding: '0 24px' }}>Update</button>
+          <button className="btn btn-dual" type="submit" style={{ padding: '0 28px' }}>Update Berat</button>
         </form>
       </Modal>
 
@@ -409,6 +439,9 @@ export default function App() {
         setHabitLog={setHabitLog}
         setDiary={setDiary}
         setToeflProg={setToeflProg}
+        setToeflDaily={setToeflDaily}
+        setTryouts={setTryouts}
+        setWeeklyAnalysis={setWeeklyAnalysis}
       />
 
       {/* Mobile Bottom Navigation */}

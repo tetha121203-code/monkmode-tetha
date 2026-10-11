@@ -30,14 +30,14 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
   const [viewMode, setViewMode] = useState<ViewMode>('all');
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Form State for quick tryout logging
+  // Form State for quick evaluation logging
   const [toName, setToName] = useState('');
   const [toTwk, setToTwk] = useState<number>(85);
   const [toTiu, setToTiu] = useState<number>(115);
   const [toTkp, setToTkp] = useState<number>(185);
   const [toNotes, setToNotes] = useState('');
 
-  // Process and sort tryouts by date / chronological order
+  // Process and sort evaluations by date / chronological order
   const sortedTryouts = [...tryouts].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
   const chartData = sortedTryouts.map((t, index) => {
@@ -47,7 +47,7 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
     const tkpPassed = t.tkp >= 166;
     const allPassed = twkPassed && tiuPassed && tkpPassed;
 
-    // Formatting date label (e.g., "04 Agu" or "TO #1")
+    // Formatting date label (e.g., "04 Agu" or "BM #1")
     const d = new Date(t.date);
     const dateFormatted = isNaN(d.getTime())
       ? t.date
@@ -56,7 +56,7 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
     return {
       id: t.id,
       name: t.name,
-      shortName: `TO #${index + 1}`,
+      shortName: `BM #${index + 1}`,
       date: t.date,
       dateFormatted,
       twk: t.twk,
@@ -86,7 +86,7 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
     const todayStr = new Date().toISOString().split('T')[0];
     const newRecord: TryoutRecord = {
       id: `to_${Date.now()}`,
-      name: toName.trim() || `Tryout Mandiri #${chartData.length + 1}`,
+      name: toName.trim() || `Evaluasi Benchmark #${chartData.length + 1}`,
       date: todayStr,
       twk: Number(toTwk) || 0,
       tiu: Number(toTiu) || 0,
@@ -101,12 +101,12 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
   };
 
   // Custom recharts tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
         <div
-          id="cpns-chart-tooltip"
+          id="benchmark-chart-tooltip"
           style={{
             background: 'rgba(12, 18, 32, 0.96)',
             border: '1px solid rgba(59, 130, 246, 0.35)',
@@ -128,34 +128,28 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, paddingBottom: 6, borderBottom: '1px solid var(--border)' }}>
             <span style={{ fontWeight: 700, color: 'var(--text2)' }}>Skor Total:</span>
-            <span style={{ fontSize: 16, fontWeight: 900, color: data.allPassed ? (data.total >= 400 ? 'var(--green)' : 'var(--blue-hover)') : 'var(--red)' }}>
-              {data.total} <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
+            <span style={{ fontSize: 16, fontWeight: 900, color: data.allPassed ? 'var(--green-hover)' : 'var(--red-hover)' }}>
+              {data.total} / 550
             </span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#60a5fa' }}>
-              <span>TWK (Ambang: 65):</span>
-              <span style={{ fontWeight: 800 }}>
-                {data.twk} <span style={{ fontSize: 10, color: data.twkPassed ? 'var(--green)' : 'var(--red)' }}>({data.twkPassed ? '✓ Lolos' : '✗ Di Bawah'})</span>
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'var(--cyan)' }}>• Fokus & Disiplin:</span>
+              <span style={{ fontWeight: 700 }}>{data.twk} (Min 65)</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#38bdf8' }}>
-              <span>TIU (Ambang: 80):</span>
-              <span style={{ fontWeight: 800 }}>
-                {data.tiu} <span style={{ fontSize: 10, color: data.tiuPassed ? 'var(--green)' : 'var(--red)' }}>({data.tiuPassed ? '✓ Lolos' : '✗ Di Bawah'})</span>
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'var(--blue-hover)' }}>• Problem Solving & Logika:</span>
+              <span style={{ fontWeight: 700 }}>{data.tiu} (Min 80)</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', color: '#34d399' }}>
-              <span>TKP (Ambang: 166):</span>
-              <span style={{ fontWeight: 800 }}>
-                {data.tkp} <span style={{ fontSize: 10, color: data.tkpPassed ? 'var(--green)' : 'var(--red)' }}>({data.tkpPassed ? '✓ Lolos' : '✗ Di Bawah'})</span>
-              </span>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: 'var(--purple-light)' }}>• Kualitas Eksekusi:</span>
+              <span style={{ fontWeight: 700 }}>{data.tkp} (Min 166)</span>
             </div>
           </div>
 
           {data.notes && (
-            <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid var(--border)', fontSize: 11, color: 'var(--text2)', fontStyle: 'italic' }}>
+            <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px dashed var(--border)', fontSize: 11, color: 'var(--text3)', fontStyle: 'italic' }}>
               "{data.notes}"
             </div>
           )}
@@ -166,32 +160,35 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
   };
 
   return (
-    <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 16, border: '1px solid var(--blue-border)' }}>
+    <div className="card glow-card-dual" style={{ display: 'flex', flexDirection: 'column', gap: 18, background: 'linear-gradient(135deg, rgba(9, 16, 36, 0.85) 0%, rgba(20, 13, 44, 0.85) 100%)' }}>
       {/* Top Header & Actions */}
       <div className="between" style={{ flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--blue)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>
-            PROGRESSION & TRYOUT ANALYZER
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--cyan)', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span className="glow-dot" style={{ background: 'var(--cyan)' }} />
+              PERFORMANCE ANALYTICS 2026
+            </div>
+            <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(56, 189, 248, 0.15)', color: 'var(--cyan)', fontWeight: 800, border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+              LIVE BENCHMARK
+            </span>
           </div>
-          <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)' }}>
-            Tren Nilai Latihan SKD CPNS
+          <div style={{ fontSize: 18, fontWeight: 900, color: '#ffffff', letterSpacing: '-0.01em', marginTop: 2 }}>
+            Tren Evaluasi & Benchmark Performa 2026
           </div>
-          <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 2, fontWeight: 500 }}>
-            Visualisasi skor akumulatif terhadap ambang batas kelulusan (KepmenPAN-RB).
+          <div style={{ fontSize: 12, color: 'var(--text2)', marginTop: 2 }}>
+            Tracking berkala metrik Fokus, Problem Solving, dan Kualitas Eksekusi hingga Akhir Tahun 2026
           </div>
         </div>
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           {onAddTryout && (
             <button
-              onClick={() => {
-                setToName(`Tryout Mandiri #${chartData.length + 1}`);
-                setModalOpen(true);
-              }}
-              className="btn btn-blue"
-              style={{ fontSize: 12, padding: '7px 14px', fontWeight: 700 }}
+              onClick={() => setModalOpen(true)}
+              className="btn btn-dual"
+              style={{ fontSize: 12, padding: '7px 14px', fontWeight: 800 }}
             >
-              <Icon name="plus" size={13} /> + Catat Tryout
+              <Icon name="pencil" size={14} /> + Catat Benchmark
             </button>
           )}
 
@@ -199,62 +196,62 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
             <button
               onClick={onNavigateToCockpit}
               className="btn btn-ghost"
-              style={{ fontSize: 12, padding: '7px 12px' }}
-              title="Buka Bank Tryout & Cheatsheet"
+              style={{ fontSize: 12, padding: '7px 14px' }}
+              title="Buka Modul Belajar & Framework"
             >
-              Cockpit Tryout →
+              Deep Work & Study →
             </button>
           )}
         </div>
       </div>
 
       {/* Metric Highlights */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 10 }}>
-        <div style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 12 }}>
+        <div style={{ background: 'rgba(14, 23, 53, 0.8)', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(59, 130, 246, 0.3)', backdropFilter: 'blur(10px)' }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Skor Terkini
           </div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: latest?.allPassed ? (latest.total >= 400 ? 'var(--green)' : 'var(--blue-hover)') : 'var(--red)', marginTop: 2 }}>
+          <div style={{ fontSize: 22, fontWeight: 900, color: latest?.allPassed ? (latest.total >= 400 ? 'var(--green-hover)' : 'var(--cyan)') : 'var(--red-hover)', marginTop: 2 }}>
             {latest ? latest.total : 0} <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
           </div>
-          <div style={{ fontSize: 10, color: scoreDiff >= 0 ? 'var(--green)' : 'var(--red)', fontWeight: 700, marginTop: 2 }}>
-            {scoreDiff > 0 ? `+${scoreDiff} vs sebelumnya` : scoreDiff < 0 ? `${scoreDiff} vs sebelumnya` : 'Simulasi awal'}
+          <div style={{ fontSize: 10, color: scoreDiff >= 0 ? 'var(--green-hover)' : 'var(--red-hover)', fontWeight: 800, marginTop: 3 }}>
+            {scoreDiff > 0 ? `+${scoreDiff} vs sebelumnya` : scoreDiff < 0 ? `${scoreDiff} vs sebelumnya` : 'Evaluasi baseline'}
           </div>
         </div>
 
-        <div style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+        <div style={{ background: 'rgba(14, 23, 53, 0.8)', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(59, 130, 246, 0.3)', backdropFilter: 'blur(10px)' }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Skor Tertinggi
           </div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--text)', marginTop: 2 }}>
+          <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--purple-light)', marginTop: 2, textShadow: '0 0 12px rgba(168, 85, 247, 0.4)' }}>
             {highestTotal} <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
           </div>
-          <div style={{ fontSize: 10, color: highestTotal >= 400 ? 'var(--green)' : 'var(--blue-hover)', fontWeight: 700, marginTop: 2 }}>
-            {highestTotal >= 400 ? '★ Zona Lolos SKB' : 'Menuju Target 400+'}
+          <div style={{ fontSize: 10, color: highestTotal >= 400 ? 'var(--green-hover)' : 'var(--cyan)', fontWeight: 800, marginTop: 3 }}>
+            {highestTotal >= 400 ? '★ Performa Puncak' : 'Menuju Target 400+'}
           </div>
         </div>
 
-        <div style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+        <div style={{ background: 'rgba(14, 23, 53, 0.8)', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(59, 130, 246, 0.3)', backdropFilter: 'blur(10px)' }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Rata-Rata Skor
           </div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--text)', marginTop: 2 }}>
+          <div style={{ fontSize: 22, fontWeight: 900, color: '#ffffff', marginTop: 2 }}>
             {avgTotal} <span style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
           </div>
-          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 2 }}>
-            {chartData.length} Simulasi tercatat
+          <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 3, fontWeight: 600 }}>
+            {chartData.length} Evaluasi tercatat
           </div>
         </div>
 
-        <div style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 10, border: '1px solid var(--border)' }}>
+        <div style={{ background: 'rgba(14, 23, 53, 0.8)', padding: '12px 16px', borderRadius: 12, border: '1px solid rgba(59, 130, 246, 0.3)', backdropFilter: 'blur(10px)' }}>
           <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Status Passing Grade
+            Status Standar Monk Mode
           </div>
-          <div style={{ fontSize: 14, fontWeight: 900, color: latest?.allPassed ? 'var(--green)' : 'var(--red)', marginTop: 4 }}>
-            {latest?.allPassed ? (latest.total >= 400 ? '✓ AMAN TOP RANKING' : '✓ LOLOS AMBANG BATAS') : '✗ BELUM LOLOS'}
+          <div style={{ fontSize: 14, fontWeight: 900, color: latest?.allPassed ? 'var(--green-hover)' : 'var(--red-hover)', marginTop: 4 }}>
+            {latest?.allPassed ? (latest.total >= 400 ? '✓ DISIPLIN TERTINGGI' : '✓ MEMENUHI BENCHMARK') : '✗ BELUM MEMENUHI'}
           </div>
           <div style={{ fontSize: 10, color: 'var(--text3)', marginTop: 2 }}>
-            Target Minimal: TWK 65, TIU 80, TKP 166
+            Ambang Batas: Fokus 65, Logika 80, Eksekusi 166
           </div>
         </div>
       </div>
@@ -262,11 +259,11 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
       {/* Mode Filter Tabs */}
       <div style={{ display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 2 }}>
         {[
-          { id: 'all', label: 'Semua Subtes (Total & Breakdowns)' },
-          { id: 'total', label: 'Skor Total (Target 400+)' },
-          { id: 'twk', label: 'TWK (Ambang 65)' },
-          { id: 'tiu', label: 'TIU (Ambang 80)' },
-          { id: 'tkp', label: 'TKP (Ambang 166)' }
+          { id: 'all', label: 'Semua Metrik (Total & Rincian)' },
+          { id: 'total', label: 'Total Skor (Target 400+)' },
+          { id: 'twk', label: 'Fokus & Disiplin (Min 65)' },
+          { id: 'tiu', label: 'Problem Solving & Logika (Min 80)' },
+          { id: 'tkp', label: 'Kualitas Eksekusi (Min 166)' }
         ].map(tab => (
           <button
             key={tab.id}
@@ -340,7 +337,7 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                     strokeDasharray="4 4"
                     strokeWidth={1.5}
                     label={{
-                      value: 'Target Ranking SKB (400)',
+                      value: 'Target Puncak (400)',
                       fill: '#10b981',
                       fontSize: 10,
                       position: 'insideTopRight',
@@ -350,64 +347,16 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 </>
               )}
 
-              {viewMode === 'twk' && (
-                <ReferenceLine
-                  y={65}
-                  stroke="#ef4444"
-                  strokeDasharray="4 4"
-                  strokeWidth={1.5}
-                  label={{
-                    value: 'Passing Grade TWK (65)',
-                    fill: '#ef4444',
-                    fontSize: 10,
-                    position: 'insideBottomRight',
-                    fontWeight: 700
-                  }}
-                />
-              )}
-
-              {viewMode === 'tiu' && (
-                <ReferenceLine
-                  y={80}
-                  stroke="#ef4444"
-                  strokeDasharray="4 4"
-                  strokeWidth={1.5}
-                  label={{
-                    value: 'Passing Grade TIU (80)',
-                    fill: '#ef4444',
-                    fontSize: 10,
-                    position: 'insideBottomRight',
-                    fontWeight: 700
-                  }}
-                />
-              )}
-
-              {viewMode === 'tkp' && (
-                <ReferenceLine
-                  y={166}
-                  stroke="#ef4444"
-                  strokeDasharray="4 4"
-                  strokeWidth={1.5}
-                  label={{
-                    value: 'Passing Grade TKP (166)',
-                    fill: '#ef4444',
-                    fontSize: 10,
-                    position: 'insideBottomRight',
-                    fontWeight: 700
-                  }}
-                />
-              )}
-
-              {/* Dynamic Line Renderers based on Selected View Mode */}
+              {/* Lines rendering depending on viewMode */}
               {(viewMode === 'all' || viewMode === 'total') && (
                 <Line
                   type="monotone"
                   dataKey="total"
-                  name="Skor Total SKD"
-                  stroke="#3b82f6"
+                  name="Skor Total"
+                  stroke="#38bdf8"
                   strokeWidth={3}
-                  dot={{ r: 4, fill: '#3b82f6', strokeWidth: 2, stroke: '#070a12' }}
-                  activeDot={{ r: 6, fill: '#60a5fa', stroke: '#fff', strokeWidth: 2 }}
+                  dot={{ r: 5, fill: '#38bdf8', strokeWidth: 2, stroke: '#040714' }}
+                  activeDot={{ r: 7, fill: '#38bdf8', strokeWidth: 3, stroke: '#ffffff' }}
                 />
               )}
 
@@ -415,11 +364,11 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 <Line
                   type="monotone"
                   dataKey="twk"
-                  name="TWK (Min: 65)"
-                  stroke="#818cf8"
+                  name="Fokus & Disiplin"
+                  stroke="#60a5fa"
                   strokeWidth={2}
-                  dot={{ r: 3.5, fill: '#818cf8', strokeWidth: 1.5, stroke: '#070a12' }}
-                  activeDot={{ r: 5, fill: '#a5b4fc', stroke: '#fff', strokeWidth: 2 }}
+                  strokeDasharray={viewMode === 'all' ? '4 4' : undefined}
+                  dot={{ r: 3, fill: '#60a5fa' }}
                 />
               )}
 
@@ -427,11 +376,11 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 <Line
                   type="monotone"
                   dataKey="tiu"
-                  name="TIU (Min: 80)"
-                  stroke="#38bdf8"
+                  name="Problem Solving & Logika"
+                  stroke="#a855f7"
                   strokeWidth={2}
-                  dot={{ r: 3.5, fill: '#38bdf8', strokeWidth: 1.5, stroke: '#070a12' }}
-                  activeDot={{ r: 5, fill: '#7dd3fc', stroke: '#fff', strokeWidth: 2 }}
+                  strokeDasharray={viewMode === 'all' ? '4 4' : undefined}
+                  dot={{ r: 3, fill: '#a855f7' }}
                 />
               )}
 
@@ -439,51 +388,40 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 <Line
                   type="monotone"
                   dataKey="tkp"
-                  name="TKP (Min: 166)"
-                  stroke="#34d399"
+                  name="Kualitas Eksekusi"
+                  stroke="#10b981"
                   strokeWidth={2}
-                  dot={{ r: 3.5, fill: '#34d399', strokeWidth: 1.5, stroke: '#070a12' }}
-                  activeDot={{ r: 5, fill: '#6ee7b7', stroke: '#fff', strokeWidth: 2 }}
+                  strokeDasharray={viewMode === 'all' ? '4 4' : undefined}
+                  dot={{ r: 3, fill: '#10b981' }}
                 />
               )}
             </LineChart>
           </ResponsiveContainer>
         ) : (
-          <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: 13, background: 'var(--surface2)', borderRadius: 10 }}>
-            Belum ada data tryout. Catat simulasi pertama untuk melihat grafik tren.
+          <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)', fontSize: 13, border: '1px dashed var(--border)', borderRadius: 10 }}>
+            Belum ada data evaluasi. Klik "+ Catat Benchmark" untuk mulai memetakan grafik performa.
           </div>
         )}
       </div>
 
-      {/* Threshold Guide Footer */}
-      <div className="between" style={{ paddingTop: 10, borderTop: '1px solid var(--border)', flexWrap: 'wrap', gap: 8, fontSize: 11, color: 'var(--text3)' }}>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <span><span style={{ color: '#f59e0b', fontWeight: 800 }}>---</span> Ambang Batas Minimal: <b>311</b></span>
-          <span><span style={{ color: '#10b981', fontWeight: 800 }}>---</span> Target Aman Ranking SKB: <b>400+</b></span>
-        </div>
-        <span style={{ color: 'var(--blue-hover)', fontWeight: 600 }}>
-          {chartData.length} Evaluasi Berkala Terdata
-        </span>
-      </div>
-
-      {/* Quick Add Tryout Modal */}
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Catat Skor Tryout Baru">
+      {/* Quick Add Modal */}
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Catat Hasil Benchmark Performa">
         <form onSubmit={handleQuickAdd} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
-            <label className="label">Nama Paket / Simulasi</label>
+            <label className="label">Nama Sesi Evaluasi</label>
             <input
               type="text"
               value={toName}
               onChange={e => setToName(e.target.value)}
               className="inp"
-              placeholder="Contoh: Tryout Mandiri CAT #6"
+              placeholder={`Contoh: Benchmark Mandiri #${chartData.length + 1}`}
               required
             />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
             <div>
-              <label className="label" style={{ color: '#818cf8' }}>TWK (Min: 65)</label>
+              <label className="label" style={{ color: 'var(--cyan)' }}>Fokus & Disiplin (0–150)</label>
               <input
                 type="number"
                 min={0}
@@ -493,9 +431,11 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 className="inp"
                 required
               />
+              <span style={{ fontSize: 10, color: 'var(--text3)' }}>Target: ≥ 65</span>
             </div>
+
             <div>
-              <label className="label" style={{ color: '#38bdf8' }}>TIU (Min: 80)</label>
+              <label className="label" style={{ color: 'var(--blue-hover)' }}>Logika (0–175)</label>
               <input
                 type="number"
                 min={0}
@@ -505,9 +445,11 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 className="inp"
                 required
               />
+              <span style={{ fontSize: 10, color: 'var(--text3)' }}>Target: ≥ 80</span>
             </div>
+
             <div>
-              <label className="label" style={{ color: '#34d399' }}>TKP (Min: 166)</label>
+              <label className="label" style={{ color: 'var(--purple-light)' }}>Eksekusi (0–225)</label>
               <input
                 type="number"
                 min={0}
@@ -517,38 +459,37 @@ export const CpnsScoreTrendChart: React.FC<CpnsScoreTrendChartProps> = ({
                 className="inp"
                 required
               />
+              <span style={{ fontSize: 10, color: 'var(--text3)' }}>Target: ≥ 166</span>
             </div>
           </div>
 
+          {/* Quick Preview Total */}
+          <div className="between" style={{ background: 'var(--surface2)', padding: '10px 14px', borderRadius: 8, border: '1px solid var(--border)' }}>
+            <span style={{ fontSize: 12, color: 'var(--text2)', fontWeight: 600 }}>Perhitungan Total Skor:</span>
+            <span style={{ fontSize: 16, fontWeight: 900, color: (Number(toTwk) + Number(toTiu) + Number(toTkp)) >= 400 ? 'var(--green-hover)' : 'var(--cyan)' }}>
+              {Number(toTwk || 0) + Number(toTiu || 0) + Number(toTkp || 0)} / 550
+            </span>
+          </div>
+
           <div>
-            <label className="label">Catatan Evaluasi (Opsional)</label>
+            <label className="label">Catatan Refleksi (Opsional)</label>
             <input
               type="text"
               value={toNotes}
               onChange={e => setToNotes(e.target.value)}
               className="inp"
-              placeholder="Contoh: Kecepatan deret meningkat, TWK stabil"
+              placeholder="Contoh: Fokus 90m tercapai tanpa interupsi, eksekusi modul lancar..."
             />
           </div>
 
-          {/* Quick Total Calculation Preview */}
-          {(() => {
-            const tot = Number(toTwk || 0) + Number(toTiu || 0) + Number(toTkp || 0);
-            const pass = Number(toTwk) >= 65 && Number(toTiu) >= 80 && Number(toTkp) >= 166;
-            return (
-              <div className="between" style={{ background: 'var(--surface2)', padding: '12px 16px', borderRadius: 9, border: '1px solid var(--border)' }}>
-                <div>
-                  <div style={{ fontSize: 11, color: 'var(--text3)', fontWeight: 700 }}>PREVIEW TOTAL</div>
-                  <div style={{ fontSize: 22, fontWeight: 900, color: pass ? (tot >= 400 ? 'var(--green)' : 'var(--blue-hover)') : 'var(--red)' }}>
-                    {tot} <span style={{ fontSize: 12, color: 'var(--text3)', fontWeight: 500 }}>/ 550</span>
-                  </div>
-                </div>
-                <button type="submit" className="btn btn-blue" style={{ padding: '8px 20px', fontWeight: 700 }}>
-                  Simpan & Update Grafik
-                </button>
-              </div>
-            );
-          })()}
+          <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+            <button type="button" onClick={() => setModalOpen(false)} className="btn btn-ghost" style={{ flex: 1 }}>
+              Batal
+            </button>
+            <button type="submit" className="btn btn-dual" style={{ flex: 1 }}>
+              Simpan Data
+            </button>
+          </div>
         </form>
       </Modal>
     </div>
