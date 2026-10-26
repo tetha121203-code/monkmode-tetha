@@ -593,7 +593,7 @@ const WorkoutMgr: React.FC<{ workout: WorkoutSchedule; setWorkout: React.Dispatc
             className="btn btn-ghost" 
             style={{ padding: '6px 12px', fontSize: 12, color: 'var(--cyan)' }} 
             onClick={() => {
-              if (confirm('Kembalikan seluruh jadwal fisik ke protokol baru (Back A, Leg Day, Back B, Chest/Shoulder/Arms)?')) {
+              if (confirm('Kembalikan seluruh jadwal fisik ke split baru (Senin: Gym Back+Chest, Selasa: Home Core+Glute, Rabu: Gym Back+Legs, Jumat: Home Core+Lower Back, Sabtu: Gym Back+Shoulder)?')) {
                 setWorkout(DEFAULT_WORKOUT);
               }
             }}

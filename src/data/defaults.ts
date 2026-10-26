@@ -96,76 +96,93 @@ export const SCAPULAR: Exercise[] = [
 
 export const DEFAULT_WORKOUT: WorkoutSchedule = {
   'Senin': {
-    type: 'Back A',
-    focus: 'Punggung & Postur (Upper Back Focus)',
-    targetTime: 'Maksimal 45 menit (termasuk pemanasan)',
-    notes: 'Mulailah dengan beban ringan. Pada Seated Cable Row, tarik pegangan ke arah badan tanpa menyentak atau mengangkat bahu. Pada Lat Pulldown, tarik ke arah dada bagian atas tanpa menarik palang ke belakang kepala. Chest-Supported Row mengurangi kebutuhan untuk menahan posisi badan dengan otot punggung bawah. Reverse Pec Deck melatih bahu belakang, tetapi gerakan ini tetap harus disesuaikan jika memicu ketegangan di sekitar belikat atau leher. Catatan: empat gerakan ini merupakan pilihan awal, bukan daftar wajib. Jika salah satu gerakan menambah keluhan, hentikan gerakan tersebut dan minta fisioterapismu menentukan penggantinya.',
+    type: 'Gym: Back + Chest',
+    location: 'Gym',
+    focus: 'Back + Chest (Lat Pulldown, Row, Incline Press, Face Pull)',
+    targetTime: '45–55 menit',
+    notes: 'Gym workout: fokus pada form terkontrol, tarik lat pulldown ke dada bagian atas, jaga stabilitas belikat saat row dan shoulder raises.',
     exercises: [
-      { name: 'Seated Cable Row', detail: '2 set x 10–12 reps', target: 'Punggung Tengah / Lats', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Lat Pulldown Machine', detail: '2 set x 10–12 reps', target: 'Latissimus Dorsi', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Chest-Supported Row Machine', detail: '2 set x 10–12 reps', target: 'Rhomboids & Mid Back', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Reverse Pec Deck Machine', detail: '2 set x 12–15 reps', target: 'Rear Deltoid & Postur', sets: 2, reps: '12–15', category: 'primary' }
+      { name: 'Lat Pulldown', detail: '3 × 10–12 reps', target: 'Latissimus Dorsi', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Chest-Supported Row', detail: '3 × 10–12 reps', target: 'Rhomboids & Mid Back', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Lateral Raises', detail: '3 × 10–12 reps', target: 'Lateral Deltoid (Bahu Samping)', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Incline Chest Press Machine', detail: '3 × 10–12 reps', target: 'Upper Chest (Dada Atas)', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Face Pull', detail: '3 × 12–15 reps', target: 'Rear Delts & Rotator Cuff', sets: 3, reps: '12–15', category: 'primary' },
+      { name: 'Seated Cable Row', detail: '3 × 10–12 reps', target: 'Punggung Tengah / Lats', sets: 3, reps: '10–12', category: 'primary' }
     ]
   },
   'Selasa': {
-    type: 'Leg Day',
-    focus: 'Paha Depan, Paha Belakang, Pinggul & Betis',
-    targetTime: '35–45 menit',
-    notes: 'Program ini melatih paha depan, paha belakang, pinggul, dan betis tanpa mengharuskanmu melakukan banyak gerakan rumit. Pastikan posisi punggung tetap nyaman pada Leg Press dan jangan menurunkan beban terlalu dalam jika panggul mulai terangkat dari sandaran.',
+    type: 'Home: Core + Glute Stability',
+    location: 'Home',
+    focus: 'Core & Glute Stability (Dead Bug, Planks, Bird Dog, Glute Bridge)',
+    targetTime: '30–40 menit',
+    notes: 'Home workout: aktivasi postur, deep core, dan pinggul. Tahan setiap posisi dengan tenang tanpa melengkungkan pinggang secara berlebih.',
     exercises: [
-      { name: 'Leg Press Machine', detail: '3 set x 10–12 reps', target: 'Quadriceps & Glutes', sets: 3, reps: '10–12', category: 'primary' },
-      { name: 'Leg Extension Machine', detail: '2 set x 12–15 reps', target: 'Quadriceps Isolasi', sets: 2, reps: '12–15', category: 'primary' },
-      { name: 'Seated Leg Curl Machine', detail: '3 set x 10–15 reps', target: 'Hamstrings', sets: 3, reps: '10–15', category: 'primary' },
-      { name: 'Hip Abductor Machine', detail: '2 set x 12–15 reps', target: 'Gluteus Medius / Pinggul', sets: 2, reps: '12–15', category: 'primary' },
-      { name: 'Seated Calf Raise Machine', detail: '2 set x 12–20 reps', target: 'Betis (Calves)', sets: 2, reps: '12–20', category: 'primary' }
+      { name: 'Dead Bug', detail: '3 × 8 per sisi', target: 'Deep Core & Anti-Extension', sets: 3, reps: '8 per sisi', category: 'primary' },
+      { name: 'Forearm Plank', detail: '3 × 20–30 detik', target: 'Anterior Core & Transverse', sets: 3, reps: '20–30 detik', category: 'primary' },
+      { name: 'Bird Dog', detail: '2 × 8 per sisi', target: 'Lumbar & Cross Posterior Stability', sets: 2, reps: '8 per sisi', category: 'primary' },
+      { name: 'Glute Bridge', detail: '2 × 12–15 reps', target: 'Gluteus Maximus & Pinggul', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Plank', detail: '3 × 30 detik', target: 'Core Stability & Scapular Hold', sets: 3, reps: '30 detik', category: 'primary' }
     ]
   },
   'Rabu': {
-    type: 'Rest & Recovery',
-    focus: 'Pemulihan Otot & Mobilitas Sendi',
-    targetTime: '20–30 menit santai',
-    notes: 'Hari istirahat aktif untuk membiarkan otot dan sistem saraf beradaptasi. Lakukan peregangan ringan dan hidrasi yang cukup.',
+    type: 'Gym: Back + Legs',
+    location: 'Gym',
+    focus: 'Back + Legs (Lat Pulldown, Row, Leg Press, Leg Curl/Ext)',
+    targetTime: '45–55 menit',
+    notes: 'Gym workout: kombinasi tarikan punggung dan latihan kaki mesin. Pastikan punggung menempel aman di sandaran Leg Press.',
     exercises: [
-      { name: 'Mobilitas Panggul & Hamstring Ringan', detail: '10–15 menit peregangan lembut', target: 'Fleksibilitas Sendi', category: 'primary' },
-      { name: 'Jalan Kaki Santai (Brisk Walk)', detail: '15–20 menit intensitas ringan', target: 'Sirkulasi Darah Aktif', category: 'primary' }
+      { name: 'Lat Pulldown', detail: '3 × 10–12 reps', target: 'Latissimus Dorsi', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Seated Cable Row', detail: '3 × 10–12 reps', target: 'Mid-Back & Rhomboids', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Leg Press', detail: '3 × 10–12 reps', target: 'Quadriceps & Glutes', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Seated Leg Curl', detail: '3 × 12–15 reps', target: 'Hamstrings', sets: 3, reps: '12–15', category: 'primary' },
+      { name: 'Leg Extension', detail: '3 × 12–15 reps', target: 'Quadriceps Isolasi', sets: 3, reps: '12–15', category: 'primary' },
+      { name: 'Lat Pulldown', detail: '3 × 10–12 reps', target: 'Lats Finisher & Scapular Control', sets: 3, reps: '10–12', category: 'primary' }
     ]
   },
   'Kamis': {
-    type: 'Back B',
-    focus: 'Punggung Variasi Tarikan & Bahu Belakang',
-    targetTime: '35–45 menit',
-    notes: 'Sesi ini menggunakan variasi tarikan, tetapi volumenya tetap rendah. Tidak perlu menambah Straight-Arm Pulldown, Shrug berat, atau Face Pull terlebih dahulu. Gerakan-gerakan tambahan tersebut dapat dipertimbangkan setelah fisioterapismu menilai respons tubuhmu. Karena keluhanmu juga muncul ketika berlari dan tidur, jangan menganggap semua ketegangan pasti berasal dari kelemahan otot back. Program latihan umum tidak dapat menentukan penyebabnya.',
+    type: 'Rest & Active Recovery',
+    location: 'Rest',
+    focus: 'Pemulihan Otot & Mobilitas Sendi',
+    targetTime: '20–30 menit santai',
+    notes: 'Hari istirahat aktif untuk adaptasi sistem saraf dan serat otot sebelum sesi stabilitas dan gym berikutnya. Lakukan peregangan ringan dan hidrasi cukup.',
     exercises: [
-      { name: 'Neutral-Grip Lat Pulldown', detail: '2 set x 10–12 reps', target: 'Lats & Teres Major', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Chest-Supported Row Machine', detail: '2 set x 10–12 reps', target: 'Mid-Back & Scapular Stability', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Seated Cable Row (Beban Ringan)', detail: '2 set x 12–15 reps', target: 'Punggung Kontrol Penuh', sets: 2, reps: '12–15', category: 'primary' },
-      { name: 'Reverse Pec Deck Machine', detail: '2 set x 12–15 reps', target: 'Rear Deltoid & Postur', sets: 2, reps: '12–15', category: 'primary' }
+      { name: 'Mobilitas Panggul & Hamstring', detail: '10–15 menit peregangan lembut', target: 'Fleksibilitas Sendi', category: 'primary' },
+      { name: 'Jalan Kaki Santai (Brisk Walk)', detail: '15–20 menit intensitas ringan', target: 'Sirkulasi Darah Aktif', category: 'primary' }
     ]
   },
   'Jumat': {
-    type: 'Rest & Recovery',
-    focus: 'Dekompresi Tulang Belakang & Relaksasi',
-    targetTime: '15–25 menit santai',
-    notes: 'Fokus pada relaksasi leher, bahu, dan belikat. Lakukan teknik pernapasan dan peregangan tulang belakang yang aman.',
+    type: 'Home: Core + Lower Back Stability',
+    location: 'Home',
+    focus: 'Core & Lower Back Stability (Cat Cow, Side Plank, Back Extension)',
+    targetTime: '30–40 menit',
+    notes: 'Home workout: dekompresi tulang belakang, mobilitas thoraks, dan stabilitas punggung bawah untuk mencegah ketegangan belikat.',
     exercises: [
-      { name: 'Dekompresi Tulang Belakang & Spine Stretch', detail: '10–15 menit relaksasi', target: 'Punggung & Relaksasi Saraf', category: 'primary' },
-      { name: 'Latihan Pernapasan Diafragma', detail: '5–10 menit pernapasan tenang', target: 'Regulasi Sistem Saraf', category: 'primary' }
+      { name: 'Cat Cow', detail: '3 × 30 detik', target: 'Spinal Articulation & Thoracic Mobility', sets: 3, reps: '30 detik', category: 'primary' },
+      { name: 'Plank', detail: '3 × 30 detik per sisi', target: 'Side Plank / Lateral Core Stability', sets: 3, reps: '30 detik per sisi', category: 'primary' },
+      { name: 'Bird Dog', detail: '2 × 8 per sisi', target: 'Multifidus & Lumbar Stability', sets: 2, reps: '8 per sisi', category: 'primary' },
+      { name: 'Glute Bridge', detail: '3 × 12–15 reps', target: 'Gluteus Maximus & Pelvic Floor', sets: 3, reps: '12–15', category: 'primary' },
+      { name: 'Dead Bug', detail: '3 × 8 per sisi', target: 'Deep Transverse Abdominis', sets: 3, reps: '8 per sisi', category: 'primary' },
+      { name: 'Prone Back Extension Hold', detail: '2 × 10–15 detik', target: 'Erector Spinae & Lower Back', sets: 2, reps: '10–15 detik', category: 'primary' }
     ]
   },
   'Sabtu': {
-    type: 'Chest, Shoulder & Arms',
-    focus: 'Dada, Bahu Samping & Bisep',
-    targetTime: '35–45 menit',
-    notes: 'Latihan mesin terkontrol untuk dada, bahu, dan lengan. Jaga postur leher tetap rileks, hindari mengunci sendi atau menyentak beban.',
+    type: 'Gym: Back + Shoulder',
+    location: 'Gym',
+    focus: 'Back + Shoulder (Lat Pulldown, Row, Shoulder Press, Lateral Raise, Hammer Curl)',
+    targetTime: '45–55 menit',
+    notes: 'Gym workout: penguatan upper body menyeluruh. Kendalikan tempo gerakan, jangan menyentak beban pada lateral raise dan hammer curl.',
     exercises: [
-      { name: 'Chest Press Machine', detail: '3 set x 8–12 reps', target: 'Dada (Pectoralis)', sets: 3, reps: '8–12', category: 'primary' },
-      { name: 'Incline Chest Press Machine', detail: '2 set x 10–12 reps', target: 'Dada Bagian Atas', sets: 2, reps: '10–12', category: 'primary' },
-      { name: 'Dumbbell Lateral Raise', detail: '2 set x 12–15 reps', target: 'Bahu Samping (Lateral Delt)', sets: 2, reps: '12–15', category: 'primary' },
-      { name: 'Biceps Curl Machine', detail: '2 set x 10–15 reps', target: 'Bisep (Biceps Brachii)', sets: 2, reps: '10–15', category: 'primary' }
+      { name: 'Lat Pulldown', detail: '3 × 10–12 reps', target: 'Latissimus Dorsi', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Chest-Supported Row', detail: '3 × 10–12 reps', target: 'Mid-Back & Scapular Stability', sets: 3, reps: '10–12', category: 'primary' },
+      { name: 'Seated Shoulder Press Machine', detail: '2 × 10–12 reps', target: 'Anterior & Medial Deltoids', sets: 2, reps: '10–12', category: 'primary' },
+      { name: 'Dumbbell Lateral Raise', detail: '3 × 12–15 reps', target: 'Bahu Samping (Lateral Delt)', sets: 3, reps: '12–15', category: 'primary' },
+      { name: 'Reverse Pec Deck', detail: '2 × 12–15 reps', target: 'Rear Deltoid & Postur Belikat', sets: 2, reps: '12–15', category: 'primary' },
+      { name: 'Dumbbell Hammer Curl', detail: '2 × 10–12 reps', target: 'Brachialis & Biceps', sets: 2, reps: '10–12', category: 'primary' }
     ]
   },
   'Minggu': {
     type: 'Rest Day',
+    location: 'Rest',
     focus: 'Pemulihan Total & Deep Sleep',
     targetTime: 'Sepanjang Hari',
     notes: 'Hari pemulihan total tanpa beban. Optimalkan tidur malam minimal 8–9 jam untuk regenerasi otot dan stabilitas tubuh.',

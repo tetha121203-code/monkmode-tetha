@@ -60,7 +60,7 @@ export default function App() {
   // Firestore Real-time Sync Hooks
   const [weight, setWeight, r2] = useSync<WeightData>('weight', { start: 78, current: 78, target: 63 }, uid);
   const [exDone, setExDone, r3] = useSync<ExerciseLog>('exercises_v2', {}, uid);
-  const [workout, setWorkout, r6] = useSync<WorkoutSchedule>('workout_schedule_v3', DEFAULT_WORKOUT, uid);
+  const [workout, setWorkout, r6] = useSync<WorkoutSchedule>('workout_schedule_v4', DEFAULT_WORKOUT, uid);
   const [streakNF, setStreakNF, r7] = useSync<Record<string, boolean>>('streak_nofap_v2', {}, uid);
   const [streakNJ, setStreakNJ, r8] = useSync<Record<string, boolean>>('streak_nojunkfood_v2', {}, uid);
   const [diary, setDiary, r9] = useSync<DiaryEntry[]>('diary_v2', [], uid);

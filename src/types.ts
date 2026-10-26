@@ -31,6 +31,7 @@ export interface Exercise {
 export interface WorkoutDay {
   type: string;
   focus: string;
+  location?: 'Gym' | 'Home' | 'Rest' | string;
   targetTime?: string;
   notes?: string;
   exercises: Exercise[];

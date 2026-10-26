@@ -142,8 +142,25 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
           <div className="card card-p">
             <div className="between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>
-                  {dayName}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    {dayName}
+                  </div>
+                  {(ws.location === 'Gym' || ws.type?.includes('Gym')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', fontWeight: 800, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                      🏋️ GYM
+                    </span>
+                  )}
+                  {(ws.location === 'Home' || ws.type?.includes('Home')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', fontWeight: 800, border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                      🏠 HOME
+                    </span>
+                  )}
+                  {(ws.location === 'Rest' || ws.type?.includes('Rest')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', fontWeight: 800, border: '1px solid rgba(168, 85, 247, 0.3)' }}>
+                      🛌 RECOVERY
+                    </span>
+                  )}
                 </div>
                 <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)' }}>
                   {ws.type} — {ws.focus}
@@ -283,8 +300,25 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
           <div className="card">
             <div className="between" style={{ marginBottom: 16, flexWrap: 'wrap', gap: 10 }}>
               <div>
-                <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
-                  {selDay} — {viewWS.type}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)' }}>
+                    {selDay} — {viewWS.type}
+                  </div>
+                  {(viewWS.location === 'Gym' || viewWS.type?.includes('Gym')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', fontWeight: 800, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                      🏋️ GYM
+                    </span>
+                  )}
+                  {(viewWS.location === 'Home' || viewWS.type?.includes('Home')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', fontWeight: 800, border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                      🏠 HOME
+                    </span>
+                  )}
+                  {(viewWS.location === 'Rest' || viewWS.type?.includes('Rest')) && (
+                    <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 6, background: 'rgba(168, 85, 247, 0.15)', color: '#c084fc', fontWeight: 800, border: '1px solid rgba(168, 85, 247, 0.3)' }}>
+                      🛌 RECOVERY
+                    </span>
+                  )}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--text2)', fontWeight: 500 }}>{viewWS.focus}</div>
                 {viewWS.targetTime && (
@@ -293,8 +327,23 @@ export const FitnessView: React.FC<FitnessViewProps> = ({
                   </div>
                 )}
               </div>
-              <div style={{ display: 'flex', gap: 10 }}>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                 {selDay === dayName && <span className="tag tag-green">Hari Ini</span>}
+                <button 
+                  className="btn btn-ghost" 
+                  style={{ padding: '6px 12px', fontSize: 12, color: 'var(--cyan)' }} 
+                  onClick={() => {
+                    if (confirm('Kembalikan jadwal fisik hari ini ke split default?')) {
+                      setWorkout(p => {
+                        const s = typeof p === 'object' && !Array.isArray(p) ? p : DEFAULT_WORKOUT;
+                        return { ...s, [selDay]: DEFAULT_WORKOUT[selDay] };
+                      });
+                    }
+                  }}
+                  title="Reset hari ini ke default"
+                >
+                  Reset Hari Ini
+                </button>
                 <button className="icon-btn" onClick={() => setEditMeta(p => (p === selDay ? false : selDay))}>
                   <Icon name="pencil" />
                 </button>

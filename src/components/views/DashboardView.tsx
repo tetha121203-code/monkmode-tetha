@@ -325,8 +325,20 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div className="between">
             <div>
-              <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--purple-light)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 2 }}>
-                {ws.type || 'REST DAY'}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--purple-light)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
+                  {ws.type || 'REST DAY'}
+                </div>
+                {(ws.location === 'Gym' || ws.type?.includes('Gym')) && (
+                  <span style={{ fontSize: 9, padding: '2px 8px', borderRadius: 6, background: 'rgba(245, 158, 11, 0.15)', color: '#fbbf24', fontWeight: 800, border: '1px solid rgba(245, 158, 11, 0.3)' }}>
+                    🏋️ GYM
+                  </span>
+                )}
+                {(ws.location === 'Home' || ws.type?.includes('Home')) && (
+                  <span style={{ fontSize: 9, padding: '2px 8px', borderRadius: 6, background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', fontWeight: 800, border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                    🏠 HOME
+                  </span>
+                )}
               </div>
               <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--text)' }}>
                 {dayName} — {ws.focus}
@@ -342,13 +354,13 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </span>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-            {priEx.slice(0, 5).map((ex, i) => {
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 9, maxHeight: 340, overflowY: 'auto', paddingRight: 2 }}>
+            {priEx.map((ex, i) => {
               const done = isExDone(ex);
               return (
                 <div key={i} className={`ex-card${done ? ' done' : ''}`} onClick={() => toggleEx(ex)}>
                   <div className="ex-num">{done ? <Icon name="check" size={13} /> : i + 1}</div>
-                  <div>
+                  <div style={{ minWidth: 0, flex: 1 }}>
                     <div className="ex-title">{ex.name}</div>
                     <div className="ex-meta">{ex.detail} — {ex.target}</div>
                   </div>
